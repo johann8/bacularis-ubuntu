@@ -1,5 +1,11 @@
 # Bacularis and Bacula community edition - Docker
 
+- [Docker Images](#docker-images)
+- [Bacula](#bacula)
+- [Bacularis](#bacularis-the-bacula-web-interface)
+  - [For Linux](#for-linux)
+  - [For Windows](#for-windows)
+
 ## Docker images
 
 Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general)
