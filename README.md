@@ -8,7 +8,7 @@
 - [Bacularis](#bacularis---the-bacula-web-interface)
   - [For Linux](#for-linux)
   - [For Windows](#for-windows)
-
+- [Install docker container](#install-docker-container])
 
 ## Docker images
 
@@ -29,6 +29,9 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 
 ## Bacula windows binaries
 [Bacula](https://www.bacula.org/)  windows binaries can be found on [Bacula website](https://www.bacula.org/binary-download-center/).
+
+## Install docker container
+
 
 ## Create bacula client config files
 You can create client config files automatically. For this you can find some scripts and templates on the repo. You load the files into a directory and start the bash scripts. Run `scriptname -h / --help` to see help.
