@@ -77,6 +77,7 @@ Username: admin
 Password: N04X1UYYbZ2J69sAYLb0N04
 ```
 
+- Customize the file `docker-compose.override.yml` if you use [trafik](https://traefik.io/)
 - Run docker container
 
 ```bash
@@ -86,9 +87,9 @@ docker-compose ps
 docker-compose logs
 docker-compose logs bacularis
 ```
-- Customize the file `docker-compose.override.yml` if you use [trafik](https://traefik.io/)
+
 - Starte `http://dost.domain.com:9097` or via traefik `http://host.domain.com`
-- Login with your `admin` user data
+- Login with your `admin` user credentials
 - Check the `bacula director` settings
 
 ## Create bacula client config files
