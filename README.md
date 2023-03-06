@@ -69,7 +69,7 @@ wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bconsole_
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/.env
 ```
 - Customize variables in all files
-- Generate `admin` user `password` [here](https://external.ink?to=www.web2generators.com/apache-tools/htpasswd-generator). You need both passwords decrypt and encrypted
+- Generate `admin` user `password` [here](https://www.web2generators.com/apache-tools/htpasswd-generator). You need both passwords decrypt and encrypted
 
 ```
 # Example
@@ -86,7 +86,7 @@ docker-compose ps
 docker-compose logs
 docker-compose logs bacularis
 ```
-- Customize the file `docker-compose.override.yml` if you use [trafik](https://external.ink?to=traefik.io/)
+- Customize the file `docker-compose.override.yml` if you use [trafik](https://traefik.io/)
 - Starte `http://dost.domain.com:9097` or via traefik `http://host.domain.com`
 - Login with your `admin` user data
 - Check the `bacula director` settings
