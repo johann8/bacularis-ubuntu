@@ -8,7 +8,7 @@
 - [Bacularis](#bacularis---the-bacula-web-interface)
   - [For Linux](#for-linux)
   - [For Windows](#for-windows)
-- [Install docker container](#install-docker-container])
+- [Install docker container](#install-docker-container)
 
 ## Docker images
 
