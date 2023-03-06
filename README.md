@@ -1,6 +1,8 @@
 # Bacularis and Bacula community edition - Docker
 ![Docker Pulls](https://img.shields.io/docker/pulls/johann8/bacularis?style=flat-square)
-![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis:latest-ubuntu)
+![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis/latest-ubuntu)
+
+# https://img.shields.io/docker/image-size/_/mysql/latest)
 
 Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general)
 
