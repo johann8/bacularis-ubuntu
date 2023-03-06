@@ -36,6 +36,58 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 
 ## Install docker container
 
+- Create folders, set permissions
+```bash
+mkdir -p /opt/bacularis/data/{bacularis,bacula,pgsql}
+mkdir -p /opt/bacularis/data/bacularis/www/bacularis-api/API/{Config,Logs}
+mkdir -p /opt/bacularis/data/bacularis/www/bacularis-web/Web/{Config,Logs}
+mkdir -p /opt/bacularis/data/bacula/{config,data}     
+mkdir -p /opt/bacularis/data/bacula/config/etc/bacula
+mkdir -p /opt/bacularis/data/bacula/data/director/{archive,working}
+mkdir -p /opt/bacularis/data/pgsql/{data,socket}
+mkdir -p /opt/bacularis/data/smtp/secret
+chown 101:101 /opt/bacularis/data/bacula/data/director/working
+chown 101:26 /opt/bacularis/data/bacula/data/director/archive
+tree -d -L 4 /opt/bacularis
+```
+- Create [docker-compose.yml](https://github.com/johann8/bacularis-ubuntu/blob/master/docker-compose.yml)
+or
+- Download all files below
+````bash
+cd /opt/bacularis
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.yml
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.override.yml
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/1_create_new_bacula_client_linux--server_side_template.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/2_create_new_bacula_client_linux--client_side_template.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/3_create_new_bacula_client_windows--server_side_template.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template_windows.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-fd_template.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bconsole_template.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/.env
+```
+- Customize variables in all files
+- Generate `admin` user `password` [here](https://www.web2generators.com/apache-tools/htpasswd-generator). You need both passwords decrypt and encrypted
+
+````
+# Example
+Username: admin
+Password: N04X1UYYbZ2J69sAYLb0N04
+```
+
+- Run docker container
+
+````bash
+cd /opt/bacularis
+docker-compose up -d
+docker-compose ps
+docker-compose logs
+docker-compose logs bacularis
+```
+- Customize the file `docker-compose.override.yml` if you use [trafik](https://traefik.io/) 
+- Starte `http://dost.domain.com:9097` or via traefik `http://host.domain.com`
+- Login with your `admin` user data
+- Check the `bacula director` settings
 
 ## Create bacula client config files
 You can create client config files automatically. For this you can find some scripts and templates on the repo. You load the files into a directory and start the bash scripts. Run `scriptname -h / --help` to see help.
