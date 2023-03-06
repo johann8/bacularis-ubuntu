@@ -1,0 +1,24 @@
+version: "3.0"
+networks:
+  proxy:
+    external: true
+
+services:
+  bacularis:
+    labels:
+      - "traefik.enable=true"
+      ### ==== to https ====
+      - "traefik.http.routers.bacularis-secure.entrypoints=websecure"
+      - "traefik.http.routers.bacularis-secure.rule=Host(`$HOSTNAME0.$DOMAINNAME`)"
+      - "traefik.http.routers.bacularis-secure.tls=true"
+      #- "traefik.http.routers.piler-secure.tls.certresolver=http"  # für eigene Zertifikate
+      ### ==== to service ====
+      - "traefik.http.routers.bacularis-secure.service=bacularis"
+      - "traefik.http.services.bacularis.loadbalancer.server.port=$PORT"
+      - "traefik.docker.network=proxy"
+      ### ==== redirect to authelia for secure login ====
+      - "traefik.http.routers.bacularis-secure.middlewares=rate-limit@file,secHeaders@file"
+      #- "traefik.http.routers.bacularis-secure.middlewares=authelia@docker,rate-limit@file,secHeaders@file"
+    networks:
+      - proxy
+

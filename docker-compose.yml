@@ -1,0 +1,94 @@
+version: '3'
+networks:
+  baculaNet:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}.0/24
+
+services:
+  bacularis:
+    image: johann8/bacularis:${B_VERSION}
+    container_name: bacularis
+    volumes:
+      # Bacula volumes
+      - ${DOCKERDIR}/data/bacula/config/etc/bacula:/opt/bacula/etc            # Bacula config files & scripts
+      - ${DOCKERDIR}/data/bacula/data/director/archive:/opt/bacula/archive    # Bacula storage folder
+      - ${DOCKERDIR}/data/bacula/data/director/working:/opt/bacula/working    # Bacula bsr folder
+      # Bacularis volumes
+      - ${DOCKERDIR}/data/bacularis/www/bacularis-api/API/Config:/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config
+      - ${DOCKERDIR}/data/bacularis/www/bacularis-api/API/Logs:/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Logs
+      - ${DOCKERDIR}/data/bacularis/www/bacularis-web/Web/Config:/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config
+      - ${DOCKERDIR}/data/bacularis/www/bacularis-web/Web/Logs:/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Logs
+      # PostgresDB volumes
+      - ${DOCKERDIR}/data/pgsql/data:/var/lib/postgresql/data
+      - ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql
+    environment:
+      - TZ=${TZ:-UTC}
+      - DB_INIT=true                                             #should be 'true' if bareos db does not exist
+      - DB_UPDATE=false
+      - DB_HOST=${DB_HOST}                                       # defined in .env file
+      - DB_PORT=${DB_PORT}                                       # defined in .env file
+      - DB_NAME=${DB_NAME}                                       # defined in .env file
+      - DB_USER=${DB_USER}                                       # defined in .env file
+      - DB_PASSWORD=${DB_PASSWORD}                               # defined in .env file
+      - DB_ADMIN_USER=${DB_ADMIN_USER}                           # defined in .env file
+      - DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD}                   # defined in .env file
+      - BUILD_DAEMON_NAME=buildkitsandbox                        # build name of bacula director daemon
+      - DESIRED_DAEMON_NAME=bacula                               # sets a new name for bacula director daemon
+      - WEB_ADMIN_USER=${ADMIN_USER:-admin}                      # defined in .env file
+      - WEB_ADMIN_PASSWORD_DECRYPT=${ADMIN_PASSWORD_DECRYPT}     # defined in .env file
+      - WEB_ADMIN_PASSWORD_ENCRYPTED=${ADMIN_PASSWORD_ENCRYPTED} # defined in .env file
+      - SMTP_HOST=smtpd:8025                                     # docker smtpd container - name:port
+      - ADMIN_MAIL=${ADMIN_MAIL}                                 # Change me! Mail of admin user
+      - ADD_STORAGE_POOL=true                                    # true- add storage pools: Full, Differential, Incremental; false - makes no change
+      - DOCKER_HOST_IP=${DOCKER_HOST_IP}                         # needs for bacula-sd configuration
+    restart: always
+    depends_on:
+      - bacula-db
+    ports:
+      #- ${PORT_BACULARIS:-9097}:9097                            # without RP comment
+      - ${PORT_STORAGE:-9103}:9103                               # defined in .env file
+      - ${PORT_DIRECTOR:-9101}:9101                              # defined in .env file
+    #hostname: bacula
+    networks:
+      baculaNet:
+        # Feste IP setzen
+        ipv4_address: ${SUBNET}.${IPV4_ADDRESS}
+
+  bacula-db:
+    image: postgres:14-alpine
+    container_name: bacula-db
+    volumes:
+      - ${DOCKERDIR}/data/pgsql/data:/var/lib/postgresql/data
+      - ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql
+    environment:
+      - "POSTGRES_USER=${DB_ADMIN_USER}"                         # defined in .env file
+      - "POSTGRES_PASSWORD=${DB_ADMIN_PASSWORD}"                 # defined in .env file
+      - "POSTGRES_INITDB_ARGS=--encoding=SQL_ASCII"              # defined in .env file
+      - "TZ=${TZ:-UTC}"                                          # defined in .env file
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bacula"]
+      #interval: 1m10s
+      interval: 45s
+      timeout: 20s
+      retries: 3
+    restart: always
+    networks:
+      - baculaNet
+
+  smtpd:
+    image: devture/exim-relay:${SMTP_VERSION}                   # defined in .env file
+    user: 100:101
+    restart: always
+    #ports:
+      #- "25:8025"
+    hostname: ${HOSTNAME_SMTP}                                  # defined in .env file
+    environment:                                          
+      - SMARTHOST=${SMARTHOST}::587                             # defined in .env file
+      - SMTP_USERNAME=${SMTP_USERNAME}                          # defined in .env file
+      - SMTP_PASSWORD=${SMTP_PASSWORD}                          # defined in .env file
+      - HOSTNAME=${HOSTNAME_SMTP}                               # defined in .env file
+    networks:
+      - baculaNet
+

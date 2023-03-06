@@ -1,0 +1,5 @@
+Defaults:www-data !requiretty
+www-data ALL = (root) NOPASSWD: /usr/sbin/bfdjson
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-fd start
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-fd stop
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-fd restart

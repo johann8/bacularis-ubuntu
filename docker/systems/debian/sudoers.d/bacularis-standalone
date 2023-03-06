@@ -1,0 +1,15 @@
+Defaults:www-data !requiretty
+www-data ALL = (root) NOPASSWD: /usr/sbin/bconsole
+www-data ALL = (root) NOPASSWD: /usr/sbin/bdirjson
+www-data ALL = (root) NOPASSWD: /usr/sbin/bsdjson
+www-data ALL = (root) NOPASSWD: /usr/sbin/bfdjson
+www-data ALL = (root) NOPASSWD: /usr/sbin/bbconsjson
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-director start
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-director stop
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-director restart
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-sd start
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-sd stop
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-sd restart
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-fd start
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-fd stop
+www-data ALL = (root) NOPASSWD: /etc/init.d/bacula-fd restart
