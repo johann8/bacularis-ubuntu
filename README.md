@@ -2,9 +2,10 @@
 
 - [Docker Images](#docker-images)
 - [Bacula](#bacula)
-- [Bacularis](#bacularis-the-bacula-web-interface)
+- [Bacularis](#bacularis---the-bacula-web-interface)
   - [For Linux](#for-linux)
   - [For Windows](#for-windows)
+
 
 ## Docker images
 
