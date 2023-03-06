@@ -37,6 +37,7 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 ## Install docker container
 
 - Create folders, set permissions
+
 ```bash
 mkdir -p /opt/bacularis/data/{bacularis,bacula,pgsql}
 mkdir -p /opt/bacularis/data/bacularis/www/bacularis-api/API/{Config,Logs}
@@ -50,10 +51,11 @@ chown 101:101 /opt/bacularis/data/bacula/data/director/working
 chown 101:26 /opt/bacularis/data/bacula/data/director/archive
 tree -d -L 4 /opt/bacularis
 ```
-- Create [docker-compose.yml](https://github.com/johann8/bacularis-ubuntu/blob/master/docker-compose.yml)
+- Create [docker-compose.yml](https://github.com/johann8/bacularis-ubuntu/blob/master/docker-compose.yml)\
 or
 - Download all files below
-````bash
+
+```bash
 cd /opt/bacularis
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.yml
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.override.yml
@@ -69,7 +71,7 @@ wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/.env
 - Customize variables in all files
 - Generate `admin` user `password` [here](https://www.web2generators.com/apache-tools/htpasswd-generator). You need both passwords decrypt and encrypted
 
-````
+```
 # Example
 Username: admin
 Password: N04X1UYYbZ2J69sAYLb0N04
@@ -77,7 +79,7 @@ Password: N04X1UYYbZ2J69sAYLb0N04
 
 - Run docker container
 
-````bash
+```bash
 cd /opt/bacularis
 docker-compose up -d
 docker-compose ps
