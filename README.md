@@ -12,6 +12,10 @@
 
 ## Docker images
 
+![License badge][license-img]
+![Based OS][os-based-ubuntu] ![Based OS][os-based-alpine]
+![Badge amd64][arch-amd64-img] ![Badge arm64][arch-arm64/v8-img]
+
 Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general)
 
 | pull | size ubuntu | size alpine |
