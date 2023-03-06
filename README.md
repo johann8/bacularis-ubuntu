@@ -2,6 +2,9 @@
 
 - [Docker Images](#docker-images)
 - [Bacula](#bacula)
+  - [Bacula linux binaries](#bacula-linux-binaries)
+  - [Bacula windows binaries](#bacula-windows-binaries)
+  - [Create bacula client config files](#create-bacula-client-config-files)
 - [Bacularis](#bacularis---the-bacula-web-interface)
   - [For Linux](#for-linux)
   - [For Windows](#for-windows)
