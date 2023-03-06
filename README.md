@@ -1,9 +1,12 @@
 # Bacularis and Bacula community edition - Docker
+
+## Docker images
+
+Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general)
+
 | pull | size ubuntu | size alpine |
 |:---------------------------------------:|:---------------------------------------:|:-------------------------------------------------:|
 | ![Docker Pulls](https://img.shields.io/docker/pulls/johann8/bacularis?style=flat-square) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis/latest-ubuntu) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis/latest-alpine) |
-
-Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general)
 
 ## Bacula
 [Bacula](https://www.bacula.org/) is a set of Open Source, computer programs that permit you to manage backup, recovery, and verification of computer data across a network of computers.
