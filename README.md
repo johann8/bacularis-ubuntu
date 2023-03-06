@@ -63,6 +63,7 @@ wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-di
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-fd_template.conf
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bconsole_template.conf
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/.env
+chmod u+x *.sh
 ```
 - Customize variables in all files
 - Generate `admin` user `password` [here](https://www.web2generators.com/apache-tools/htpasswd-generator). You need both passwords decrypt and encrypted
@@ -97,11 +98,12 @@ You can create client config files automatically. For this you can find some scr
 - Download files below in a directory
 
 ```bash
-wget https://raw.githubusercontent.com/johann8/bacularis/master/1_create_new_bacula_client_linux--server_side_template.sh
-wget https://raw.githubusercontent.com/johann8/bacularis/master/2_create_new_bacula_client_linux--client_side_template.sh
-wget https://raw.githubusercontent.com/johann8/bacularis/master/bacula-dir_template.conf
-wget https://raw.githubusercontent.com/johann8/bacularis/master/bacula-fd_template.conf
-wget https://raw.githubusercontent.com/johann8/bacularis/master/bconsole_template.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/1_create_new_bacula_client_linux--server_side_template.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/2_create_new_bacula_client_linux--client_side_template.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-fd_template.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bconsole_template.conf
+chmod u+x *.sh
 ```
 - To create configuration for Bacula `Linux` client on server side, you need to pass two parameters to script 1, namely `client name` and `IP address`
 - To create configuration for Bacula `Linux` client on client side, you need to pass only one parametes to script 2, namely `client name`
@@ -148,8 +150,9 @@ systemctl restart bacula-fd.service
 - Download files below in a directory
 
 ```bash
-wget https://raw.githubusercontent.com/johann8/bacularis/master/3_create_new_bacula_client_windows--server_side_template.sh
-wget https://raw.githubusercontent.com/johann8/bacularis/master/bacula-dir_template_windows.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/3_create_new_bacula_client_windows--server_side_template.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template_windows.conf
+chmod u+x *.sh
 ```
 - To create configuration for Bacula `Windows` client on server side, you need to pass two parameters to script 3, namely `client name` and `IP address`
 - The MD5 Bacula client password is automatically created by the script
