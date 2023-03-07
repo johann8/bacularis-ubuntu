@@ -12,7 +12,7 @@
 
 ## Docker images
 
-Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general)
+Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general). Unfortunately, [Alpine](https://pkgs.alpinelinux.org/packages?page=1&branch=v3.17&name=bacula%2A) repository does not include a cloud driver for bacula storage. Bacula community repository for [Ubuntu](https://www.bacula.org/packages/6367abb52d166/debs/13.0.2/dists/jammy/main/binary-amd64/), on the other hand, does have a cloud driver for bacula storage. Therefore I had to create two docker images. Ubuntu docker image does have a cloud driver for bacula storage.
 
 | pull | size ubuntu | size alpine |
 |:---------------------------------------:|:---------------------------------------:|:-------------------------------------------------:|
@@ -88,6 +88,25 @@ docker-compose logs bacularis
 - Starte `http://dost.domain.com:9097` or via traefik `http://host.domain.com`
 - Login with your `admin` user credentials
 - Check the `bacula director` settings
+
+## Firewall rules
+| port | protocol | description |
+|:-------------------:|:--------------------:|:-------------------------------------------------:|
+| 9102 | TCP |For bacuula-fd file daemon |
+| 9103 | TCP |For bacuula-sd storage daemon |
+| 9097 | TCP |For Bacularis-APP without RP (Traefik) |
+|  443 | TCP |For Bacularis-APP with RP (Traefik) |
+
+- Example for CentOS/Oracle/Rocky Linux
+
+```bash
+firewall-cmd --permanent --zone=public --add-port=9102/tcp     # For bacuula-fd daemon
+firewall-cmd --permanent --zone=public --add-port=9103/tcp     # For bacuula-sd daemon
+firewall-cmd --permanent --zone=public --add-port=9097/tcp     # For Bacularis-APP without RP (Traefik)
+firewall-cmd --permanent --zone=public --add-port=443/tcp      # For Bacularis-APP with RP (Traefik)
+firewall-cmd --reload
+firewall-cmd --list-all
+```
 
 ## Create bacula client config files
 You can create client config files automatically. For this you can find some scripts and templates on the repo. You load the files into a directory and start the bash scripts. Run `scriptname -h / --help` to see help.
