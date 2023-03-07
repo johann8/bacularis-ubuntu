@@ -93,18 +93,18 @@ docker-compose logs bacularis
 ## Firewall rules
 | port | protocol | description |
 |-------------------:|:--------------------:|:-------------------------------------------------|
-| 9102 | TCP |For bacuula-fd file daemon |
-| 9103 | TCP |For bacuula-sd storage daemon |
+| 9102 | TCP |For bacula-fd file daemon |
+| 9103 | TCP |For bacula-sd storage daemon |
 | 9097 | TCP |For Bacularis-APP without RP (Traefik) |
 |  443 | TCP |For Bacularis-APP with RP (Traefik) |
 
 - Example for CentOS/Oracle/Rocky Linux
 
 ```bash
-firewall-cmd --permanent --zone=public --add-port=9102/tcp     # For bacuula-fd daemon
-firewall-cmd --permanent --zone=public --add-port=9103/tcp     # For bacuula-sd daemon
-firewall-cmd --permanent --zone=public --add-port=9097/tcp     # For Bacularis-APP without RP (Traefik)
-firewall-cmd --permanent --zone=public --add-port=443/tcp      # For Bacularis-APP with RP (Traefik)
+firewall-cmd --permanent --zone=public --add-port=9102/tcp 
+firewall-cmd --permanent --zone=public --add-port=9103/tcp
+firewall-cmd --permanent --zone=public --add-port=9097/tcp
+firewall-cmd --permanent --zone=public --add-port=443/tcp
 firewall-cmd --reload
 firewall-cmd --list-all
 ```
