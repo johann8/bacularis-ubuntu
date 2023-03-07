@@ -9,6 +9,7 @@
   - [For Linux](#for-linux)
   - [For Windows](#for-windows)
 - [Install docker container](#install-docker-container)
+  - [Firewall rules](#firewall-rules)
 
 ## Docker images
 
@@ -91,7 +92,7 @@ docker-compose logs bacularis
 
 ## Firewall rules
 | port | protocol | description |
-|:-------------------:|:--------------------:|:-------------------------------------------------:|
+|-------------------:|:--------------------:|:-------------------------------------------------|
 | 9102 | TCP |For bacuula-fd file daemon |
 | 9103 | TCP |For bacuula-sd storage daemon |
 | 9097 | TCP |For Bacularis-APP without RP (Traefik) |
