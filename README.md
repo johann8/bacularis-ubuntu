@@ -9,7 +9,12 @@
   - [For Linux](#for-linux)
   - [For Windows](#for-windows)
 - [Install docker container](#install-docker-container)
+  - [Docker variables](#docker-variables)
+  - [Access WebUI](#access-webui)
+  - [Access bconsole](#access-bconsole)
   - [Firewall rules](#firewall-rules)
+  - [Docker Exim Relay Image](#docker-exim-relay-image)
+- [My Docker hub](#my-docker-hub)
 
 ## Docker images
 
@@ -85,10 +90,71 @@ docker-compose ps
 docker-compose logs
 docker-compose logs bacularis
 ```
+# Docker variables
 
-- Starte `http://dost.domain.com:9097` or via traefik `http://host.domain.com`
-- Login with your `admin` user credentials
+- Bacularis docker container
+
+| Variable | Value | Description |
+|:------------------------|:-------------------------|:-------------------------------------------------|
+| TZ | Europe/Berlin | Time zone |
+| DB_INIT | true or false | true - required for DB init only (first run) |
+| DB_UPDATE | false or true | true - required for DB update only |
+| DB_HOST | bacula-db | PostgreSQL db host name  |
+| DB_PORT | 5432 | PostgreSQL db port  |
+| DB_NAME | bacula  | bacula database name |
+| DB_USER | bacula  | bacula user name  |
+| DB_PASSWORD | MyDBPassword  | password use to access to the bareos database |
+| DB_ADMIN_USER | postgres  | PostgreSQL root user name (required for DB init only) |
+| DB_ADMIN_PASSWORD | MyDBAdminPassword | Password for PostgreSQL root user (required for DB init only) |
+| BUILD_DAEMON_NAME | build-3-17-x86_64 |  from alpine assigned bacula daemons name |
+| DESIRED_DAEMON_NAME | bacula | desired name for bacula daemons |
+| WEB_ADMIN_USER | admin | User name for bacula web interface |
+| WEB_ADMIN_PASSWORD_DECRYPT | MyWebPassword  | User password (decrypt) for bacula web interface |
+| WEB_ADMIN_PASSWORD_ENCRYPTED | $apr1$1fvq6ki0$AScxxxx | User password (encrypted) for bacula web interface  |
+| SMTP_HOST | smtpd:8025 | docker container smtp service - name & port |
+| ADMIN_MAIL | admin@mydomain.de | your email address |
+| ADD_STORAGE_POOL | true or false | true - standard pool are replaced by Incremental, Differential and Full |
+| DOCKER_HOST_IP | 192.168.2.10 | IP address of docker host |
+| DOCKERDIR | /opt/bacularis | Docker container config and data folder |
+| PORT_BACULARIS | 9097 | Bacula port for Web interface |
+| PORT_STORAGE | 9103  | Bacula port for storage daemon: bacula-sd |
+| PORT_DIRECTOR | 9101  | Bacula port for director daemon: bacula-dir  |
+
+- bacula-db docker container
+
+| Variable | Value | Description |
+|:------------------------|:-------------------------|:-------------------------------------------------|
+| TZ | Europe/Berlin | Time zone |
+| DB_ADMIN_USER | postgres | PostgreSQL root user name (required for DB init only) |
+| DB_ADMIN_PASSWORD | MyPostgresRootPassword | Password for PostgreSQL root user (required for DB init only) |
+
+- smtpd docker container
+
+| Variable | Value | Description |
+|:------------------------|:-------------------------|:-------------------------------------------------|
+| HOSTNAME_SMTP | bacularis.mydomain.de | hostname of smtp server |
+| SMARTHOST | smtp.mydomain.de | smtp server FQDN |
+| SMTP_USERNAME | backup@mydomain.de | smtp server user name |
+| SMTP_PASSWORD | SmtpUserPassword | smtp server user password |
+
+## Access WebUI
+
+- Open `http://host.domain.com:9097` or via traefik `https://host.domain.com` in your web browser then sign-in
+- Login with your `admin` user credentials (user: `admin` / pass: `<ADMIN_PASSWORD_DECRYPT>`)
 - Check the `bacula director` settings
+
+## Access bconsole
+
+- With docker
+```bash
+docker exec -it bacularis bconsole
+```
+
+- With docker-compose
+```bash
+cd /opt/bacularis
+docker-compose exec bacularis bconsole
+```
 
 ## Firewall rules
 | port | protocol | description |
@@ -101,13 +167,15 @@ docker-compose logs bacularis
 - Example for CentOS/Oracle/Rocky Linux
 
 ```bash
-firewall-cmd --permanent --zone=public --add-port=9102/tcp 
+firewall-cmd --permanent --zone=public --add-port=9102/tcp
 firewall-cmd --permanent --zone=public --add-port=9103/tcp
 firewall-cmd --permanent --zone=public --add-port=9097/tcp
 firewall-cmd --permanent --zone=public --add-port=443/tcp
 firewall-cmd --reload
 firewall-cmd --list-all
 ```
+## Docker Exim Relay Image
+[Exim mail relay](https://exim.org) is a lightweight Docker image, based on the official Alpine image. You can see the documentation for this [here](https://github.com/devture/exim-relay)
 
 ## Create bacula client config files
 You can create client config files automatically. For this you can find some scripts and templates on the repo. You load the files into a directory and start the bash scripts. Run `scriptname -h / --help` to see help.
@@ -240,4 +308,10 @@ Director {
 
 - Restart Windows bacula daemon
 - Windows firewall configuration - unblock ports 9102/TCP and 9103/TCP for incoming rules
+
+## My Docker hub
+
+- [Docker images](https://hub.docker.com/repository/docker/johann8/bacularis/general)
+
+Enjoy !
 
