@@ -157,6 +157,9 @@ docker-compose exec bacularis bconsole
 ```
 
 ## Firewall rules
+
+Ports that need to be opened in firewall.
+
 | port | protocol | description |
 |-------------------:|:--------------------:|:-------------------------------------------------|
 | 9102 | TCP |For bacula-fd file daemon |
