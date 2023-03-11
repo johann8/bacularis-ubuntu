@@ -20,9 +20,10 @@
 
 Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8/bacularis/general) or [Alpine 3.17](https://hub.docker.com/repository/docker/johann8/bacularis/general). Unfortunately, [Alpine](https://pkgs.alpinelinux.org/packages?page=1&branch=v3.17&name=bacula%2A) repository does not include a cloud driver for bacula storage. Bacula community repository for [Ubuntu](https://www.bacula.org/packages/6367abb52d166/debs/13.0.2/dists/jammy/main/binary-amd64/), on the other hand, does have a cloud driver for bacula storage. Therefore I had to create two docker images. Ubuntu docker image does have a cloud driver for bacula storage.
 
-| pull | size ubuntu | size alpine |
-|:---------------------------------------:|:---------------------------------------:|:-------------------------------------------------:|
-| ![Docker Pulls](https://img.shields.io/docker/pulls/johann8/bacularis?style=flat-square) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis/latest-ubuntu) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis/latest-alpine) |
+| pull | size ubuntu | size alpine | version | platform |
+|:---------------------------------:|:--------------------------------:|:----------------------------------:|:--------------------------------:|:--------------------------------:|
+| ![Docker Pulls](https://img.shields.io/docker/pulls/johann8/bacularis?style=flat-square) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis/latest-ubuntu) | ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/johann8/bacularis/latest-alpine) | [![](https://img.shields.io/docker/v/johann8/bacularis?sort=date)](https://hub.docker.com/r/johann8/bacularis/tags "Version badge") | ![](https://img.shields.io/badge/platform-amd64-blue "Platform badge") |
+
 
 ## Bacula
 [Bacula](https://www.bacula.org/) is a set of Open Source, computer programs that permit you to manage backup, recovery, and verification of computer data across a network of computers.
