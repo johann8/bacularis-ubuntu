@@ -6,7 +6,7 @@
 
 AUTOCHANGER_NAME=FileChgr3
 PATH_TO_BACULA_SD="/opt/bacula/etc/bacula-sd.conf"
-cat >> ${PATH_TO_BACULA_SD} << "EOL"
+cat >> ${PATH_TO_BACULA_SD} << EOF
 
 #
 # Define a third Virtual autochanger
