@@ -13,7 +13,8 @@ POOL_NAME_LIN=Archive_Lin
 STORAGE_IP=${DOCKER_HOST_IP}
 STORAGE_PWD=$(cat ${PATH_TO_BACULA_DIR} |sed -n '/Storage {/,+5p' | head -n 5 |grep -iw 'password' | cut -d '"' -f 2)
 
-cat >> ${PATH_TO_BACULA_DIR} << 'EOL'
+cat >> ${PATH_TO_BACULA_DIR} << EOL
+
 #
 # Define a third Virtual autochanger
 #
@@ -76,3 +77,8 @@ Schedule {
   Run = Pool="${POOL_NAME_LIN}" Level="Full" Storage="${MEDIA_TYPE}_Archive" jan,jul 1st sun at 1:05
 }
 EOL
+
+# reload bacula-dir
+bconsole
+reload
+quit
