@@ -6,8 +6,8 @@
 
 AUTOCHANGER_NAME=FileChgr3
 PATH_TO_BACULA_SD="/opt/bacula/etc/bacula-sd.conf"
+cat >> ${PATH_TO_BACULA_SD} << "EOL"
 
-cat >> ${PATH_TO_BACULA_SD} << 'EOL'
 #
 # Define a third Virtual autochanger
 #
@@ -42,3 +42,8 @@ Device {
   Maximum Concurrent Jobs = 5
 }
 EOL
+
+# reload bacula-dir daemon
+bconsole
+reload
+quit
