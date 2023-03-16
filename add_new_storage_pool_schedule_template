@@ -15,10 +15,7 @@ STORAGE_PWD=$(cat ${PATH_TO_BACULA_DIR} |sed -n '/Storage {/,+5p' | head -n 5 |g
 
 cat >> ${PATH_TO_BACULA_DIR} << EOL
 
-#
-# Define a third Virtual autochanger
-#
-
+# define new storage
 Storage {
   Name = "${MEDIA_TYPE}_Archive"
   Description = "Only for Archive"
