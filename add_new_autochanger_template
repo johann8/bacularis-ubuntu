@@ -1,0 +1,44 @@
+#
+### === Add Virtual Autochanger ===
+#
+
+# cd /opt/bacularis && dcexec bacularis bash
+
+AUTOCHANGER_NAME=FileChgr3
+PATH_TO_BACULA_SD="/opt/bacula/etc/bacula-sd.conf"
+
+cat >> ${PATH_TO_BACULA_SD} << 'EOL'
+#
+# Define a third Virtual autochanger
+#
+Autochanger {
+  Name = ${AUTOCHANGER_NAME}
+  Device = ${AUTOCHANGER_NAME}-Dev1, ${AUTOCHANGER_NAME}-Dev2
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = ${AUTOCHANGER_NAME}-Dev1
+  Media Type = File3
+  Archive Device = /var/lib/bacula/archive
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Device {
+  Name = ${AUTOCHANGER_NAME}-Dev2
+  Media Type = File3
+  Archive Device = /var/lib/bacula/archive
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+EOL
