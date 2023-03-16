@@ -5,7 +5,7 @@
 #
 
 # Set variables
-SCRIPT_VERSION=0.2
+SCRIPT_VERSION=0.3
 PASSWORD="$(pwgen 32 1)"
 MD5_PASSWORD=$(echo -n "$PASSWORD"|md5sum| sed -r 's/\s+.*$//;s/^/[md5]/')
 CLIENT_NAME=
@@ -13,6 +13,8 @@ IP_ADDRESS=
 
 # Function
 show_help() {
+    echo ""
+    echo "<-------------- HELP -------------->"
     echo "Usage: $0 -n pc-01 -ip 10.0.2.5"
     echo "Usage: $0 --name pc-02 --ipaddress 10.0.2.5"
     echo ""
@@ -24,6 +26,15 @@ show_help() {
     echo "-n,  --name              Name of bacula client - example: \"oracle8\""
     echo ""
 }
+
+# Expect to get  positional arguments.
+if [[ $# -eq 0 ]]
+then
+    echo ""
+    echo "Script: Please specify a positional argument."
+    show_help
+    exit 1
+fi
 
 # Menu
 while [[ $# -gt 0 ]]
@@ -40,6 +51,7 @@ do
             exit 0
             ;;
         -v|--version)
+            echo ""
             echo "Script: Will show script version."
             echo "Script: Version is: ${SCRIPT_VERSION}"
             exit 0
@@ -50,17 +62,37 @@ do
             shift
             ;;
         -*|--*)
+            echo ""
             echo "Script: Unrecognized option: '$key'"
             echo "Script: See 'Script -h|--help' for supported options."
             exit 0
             ;;
         *)  # unknown option
+            echo ""
             echo "Script: Unrecognized option: '$key'"
             echo "Script: See 'Script -h|--help' for supported options."
             exit 0
             ;;
     esac
 done
+
+# verify var BACULA_CLIENT_NAME
+if [[ -z ${BACULA_CLIENT_NAME} ]]
+then
+    echo ""
+    echo "Script: Please specify a client name."
+    show_help
+    exit 1
+fi
+
+# verify var BACULA_CLIENT_IP_ADDRESS
+if [[ -z ${BACULA_CLIENT_IP_ADDRESS} ]]
+then
+    echo ""
+    echo "Script: Please specify a client IP address."
+    show_help
+    exit 1
+fi
 
 # Pass variables
 CLIENT_NAME=${BACULA_CLIENT_NAME}
