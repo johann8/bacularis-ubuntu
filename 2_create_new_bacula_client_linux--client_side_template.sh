@@ -6,7 +6,7 @@
 
 # Set variables
 #MD5_PASSWORD=                                                                    #  On bacula server: cat bacula-dir.conf ( Client {  Name = "oraclel8-fd" Password = "[md5]a1e10524f1a33eae3496d1104b056f3e"} )
-SCRIPT_VERSION=0.2
+SCRIPT_VERSION=0.3
 DIRECTOR_ADDRESS=192.168.15.16                                                    # IP Address of docker host wher bacula server is running
 DIRECTOR_NAME=bacula-dir                                                          # The name of bacula server director (bacula-dir)
 DIRECTOR_CONSOLE_MONITOR_NAME=bacula-mon                                          # The name of bacula server console (bacula-mon)
@@ -15,6 +15,7 @@ DIRECTOR_CONSOLE_MONITOR_PASSWORD='Vy1holhTDZ3xPYB6s0QaqW26/1levNlVNqU07i+rLQUt'
 # Function
 show_help() {
     echo ""
+    echo "<-------------- HELP -------------->"
     echo "Usage: $0 -n pc-01"
     echo "Or"
     echo "Usage: $0 --name pc-02"
@@ -28,6 +29,15 @@ show_help() {
     echo ""
 }
 
+# Expect to get  positional arguments.
+if [[ $# -eq 0 ]]
+then
+    echo ""
+    echo "Script: Please specify a positional argument."
+    show_help
+    exit 1
+fi
+
 # Menu
 while [[ $# -gt 0 ]]
 do
@@ -38,6 +48,7 @@ do
             exit 0
             ;;
         -v|--version)
+            echo ""
             echo "Script: Will show script version."
             echo "Script: Version is: ${SCRIPT_VERSION}"
             exit 0
@@ -48,17 +59,28 @@ do
             shift
             ;;
         -*|--*)
+            echo ""
             echo "Script: Unrecognized option: '$key'"
             echo "Script: See 'Script -h|--help' for supported options."
             exit 0
             ;;
         *)  # unknown option
+            echo ""
             echo "Script: Unrecognized option: '$key'"
             echo "Script: See 'Script -h|--help' for supported options."
             exit 0
             ;;
     esac
 done
+
+# verify var BACULA_CLIENT_NAME
+if [[ -z ${BACULA_CLIENT_NAME} ]]
+then
+    echo ""
+    echo "Script: Please specify a client name."
+    show_help
+    exit 1
+fi
 
 # Pass variables
 CLIENT_NAME=${BACULA_CLIENT_NAME}
