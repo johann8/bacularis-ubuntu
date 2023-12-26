@@ -15,7 +15,7 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.vcs-url="https://github.com/johann8/" \
       org.label-schema.version=$VERSION
 
-ENV BACULARIS_VERSION=2.1.2
+ENV BACULARIS_VERSION=2.2.0
 ENV PACKAGE_NAME=standalone
 
 ENV BACULA_VERSION=13.0.3
@@ -38,7 +38,9 @@ RUN apt-get update \
  && apt-get -y install --no-install-recommends bacula-common \
  && \
     if [ "${PACKAGE_NAME}" = 'standalone' ] || [ "${PACKAGE_NAME}" = 'api-dir' ]; then \
-       apt-get -y install --no-install-recommends postgresql-client dbconfig-pgsql bacula bacula-postgresql bacula-console bacula-cloud-storage-s3; \
+       apt-get -y install --no-install-recommends postgresql-client \
+                  dbconfig-pgsql bacula bacula-postgresql bacula-console \
+                  bacula-cloud-storage-s3 bacula-docker-plugin bacula-docker-tools; \
        sed -i -e "/^dbc_install=/c\dbc_install='false'" -e "/^dbc_dbpass=/c\dbc_dbpass=" /etc/dbconfig-common/bacula-postgresql.conf; \
        dpkg-reconfigure bacula-postgresql; \
        # Fix job to backup catalog database
