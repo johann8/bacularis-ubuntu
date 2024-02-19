@@ -15,10 +15,10 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.vcs-url="https://github.com/johann8/" \
       org.label-schema.version=$VERSION
 
-ENV BACULARIS_VERSION=2.4.0
+ENV BACULARIS_VERSION=2.5.1
 ENV PACKAGE_NAME=standalone
 
-ENV BACULA_VERSION=13.0.3
+ENV BACULA_VERSION=13.0.4
 ENV DEBIAN_FRONTEND noninteractive
 ENV BACULA_KEY https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc
 ENV BACULA_DESCRIPTION # Bacula Community
