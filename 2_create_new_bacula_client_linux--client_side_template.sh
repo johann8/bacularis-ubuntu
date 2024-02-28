@@ -7,6 +7,7 @@
 # Set variables
 SCRIPT_VERSION=0.4
 DIRECTOR_ADDRESS=192.168.15.16                                         # IP Address of docker host wher bacula server is running
+CLIENT_INSTALL_DIR="/opt/bacula/etc"                                   # Bacula client install dir
 DIRECTOR_NAME=bacula-dir                                               # The name of bacula server director (bacula-dir)
 DIRECTOR_CONSOLE_MONITOR_NAME=bacula-mon                               # The name of bacula server console (bacula-mon)
 DIRECTOR_CONSOLE_MONITOR_PASSWORD='###BACULA_DIR_MON_PASSWORD###'      # On bacula server: cat bacula-dir.conf ( Console {Name = "bacula-mon" Password = "Vy1holhTDZ3xPYB6s0QaqW26/1levNlVNqU07i+rLQUt" } )
@@ -91,15 +92,15 @@ CONFIG_FOLDER=config_files
 MD5_PASSWORD=$(cat ${CONFIG_FOLDER}/bacula-dir_${CLIENT_NAME}.conf |grep Password |cut -f 2 -d '"')
 
 # Create config files
-if [[ -f /opt/bacula/etc/bacula-fd.conf ]]; then
+if [[ -f ${CLIENT_INSTALL_DIR}/bacula-fd.conf ]]; then
    echo -n "Creating backup of \"bacula-fd.conf\"..."
-   cp /opt/bacula/etc/bacula-fd.conf /opt/bacula/etc/bacula-fd.conf.backup
+   cp ${CLIENT_INSTALL_DIR}/bacula-fd.conf ${CLIENT_INSTALL_DIR}/bacula-fd.conf.backup
    echo [DONE]
 fi
 
 if [[ -f /opt/bacula/etc/bconsole.conf ]]; then
    echo -n "Creating backup of \"bconsole.conf\"..."
-   cp /opt/bacula/etc/bconsole.conf /opt/bacula/etc/bconsole.conf.backup
+   cp ${CLIENT_INSTALL_DIR}/bconsole.conf ${CLIENT_INSTALL_DIR}/bconsole.conf.backup
    echo [DONE]
 fi
 
@@ -140,6 +141,17 @@ if [[ -f ${BACULA_FD_CONFIG_FILE_TEMPLATE} ]] && [[ -f ${BCONSOLE_CONFIG_FILE_TE
       echo [DONE]  
    fi
 fi
+
+# copy files to client install dir
+if [[ -d ${CLIENT_INSTALL_DIR} ]]; then
+   echo -n "Copying \"bacula-fd.conf\" file...    "
+   \cp ${CONFIG_FOLDER}/${BACULA_FD_CONFIG_FILE} ${CLIENT_INSTALL_DIR}/bacula-fd.conf
+   echo [DONE]
+
+   echo -n "Copying \"bconsole.conf\" file...    "
+   \cp ${CONFIG_FOLDER}/${BCONSOLE_CONFIG_FILE} ${CLIENT_INSTALL_DIR}/bconsole.conf
+   echo [DONE]
+fi 
 
 exit 0
 
