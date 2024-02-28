@@ -29,7 +29,7 @@ Storage {
   Address = "${STORAGE_IP}"
   Password = "${STORAGE_PWD}"
   Device = "${DEVICE_NAME}"
-  MediaType = "${MEDIA_TYPE}"
+  MediaType = "File"
   Autochanger = "${MEDIA_TYPE}_Archive"
   MaximumConcurrentJobs = 10
 }
