@@ -105,7 +105,7 @@ Pool {
   PoolType = "Backup"
   LabelFormat = "Differential-"
   MaximumVolumes = 10
-  MaximumVolumeBytes = 50000000000
+  MaximumVolumeBytes = 25000000000
   VolumeRetention = 7776000
   AutoPrune = yes
   Recycle = yes
@@ -118,7 +118,7 @@ Pool {
   PoolType = "Backup"
   LabelFormat = "Full-"
   MaximumVolumes = 10
-  MaximumVolumeBytes = 107374182400
+  MaximumVolumeBytes = 53687091200
   VolumeRetention = 15552000
   AutoPrune = yes
   Recycle = yes
@@ -130,6 +130,9 @@ Pool {
   Storage = "File1"
   PoolType = "Backup"
   LabelFormat = "Incremental-"
+  MaximumVolumes = 10
+  MaximumVolumeBytes = 15000000000
+  VolumeRetention = 2592000
   MaximumVolumes = 10
   MaximumVolumeBytes = 10000000000
   VolumeRetention = 2592000
