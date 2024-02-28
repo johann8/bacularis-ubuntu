@@ -2,7 +2,12 @@
 ### === Add Virtual Autochanger ===
 #
 
-# cd /opt/bacularis && dcexec bacularis bash
+### ========= How to install =========
+# 1. cd /opt/bacularis && dcexec bacularis bash
+# 2. cd /tmp
+# 3. curl https://raw.githubusercontent.com/johann8/bacularis-alpine/master/add_new_autochanger_template --output add_new_autochanger_template
+# 4. cat add_new_autochanger_template
+# 5. run: bash add_new_autochanger_template
 
 AUTOCHANGER_NAME=FileChgr3
 PATH_TO_BACULA_SD="/opt/bacula/etc/bacula-sd.conf"
@@ -43,7 +48,7 @@ Device {
 }
 EOL
 
-# reload bacula-dir daemon
-bconsole
-reload
-quit
+### reload bacula-dir daemon
+# bconsole
+# reload
+# quit

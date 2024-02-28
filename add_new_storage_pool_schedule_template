@@ -3,6 +3,12 @@
 #
 
 # cd /opt/bacularis && dcexec bacularis bash
+# 1. cd /opt/bacularis && dcexec bacularis bash
+# 2. cd /tmp
+# 3. curl https://raw.githubusercontent.com/johann8/bacularis-alpine/master/add_new_storage_pool_schedule_template --output add_new_storage_pool_schedule_template
+# 4. cat add_new_storage_pool_schedule_template 
+# 5. bash add_new_storage_pool_schedule_template
+
 
 # Set variables
 PATH_TO_BACULA_DIR="/opt/bacula/etc/bacula-dir.conf"
@@ -36,7 +42,7 @@ Pool {
   MaximumVolumes = 10
   Storage = "${MEDIA_TYPE}_Archive"
   Name = "${POOL_NAME_WIN}"
-  Description = "Only Archive for Windows"
+  Description = "Only for Windows Archive"
   LabelFormat = "${POOL_NAME_WIN}-"
   MaximumVolumeBytes = 53687091200
   VolumeRetention = 15552000
@@ -50,7 +56,7 @@ Pool {
   MaximumVolumes = 10
   Storage = "${MEDIA_TYPE}_Archive"
   Name = "${POOL_NAME_LIN}"
-  Description = "Only Archive for Linux"
+  Description = "Only for Linux Archive"
   LabelFormat = "${POOL_NAME_LIN}-"
   MaximumVolumeBytes = 53687091200
   VolumeRetention = 31536000
@@ -75,7 +81,7 @@ Schedule {
 }
 EOL
 
-# reload bacula-dir
-bconsole
-reload
-quit
+### reload bacula-dir
+# bconsole
+# reload
+# quit
