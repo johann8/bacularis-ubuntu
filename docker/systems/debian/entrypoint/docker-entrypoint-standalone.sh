@@ -224,7 +224,7 @@ EOL
   echo "[done]"
 
   # Changing storage MediaType
-  echo -n "Changing storage MediaType...        "
+  echo -n "Changing storage MediaType...            "
   sed -i -e 's/Media Type = File1/Media Type = File/' -e 's/Media Type = File2/Media Type = File/' ${BACULA_DIR_CONFIG}
   echo "[done]"
 
