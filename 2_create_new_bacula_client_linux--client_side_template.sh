@@ -5,12 +5,12 @@
 #
 
 # Set variables
-#MD5_PASSWORD=                                                                    #  On bacula server: cat bacula-dir.conf ( Client {  Name = "oraclel8-fd" Password = "[md5]a1e10524f1a33eae3496d1104b056f3e"} )
-SCRIPT_VERSION=0.3
-DIRECTOR_ADDRESS=192.168.15.16                                                    # IP Address of docker host wher bacula server is running
-DIRECTOR_NAME=bacula-dir                                                          # The name of bacula server director (bacula-dir)
-DIRECTOR_CONSOLE_MONITOR_NAME=bacula-mon                                          # The name of bacula server console (bacula-mon)
-DIRECTOR_CONSOLE_MONITOR_PASSWORD='Vy1holhTDZ3xPYB6s0QaqW26/1levNlVNqU07i+rLQUt'  # On bacula server: cat bacula-dir.conf ( Console {Name = "bacula-mon" Password = "Vy1holhTDZ3xPYB6s0QaqW26/1levNlVNqU07i+rLQUt" } )
+#MD5_PASSWORD=                                                     #  On bacula server: cat bacula-dir.conf ( Client {  Name = "oraclel8-fd" Password = "[md5]a1e10524f1a33eae3496d1104b056f3e"} )
+SCRIPT_VERSION=0.4
+DIRECTOR_ADDRESS=192.168.15.16                                     # IP Address of docker host wher bacula server is running
+DIRECTOR_NAME=bacula-dir                                           # The name of bacula server director (bacula-dir)
+DIRECTOR_CONSOLE_MONITOR_NAME=bacula-mon                           # The name of bacula server console (bacula-mon)
+DIRECTOR_CONSOLE_MONITOR_PASSWORD='###BACULA_DIR_MON_PASSWORD###'  # On bacula server: cat bacula-dir.conf ( Console {Name = "bacula-mon" Password = "Vy1holhTDZ3xPYB6s0QaqW26/1levNlVNqU07i+rLQUt" } )
 
 # Function
 show_help() {
