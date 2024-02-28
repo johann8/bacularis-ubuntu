@@ -9,6 +9,7 @@ trap stop SIGTERM SIGINT SIGQUIT SIGHUP ERR
 # set variables
 LOCAL_ADDRESS=buildkitsandbox
 PATH_TO_BACULA_DIR="/opt/bacula/etc/bacula-dir.conf"
+PATH_TO_BACULA_SD="/opt/bacula/etc/bacula-sd.conf"
 PATH_TO_BCONSOLE="/opt/bacula/etc/bconsole.conf"
 
 function start()
@@ -76,8 +77,8 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   if [ ! -z ${BUILD_DAEMON_NAME} ]; then  
      echo -n "Setting daemon names...                  "
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BACULA_DIR}
-     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" /opt/bacula/etc/bacula-fd.conf
-     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" /opt/bacula/etc/bacula-sd.conf
+     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BACULA_SD}
+     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BACULA_SD}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BCONSOLE}
      sed -i "s/address = ${DESIRED_DAEMON_NAME}/address = localhost/" ${PATH_TO_BCONSOLE}
      echo "[done]"
@@ -98,6 +99,7 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
 Pool {
   Name = "Differential"
   Description = "Differential Pool"
+  Storage = "File1"
   PoolType = "Backup"
   LabelFormat = "Differential-"
   MaximumVolumes = 30
@@ -110,6 +112,7 @@ Pool {
 Pool {
   Name = "Full"
   Description = "Full Pool"
+  Storage = "File1"
   PoolType = "Backup"
   LabelFormat = "Full-"
   MaximumVolumes = 20
@@ -122,6 +125,7 @@ Pool {
 Pool {
   Name = "Incremental"
   Description = "Incremental Pool"
+  Storage = "File1"
   PoolType = "Backup"
   LabelFormat = "Incremental-"
   MaximumVolumes = 30
@@ -167,14 +171,14 @@ EOL
   cat >> ${PATH_TO_BACULA_DIR} << 'EOL'
 
 Fileset {
-  Name = "bacula-fd-fset"
+  Name = "bacula-fd-fs"
   Include {
     #File = "/usr/sbin"
     File = "/var/www/bacularis"
     File = "/opt/bacula/etc"
     File = /opt/bacula/working
     Options {
-      Signature = "Md5"
+      Signature = "Sha1"
       Wild = "*.jpg"
       Wild = "*.png"
       Wild = "*.gif"
@@ -194,7 +198,7 @@ Fileset {
     }
     Options {
       Compression = "Lzo"
-      Signature = "Md5"
+      Signature = "Sha1"
     }
   }
   Exclude {
