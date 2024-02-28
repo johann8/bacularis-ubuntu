@@ -8,9 +8,10 @@ trap stop SIGTERM SIGINT SIGQUIT SIGHUP ERR
 
 # set variables
 LOCAL_ADDRESS=buildkitsandbox
-PATH_TO_BACULA_DIR="/opt/bacula/etc/bacula-dir.conf"
-PATH_TO_BACULA_SD="/opt/bacula/etc/bacula-sd.conf"
-PATH_TO_BCONSOLE="/opt/bacula/etc/bconsole.conf"
+BACULA_DIR_CONFIG="/opt/bacula/etc/bacula-dir.conf"
+BACULA_SD_CONFIG="/opt/bacula/etc/bacula-sd.conf"
+BACULA_FD_CONFIG="/opt/bacula/etc/bacula-fd.conf"
+BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
 
 function start()
 {
@@ -56,7 +57,7 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   if [ ! -z ${SMTP_HOST} ]; then
      # hostname & port
      echo -n "Setting mail hostname & port...          "
-     sed -i -e "s/-h localhost/-h ${SMTP_HOST}/g" ${PATH_TO_BACULA_DIR}
+     sed -i -e "s/-h localhost/-h ${SMTP_HOST}/g" ${BACULA_DIR_CONFIG}
      echo "[done]"
   fi
 
@@ -64,23 +65,24 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   if [ ! -z ${ADMIN_MAIL} ]; then
      echo -n "Setting admin user mail address...       "
      sed -i -e "s/mail = root/mail = ${ADMIN_MAIL}/g" \
-            -e "s/operator = root/operator = ${ADMIN_MAIL}/g" ${PATH_TO_BACULA_DIR}
+            -e "s/operator = root/operator = ${ADMIN_MAIL}/g" ${BACULA_DIR_CONFIG}
      echo "[done]"
   fi
 
   # Change Address of Autochanger, bacula-fd, bconsole
   echo -n "Changing IP address to localhost...      "
-  sed -i -e "s/^  Address = ${LOCAL_ADDRESS}/  Address = localhost/" ${PATH_TO_BACULA_DIR}
+  sed -i -e "s/^  Address = ${LOCAL_ADDRESS}/  Address = localhost/" ${BACULA_DIR_CONFIG}
   echo "[done]"
 
   # Change bacula-dir daemon name (buildkitsandbox)
   if [ ! -z ${BUILD_DAEMON_NAME} ]; then  
      echo -n "Setting daemon names...                  "
-     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BACULA_DIR}
-     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BACULA_SD}
-     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BACULA_SD}
-     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${PATH_TO_BCONSOLE}
-     sed -i "s/address = ${DESIRED_DAEMON_NAME}/address = localhost/" ${PATH_TO_BCONSOLE}
+     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_DIR_CONFIG}
+     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_SD_CONFIG}
+     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_SD_CONFIG}
+     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BCONSOLE_CONFIG}
+     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_FD_CONFIG}
+     sed -i "s/address = ${DESIRED_DAEMON_NAME}/address = localhost/" ${BCONSOLE_CONFIG}
      echo "[done]"
   fi
 
@@ -89,12 +91,12 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
      # Delete old storage pools
      echo -n "Deleting old storage pools...            "
      sed -i -e '/# Default pool definition/,+10d' \
-       -e '/# File Pool definition/,+11d' ${PATH_TO_BACULA_DIR}
+       -e '/# File Pool definition/,+11d' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
      # Add storage pools: Full, Differential, Incremental
      echo -n "Creating storage pools...                "
-     cat >> ${PATH_TO_BACULA_DIR} << 'EOL'
+     cat >> ${BACULA_DIR_CONFIG} << 'EOL'
 
 Pool {
   Name = "Differential"
@@ -142,33 +144,33 @@ EOL
      echo -n "Changing backup job name...              "
      sed -i -e 's/Name = "BackupClient1"/Name = "backup-bacula-fd"/g' \
             -e 's/Pool = File/Pool = "Incremental"/g' \
-            -e 's/Full Set/bacula-fd-fset/g' ${PATH_TO_BACULA_DIR}
+            -e 's/Full Set/bacula-fd-fs/g' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
      echo -n "Changing backup job description...       "
-     sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${PATH_TO_BACULA_DIR}
+     sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
      echo -n "Adding storage pools to jobdefs...       "
      sed -i -e '/  Name = "DefaultJob"/a\  DifferentialBackupPool = "Differential"' \
             -e '/  Name = "DefaultJob"/a\  IncrementalBackupPool = "Incremental"' \
-            -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${PATH_TO_BACULA_DIR}
+            -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
      #echo -n "Adding folder to fileset...              "
      #sed -i -e '/    File = \/usr\/sbin/a\    File = /var/www/bacularis' \
-     #       -e '/    File = \/usr\/sbin/a\    File = /opt/bacula/etc' ${PATH_TO_BACULA_DIR}
+     #       -e '/    File = \/usr\/sbin/a\    File = /opt/bacula/etc' ${BACULA_DIR_CONFIG}
      #echo "[done]"
   fi
 
   # Delete bacula-fd old fileset
   echo -n "Deleting bacula-fd old fileset...        "
-  sed -i -e '/# List of files to be backed up/,+38d' ${PATH_TO_BACULA_DIR}
+  sed -i -e '/# List of files to be backed up/,+38d' ${BACULA_DIR_CONFIG}
   echo "[done]"
 
   # Add bacula-fd new fileset
   echo -n "Creating bacula-fd new fileset...        "
-  cat >> ${PATH_TO_BACULA_DIR} << 'EOL'
+  cat >> ${BACULA_DIR_CONFIG} << 'EOL'
 
 Fileset {
   Name = "bacula-fd-fs"
@@ -228,7 +230,7 @@ EOL
      echo -n "Setting Storage \"File1\" IP address...    "
      n1=$(cat /opt/bacula/etc/bacula-dir.conf |grep -niw 'Name = File1' | awk -F: '{ print $1 }')
      n1=$(($n1+2))
-     sed -i -e "${n1}s+localhost+${DOCKER_HOST_IP}+" ${PATH_TO_BACULA_DIR}
+     sed -i -e "${n1}s+localhost+${DOCKER_HOST_IP}+" ${BACULA_DIR_CONFIG}
      echo "[done]"
 
      # Storage File2
@@ -236,7 +238,7 @@ EOL
      n2=
      n2=$(cat /opt/bacula/etc/bacula-dir.conf |grep -niw 'Name = File2' | awk -F: '{ print $1 }')
      n2=$(($n2+2))
-     sed -i -e "${n2}s+localhost+${DOCKER_HOST_IP}+" ${PATH_TO_BACULA_DIR}
+     sed -i -e "${n2}s+localhost+${DOCKER_HOST_IP}+" ${BACULA_DIR_CONFIG}
      echo "[done]"
   fi
 
@@ -258,7 +260,7 @@ if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
 
    # Add PostgresDB access data into bacula-dir.conf
    echo -n "Setting PostgresDB data to bacula-dir... "
-   sed -i "/dbname = \"/c\  dbname = \"${DB_NAME}\"; dbuser = \"${DB_USER}\"; dbpassword = \"${DB_PASSWORD}\"; dbaddress = \"${DB_HOST}\"; dbport = \"${DB_PORT}\"" ${PATH_TO_BACULA_DIR}
+   sed -i "/dbname = \"/c\  dbname = \"${DB_NAME}\"; dbuser = \"${DB_USER}\"; dbpassword = \"${DB_PASSWORD}\"; dbaddress = \"${DB_HOST}\"; dbport = \"${DB_PORT}\"" ${BACULA_DIR_CONFIG}
    echo "[done]"
 
    # Add PostgresDB access data into api.conf
