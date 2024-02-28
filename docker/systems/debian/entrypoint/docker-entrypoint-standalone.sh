@@ -219,7 +219,12 @@ Fileset {
 EOL
   echo "[done]"
 
-  #
+  # Changing storage MediaType
+  echo -n "Changing storage MediaType...        "
+  sed -i -e 's/Media Type = File1/Media Type = File/' -e 's/Media Type = File2/Media Type = File/' ${BACULA_DIR_CONFIG}
+  echo "[done]"
+
+  # Setting bacula config permissions
   echo -n "Setting bacula config permissions...     "
   chown -R bacula:bacula /opt/bacula/etc/*
   chown bacula:tape /opt/bacula/archive
