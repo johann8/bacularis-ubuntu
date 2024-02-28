@@ -160,6 +160,10 @@ EOL
             -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
+     echo -n "Changing DefaultJob name...              "
+     sed -i -e 's/^  Name = "DefaultJob"/  Name = "bacula-fd-job"/' -e 's/^  JobDefs = "DefaultJob"/  JobDefs = "bacula-fd-job"/' ${BACULA_DIR_CONFIG}
+     echo "[done]"
+
      #echo -n "Adding folder to fileset...              "
      #sed -i -e '/    File = \/usr\/sbin/a\    File = /var/www/bacularis' \
      #       -e '/    File = \/usr\/sbin/a\    File = /opt/bacula/etc' ${BACULA_DIR_CONFIG}
