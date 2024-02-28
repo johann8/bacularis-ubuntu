@@ -143,7 +143,7 @@ if [[ -f ${WORKING_DIR}/${SCRIPT_NAME_CLIENT} ]]; then
    echo [DONE]
 
    # insert passwort in script
-   sed -e "s/###BACULA_DIR_MON_PASSWORD###/${BACULA_DIR_MON_PW}/" ${WORKING_DIR}/${SCRIPT_NAME_CLIENT}
+   sed -i -e "s/###BACULA_DIR_MON_PASSWORD###/${BACULA_DIR_MON_PW}/" ${WORKING_DIR}/${SCRIPT_NAME_CLIENT}
 else
    echo "Script \"${WORKING_DIR}/${SCRIPT_NAME_CLIENT}\" could not be find."
 fi
