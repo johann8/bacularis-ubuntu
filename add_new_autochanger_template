@@ -5,7 +5,7 @@
 ### ========= How to install =========
 # 1. cd /opt/bacularis && dcexec bacularis bash
 # 2. cd /tmp
-# 3. curl https://raw.githubusercontent.com/johann8/bacularis-alpine/master/add_new_autochanger_template --output add_new_autochanger_template
+# 3. curl  https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/add_new_autochanger_template --output add_new_autochanger_template
 # 4. cat add_new_autochanger_template
 # 5. run: bash add_new_autochanger_template
 
@@ -25,8 +25,8 @@ Autochanger {
 
 Device {
   Name = ${AUTOCHANGER_NAME}-Dev1
-  Media Type = File3
-  Archive Device = /var/lib/bacula/archive
+  Media Type = File
+  Archive Device = /opt/bacula/archive
   LabelMedia = yes;                   # lets Bacula label unlabeled media
   Random Access = Yes;
   AutomaticMount = yes;               # when device opened, read it
@@ -37,8 +37,8 @@ Device {
 
 Device {
   Name = ${AUTOCHANGER_NAME}-Dev2
-  Media Type = File3
-  Archive Device = /var/lib/bacula/archive
+  Media Type = File
+  Archive Device = /opt/bacula/archive
   LabelMedia = yes;                   # lets Bacula label unlabeled media
   Random Access = Yes;
   AutomaticMount = yes;               # when device opened, read it
