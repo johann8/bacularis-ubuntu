@@ -183,7 +183,7 @@ Fileset {
     Options {
       Compression = "Lzo"
       Signature = "Sha1"
-      Exclude = yes
+      Exclude = "yes"
     }
   }
   Exclude {
