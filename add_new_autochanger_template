@@ -10,6 +10,8 @@
 # 5. run: bash add_new_autochanger_template
 
 AUTOCHANGER_NAME=FileChgr3
+MEDIA_TYPE=File3
+ARCHIVE_DEVICE="/opt/bacula/archive"
 PATH_TO_BACULA_SD="/opt/bacula/etc/bacula-sd.conf"
 cat >> ${PATH_TO_BACULA_SD} << EOL
 
@@ -25,8 +27,8 @@ Autochanger {
 
 Device {
   Name = ${AUTOCHANGER_NAME}-Dev1
-  Media Type = File
-  Archive Device = /opt/bacula/archive
+  Media Type = ${MEDIA_TYPE}
+  Archive Device = ${ARCHIVE_DEVICE}
   LabelMedia = yes;                   # lets Bacula label unlabeled media
   Random Access = Yes;
   AutomaticMount = yes;               # when device opened, read it
@@ -37,8 +39,8 @@ Device {
 
 Device {
   Name = ${AUTOCHANGER_NAME}-Dev2
-  Media Type = File
-  Archive Device = /opt/bacula/archive
+  Media Type = ${MEDIA_TYPE}
+  Archive Device = ${ARCHIVE_DEVICE}
   LabelMedia = yes;                   # lets Bacula label unlabeled media
   Random Access = Yes;
   AutomaticMount = yes;               # when device opened, read it
