@@ -181,7 +181,8 @@ Fileset {
       Signature = "Sha1"
       OneFs = "yes"
     }
-    File = "/var/www/bacularis"
+    File = "/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config/"
+    File = "/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config/"
     File = "/opt/bacula/etc"
     File = /opt/bacula/working
   }
