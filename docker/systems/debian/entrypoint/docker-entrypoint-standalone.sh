@@ -179,6 +179,7 @@ Fileset {
     Options {
       Compression = "Lzo"
       Signature = "Sha1"
+      OneFs = "yes"
     }
     File = "/var/www/bacularis"
     File = "/opt/bacula/etc"
