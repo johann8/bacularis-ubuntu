@@ -176,18 +176,15 @@ EOL
 Fileset {
   Name = "bacula-fd-fs"
   Include {
-    #File = "/usr/sbin"
-    File = "/var/www/bacularis"
-    File = "/opt/bacula/etc"
-    File = /opt/bacula/working
     Options {
       Compression = "Lzo"
       Signature = "Sha1"
-      Exclude = "yes"
     }
+    File = "/var/www/bacularis"
+    File = "/opt/bacula/etc"
+    File = /opt/bacula/working
   }
   Exclude {
-    #File = /opt/bacula/working
     File = /opt/bacula/archive
     File = /proc
     File = /tmp
