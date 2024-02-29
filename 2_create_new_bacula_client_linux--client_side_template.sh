@@ -91,19 +91,7 @@ BCONSOLE_CONFIG_FILE=bconsole_${CLIENT_NAME}.conf
 CONFIG_FOLDER=config_files
 MD5_PASSWORD=$(cat ${CONFIG_FOLDER}/bacula-dir_${CLIENT_NAME}.conf |grep Password |cut -f 2 -d '"')
 
-# Create config files
-if [[ -f ${CLIENT_INSTALL_DIR}/bacula-fd.conf ]]; then
-   echo -n "Creating backup of \"bacula-fd.conf\"..."
-   cp ${CLIENT_INSTALL_DIR}/bacula-fd.conf ${CLIENT_INSTALL_DIR}/bacula-fd.conf.backup
-   echo [DONE]
-fi
-
-if [[ -f /opt/bacula/etc/bconsole.conf ]]; then
-   echo -n "Creating backup of \"bconsole.conf\"..."
-   cp ${CLIENT_INSTALL_DIR}/bconsole.conf ${CLIENT_INSTALL_DIR}/bconsole.conf.backup
-   echo [DONE]
-fi
-
+### create folder for config files
 if [[ ! -d ${CONFIG_FOLDER} ]]; then
    echo -n "Creating folder \"${CONFIG_FOLDER}\"...                       "
    mkdir ${CONFIG_FOLDER}
@@ -142,6 +130,9 @@ if [[ -f ${BACULA_FD_CONFIG_FILE_TEMPLATE} ]] && [[ -f ${BCONSOLE_CONFIG_FILE_TE
    fi
 fi
 
+exit 0
+
+### Only for bacula client on docker host
 # copy files to client install dir
 if [[ -d ${CLIENT_INSTALL_DIR} ]]; then
    echo -n "Copying \"bacula-fd.conf\" file...    "
@@ -153,66 +144,7 @@ if [[ -d ${CLIENT_INSTALL_DIR} ]]; then
    echo [DONE]
 fi 
 
-exit 0
-
-cat > bacula-fd_template.conf << 'EOL'
-# cat /opt/bacula/etc/bacula-fd.conf
-#
-# Default  Bacula File Daemon Configuration file
-#
-
-#
-# List Directors who are permitted to contact this File daemon
-#
-Director {
-  Name = ###DIRECTOR_NAME###
-  Password = "###MD5_PASSWORD###"
-}
-
-#
-# Restricted Director, used by tray-monitor to get the
-#   status of the file daemon
-#
-Director {
-  Name = ###DIRECTOR_CONSOLE_MONITOR_NAME###
-  Password = "###DIRECTOR_CONSOLE_MONITOR_PASSWORD###"
-  Monitor = yes
-}
-
-#
-# "Global" File daemon configuration specifications
-#
-FileDaemon {                               # this is me
-  Name = ###CLIENT_NAME###
-  FDport = 9102                             # where we listen for the director
-  WorkingDirectory = /opt/bacula/working
-  Pid Directory = /opt/bacula/working
-  Maximum Concurrent Jobs = 20
-  Plugin Directory = /opt/bacula/plugins
-}
-
-# Send all messages except skipped files back to Director
-Messages {
-  Name = Standard
-  director = ###DIRECTOR_NAME### = all, !skipped, !restored, !verified, !saved
-}
-EOL
-
-cat > bconsole_template.conf << 'EOL'
-# cat /opt/bacula/etc/bconsole.conf
-#
-# Bacula User Agent (or Console) Configuration File
-#
-
-Director {
-  Name = ###DIRECTOR_NAME###
-  DIRport = 9101
-  address = ###DIRECTOR_ADDRESS###
-  Password = "###MD5_PASSWORD###"
-}
-EOL
-
-# Unter Windows
-Director Name: bacula-dir                                    # Bacula server - Director Name
-Director Password: [md5]ecd4dc823c8699998de286ed5183b75e     # Run under linux: PASSWORD="$(pwgen 32 1)"; MD5_PASSWORD=$(echo -n "$PASSWORD"|md5sum| sed -r 's/\s+.*$//;s/^/[md5]/'); echo "Password: ${PASSWORD}"; echo "MD5 Password: ${MD5_PASSWORD}"
-Director Address: 192.168.15.16                              # ip a sh
+### Unter Windows
+# Director Name: bacula-dir                                    # Bacula server - Director Name
+# Director Password: [md5]ecd4dc823c8699998de286ed5183b75e     # Run under linux: PASSWORD="$(pwgen 32 1)"; MD5_PASSWORD=$(echo -n "$PASSWORD"|md5sum| sed -r 's/\s+.*$//;s/^/[md5]/'); echo "Password: ${PASSWORD}"; echo "MD5 Password: ${MD5_PASSWORD}"
+# Director Address: 192.168.15.16                              # ip a sh
