@@ -141,34 +141,28 @@ Pool {
 }
 EOL
      echo "[done]"
-
-     #
-     # Change docker bacula client
-     echo -n "Changing backup job name...              "
-     sed -i -e 's/Name = "BackupClient1"/Name = "backup-bacula-fd"/g' \
-            -e 's/Pool = File/Pool = "Incremental"/g' \
-            -e 's/Full Set/bacula-fd-fs/g' ${BACULA_DIR_CONFIG}
-     echo "[done]"
-
-     echo -n "Changing backup job description...       "
-     sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${BACULA_DIR_CONFIG}
-     echo "[done]"
-
-     echo -n "Adding storage pools to jobdefs...       "
-     sed -i -e '/  Name = "DefaultJob"/a\  DifferentialBackupPool = "Differential"' \
-            -e '/  Name = "DefaultJob"/a\  IncrementalBackupPool = "Incremental"' \
-            -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
-     echo "[done]"
-
-     echo -n "Changing DefaultJob name...              "
-     sed -i -e 's/^  Name = "DefaultJob"/  Name = "bacula-fd-job"/' -e 's/^  JobDefs = "DefaultJob"/  JobDefs = "bacula-fd-job"/' ${BACULA_DIR_CONFIG}
-     echo "[done]"
-
-     #echo -n "Adding folder to fileset...              "
-     #sed -i -e '/    File = \/usr\/sbin/a\    File = /var/www/bacularis' \
-     #       -e '/    File = \/usr\/sbin/a\    File = /opt/bacula/etc' ${BACULA_DIR_CONFIG}
-     #echo "[done]"
   fi
+  
+  # Change docker bacula client
+  echo -n "Changing backup job name...              "
+  sed -i -e 's/Name = "BackupClient1"/Name = "backup-bacula-fd"/g' \
+         -e 's/Pool = File/Pool = "Incremental"/g' \
+         -e 's/Full Set/bacula-fd-fs/g' ${BACULA_DIR_CONFIG}
+  echo "[done]"
+
+  echo -n "Changing backup job description...       "
+  sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${BACULA_DIR_CONFIG}
+  echo "[done]"
+
+  echo -n "Adding storage pools to jobdefs...       "
+  sed -i -e '/  Name = "DefaultJob"/a\  DifferentialBackupPool = "Differential"' \
+         -e '/  Name = "DefaultJob"/a\  IncrementalBackupPool = "Incremental"' \
+         -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
+  echo "[done]"
+
+  echo -n "Changing DefaultJob name...              "
+  sed -i -e 's/^  Name = "DefaultJob"/  Name = "bacula-fd-job"/' -e 's/^  JobDefs = "DefaultJob"/  JobDefs = "bacula-fd-job"/' ${BACULA_DIR_CONFIG}
+  echo "[done]"
 
   # Delete bacula-fd old fileset
   echo -n "Deleting bacula-fd old fileset...        "
@@ -187,27 +181,9 @@ Fileset {
     File = "/opt/bacula/etc"
     File = /opt/bacula/working
     Options {
-      Signature = "Sha1"
-      Wild = "*.jpg"
-      Wild = "*.png"
-      Wild = "*.gif"
-      Wild = "*.zip"
-      Wild = "*.rar"
-      Wild = "*.7z"
-      Wild = "*.r??"
-      Wild = "*.mpg"
-      Wild = "*.wmv"
-      Wild = "*.avi"
-      Wild = "*.mov"
-      Wild = "*.mkv"
-      Wild = "*.mp3"
-      Wild = "*.mp4"
-      Wild = "*.gz"
-      Wild = "*.bz2"
-    }
-    Options {
       Compression = "Lzo"
       Signature = "Sha1"
+      Exclude = yes
     }
   }
   Exclude {
@@ -222,11 +198,6 @@ Fileset {
 }
 EOL
   echo "[done]"
-
-#  # Changing storage MediaType
-#  echo -n "Changing storage MediaType...            "
-#  sed -i -e 's/Media Type = File1/Media Type = File/' -e 's/Media Type = File2/Media Type = File/' ${BACULA_DIR_CONFIG}
-#  echo "[done]"
 
   # Setting bacula config permissions
   echo -n "Setting bacula config permissions...     "
