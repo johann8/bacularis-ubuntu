@@ -13,7 +13,8 @@ services:
     volumes:
       # Bacula volumes
       - ${DOCKERDIR}/data/bacula/config/etc/bacula:/opt/bacula/etc            # Bacula config files & scripts
-      - ${DOCKERDIR}/data/bacula/data/director/archive:/opt/bacula/archive    # Bacula storage folder
+      #- ${DOCKERDIR}/data/bacula/data/director/archive:/opt/bacula/archive   # Bacula storage folder
+      - /mnt/NAS_BareOS/bacula/archive:/opt/bacula/archive                    # Bacula storage folder
       - ${DOCKERDIR}/data/bacula/data/director/working:/opt/bacula/working    # Bacula bsr folder
       # Bacularis volumes
       - ${DOCKERDIR}/data/bacularis/www/bacularis-api/API/Config:/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config
@@ -57,7 +58,7 @@ services:
         ipv4_address: ${SUBNET}.${IPV4_ADDRESS}
 
   bacula-db:
-    image: postgres:14-alpine
+    image: postgres:${DB_VERSION}
     container_name: bacula-db
     volumes:
       - ${DOCKERDIR}/data/pgsql/data:/var/lib/postgresql/data
