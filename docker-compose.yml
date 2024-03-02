@@ -23,7 +23,7 @@ services:
       - ${DOCKERDIR}/data/bacularis/www/bacularis-web/Web/Logs:/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Logs
       # PostgresDB volumes
       - ${DOCKERDIR}/data/pgsql/data:/var/lib/postgresql/data
-      - ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql
+      #- ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql
     environment:
       - TZ=${TZ:-UTC}
       - DB_INIT=true                                             #should be 'true' if bareos db does not exist
