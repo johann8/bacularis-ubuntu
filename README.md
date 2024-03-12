@@ -245,6 +245,7 @@ systemctl restart bacula-fd.service
 - Download files below in a directory
 
 ```bash
+cd /tmp
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/3_create_new_bacula_client_windows--server_side_template.sh
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template_windows.conf
 chmod u+x *.sh
@@ -254,6 +255,9 @@ chmod u+x *.sh
 - When everything is ready, run the scripts to create bacula windows client config files. Here is an example:
 
 ```bash
+cd /tmp
+CLIENT_NAME=win-srv01
+IP_ADDRESS="192.168.155.5"
 ./3_create_new_bacula_client_windows--server_side_template.sh -n win-srv01 -ip 192.168.155.8
 ```
 - The created files can be found in the folder `config_files`. The content of the file `bacula-dir_win-srv01.conf` is added to the configuration file `bacula-dir.conf` of the `bacula server`
@@ -263,6 +267,8 @@ cat config_files/bacula-dir_win-srv01.conf >> /opt/bacularis/data/bacula/config/
 cd /opt/bacularis && docker-compose exec bacularis bash
 bconsole
 reload
+q
+exit
 ```
 ### Bacula Windows client install
 
