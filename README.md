@@ -12,6 +12,7 @@
   - [Docker variables](#docker-variables)
   - [Access WebUI](#access-webui)
   - [Access bconsole](#access-bconsole)
+  - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Firewall rules](#firewall-rules)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
 - [My Docker hub](#my-docker-hub)
@@ -158,6 +159,21 @@ docker exec -it bacularis bconsole
 ```bash
 cd /opt/bacularis
 docker-compose exec bacularis bconsole
+```
+
+## Customize notification from bacula
+- If you have several companies / customers, it quickly becomes confusing when checking the emails. To avoid this, add the company/customer name to the `bacula-dir` configuration. For example:
+
+```bash
+# customize variable
+FIRMA=MyFirma
+PATH_TO_BACULA_DIR=/opt/bacularis/data/bacula/config/etc/bacula/bacula-dir.conf
+
+sed -i -e "s/Bacula:/Bacula ${FIRMA}:/" ${PATH_TO_BACULA_DIR}
+cat ${PATH_TO_BACULA_DIR}  |grep "Bacula ${FIRMA}:"
+
+sed -i -e "s/Bacula daemon message/Bacula ${FIRMA} daemon message/" ${PATH_TO_BACULA_DIR}
+cat ${PATH_TO_BACULA_DIR} |grep "Bacula ${FIRMA} daemon message"
 ```
 
 ## Firewall rules
