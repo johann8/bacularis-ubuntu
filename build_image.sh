@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # set variables
-_VERSION=2.5.6.0
+_VERSION=2.6.0
 
 # create build
-docker build -t johann8/bacularis:${_VERSION}-ubuntu .
+docker build -t johann8/bacularis:${_VERSION}-ubuntu . 2>&1 | tee ./build.log
 _BUILD=$?
 if ! [ ${_BUILD} = 0 ]; then
    echo "ERROR: Docker Image build was not successful"
