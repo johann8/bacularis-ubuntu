@@ -18,7 +18,7 @@ LABEL org.label-schema.schema-version="1.0" \
 ENV BACULARIS_VERSION=2.6.0
 ENV PACKAGE_NAME=standalone
 
-ENV BACULA_VERSION=13.0.4
+ENV BACULA_VERSION=15.0.2
 ENV DEBIAN_FRONTEND noninteractive
 ENV BACULA_KEY https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc
 ENV BACULA_DESCRIPTION # Bacula Community
@@ -38,9 +38,17 @@ RUN apt-get update \
  && apt-get -y install --no-install-recommends bacula-common \
  && \
     if [ "${PACKAGE_NAME}" = 'standalone' ] || [ "${PACKAGE_NAME}" = 'api-dir' ]; then \
-       apt-get -y install --no-install-recommends postgresql-client \
-                  dbconfig-pgsql bacula bacula-postgresql bacula-console \
-                  bacula-cloud-storage-s3 bacula-docker-plugin bacula-docker-tools; \
+       apt-get -y install --no-install-recommends \
+                  postgresql-client \
+                  dbconfig-pgsql \
+                  bacula \
+                  bacula-postgresql \
+                  bacula-console \
+                  bacula-cloud-storage-s3 \
+                  bacula-docker-plugin \
+                  bacula-docker-tools \
+                  bacula-totp-dir-plugin \
+                  bacula-storage-key-manager; \
        sed -i -e "/^dbc_install=/c\dbc_install='false'" -e "/^dbc_dbpass=/c\dbc_dbpass=" /etc/dbconfig-common/bacula-postgresql.conf; \
        dpkg-reconfigure bacula-postgresql; \
        # Fix job to backup catalog database
@@ -61,7 +69,17 @@ RUN apt-get update \
  && chown bacula:bacula /opt/bacula/etc /opt/bacula/working \
  && chown bacula:tape /opt/bacula/archive \
  && chmod 775 /opt/bacula/etc /opt/bacula/archive /opt/bacula/working \
- && apt-get -qq -y install --no-install-recommends sudo php-bcmath php-curl php-dom php-json php-ldap php-pgsql php-pgsql php-intl php-fpm \
+ && apt-get -qq -y install --no-install-recommends \
+                   sudo \
+                   php-bcmath \
+                   php-curl \
+                   php-dom \
+                   php-json \
+                   php-ldap \
+                   php-pgsql \
+                   php-pgsql \
+                   php-intl \
+                   php-fpm \
  && apt-get clean
 
 COPY "docker/systems/debian/sudoers.d/bacularis-${PACKAGE_NAME}" /etc/sudoers.d/
