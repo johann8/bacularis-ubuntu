@@ -71,6 +71,7 @@ RUN apt-get update \
  && chmod 775 /opt/bacula/etc /opt/bacula/archive /opt/bacula/working \
  && apt-get -qq -y install --no-install-recommends \
                    sudo \
+                   zstd \
                    php-bcmath \
                    php-curl \
                    php-dom \
