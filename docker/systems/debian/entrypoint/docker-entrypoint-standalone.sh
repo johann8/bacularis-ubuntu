@@ -12,6 +12,7 @@ BACULA_DIR_CONFIG="/opt/bacula/etc/bacula-dir.conf"
 BACULA_SD_CONFIG="/opt/bacula/etc/bacula-sd.conf"
 BACULA_FD_CONFIG="/opt/bacula/etc/bacula-fd.conf"
 BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
+B_VERSION=$(echo ${BACULA_VERSION} | awk -F- '{print $1}')
 
 function start()
 {
@@ -49,7 +50,7 @@ echo -n "Changing PHP time zone...                "
 sed -i -e "/date.timezone =/c\date.timezone = \"${TZ}\"" /etc/php/8.1/fpm/php.ini
 echo "[done]"
 
-### cintrol bacula config
+### control bacula config
 if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   tar xzf /bacula-dir.tgz --backup=simple --suffix=.before-control
 
@@ -75,7 +76,7 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   echo "[done]"
 
   # Change bacula-dir daemon name (buildkitsandbox)
-  if [ ! -z ${BUILD_DAEMON_NAME} ]; then  
+  if [ ! -z ${BUILD_DAEMON_NAME} ]; then
      echo -n "Setting daemon names...                  "
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_DIR_CONFIG}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_SD_CONFIG}
@@ -141,40 +142,40 @@ Pool {
 }
 EOL
      echo "[done]"
+
+     # Change docker bacula client
+     echo -n "Changing backup job name...              "
+     sed -i -e 's/Name = "BackupClient1"/Name = "backup-bacula-fd"/g' \
+            -e 's/Pool = File/Pool = "Incremental"/g' \
+            -e 's/Full Set/bacula-fd-fs/g' ${BACULA_DIR_CONFIG}
+     echo "[done]"
+
+     echo -n "Changing backup job description...       "
+     sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${BACULA_DIR_CONFIG}
+     echo "[done]"
+
+     echo -n "Adding storage pools to jobdefs...       "
+     sed -i -e '/  Name = "DefaultJob"/a\  DifferentialBackupPool = "Differential"' \
+            -e '/  Name = "DefaultJob"/a\  IncrementalBackupPool = "Incremental"' \
+            -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
+     echo "[done]"
+
+     echo -n "Changing DefaultJob name...              "
+     sed -i -e 's/^  Name = "DefaultJob"/  Name = "bacula-fd-job"/' -e 's/^  JobDefs = "DefaultJob"/  JobDefs = "bacula-fd-job"/' ${BACULA_DIR_CONFIG}
+     echo "[done]"
   fi
-  
-  # Change docker bacula client
-  echo -n "Changing backup job name...              "
-  sed -i -e 's/Name = "BackupClient1"/Name = "backup-bacula-fd"/g' \
-         -e 's/Pool = File/Pool = "Incremental"/g' \
-         -e 's/Full Set/bacula-fd-fs/g' ${BACULA_DIR_CONFIG}
-  echo "[done]"
-
-  echo -n "Changing backup job description...       "
-  sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${BACULA_DIR_CONFIG}
-  echo "[done]"
-
-  echo -n "Adding storage pools to jobdefs...       "
-  sed -i -e '/  Name = "DefaultJob"/a\  DifferentialBackupPool = "Differential"' \
-         -e '/  Name = "DefaultJob"/a\  IncrementalBackupPool = "Incremental"' \
-         -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
-  echo "[done]"
-
-  echo -n "Changing DefaultJob name...              "
-  sed -i -e 's/^  Name = "DefaultJob"/  Name = "bacula-fd-job"/' -e 's/^  JobDefs = "DefaultJob"/  JobDefs = "bacula-fd-job"/' ${BACULA_DIR_CONFIG}
-  echo "[done]"
 
   # Delete bacula-fd old fileset
   echo -n "Deleting bacula-fd old fileset...        "
   sed -i -e '/# List of files to be backed up/,+38d' ${BACULA_DIR_CONFIG}
-  echo "[done]"
+  echo "[done]" 
 
   # Add bacula-fd new fileset
   echo -n "Creating bacula-fd new fileset...        "
   cat >> ${BACULA_DIR_CONFIG} << 'EOL'
 
 Fileset {
-  Name = "bacula-fd-fs"
+  Name = "${DESIRED_DAEMON_NAME}-fd-fs"
   Include {
     Options {
       Compression = "Lzo"
@@ -236,6 +237,24 @@ if [ ! -f /opt/bacula/archive/bacula-sd.control ]; then
   touch /opt/bacula/archive/bacula-sd.control
 fi
 
+### Control storage key manager
+if [ ! -f /opt/bacula/etc/storage-key-manager.control ] && [ "${RUN_INSTALL_STORAGE_KEY_MANAGER}" == 'yes' ]; then
+   # Run storage key manager install script
+   echo -n "Run storage key manager install script...     "
+   /opt/bacula/scripts/install-key-manager.sh install
+   echo "[done]"
+
+  # Create control file
+  touch /opt/bacula/etc/storage-key-manager.control
+else
+   if [ -f /opt/bacula/etc/storage-key-manager.control ]; then
+      # Check storage key manager
+      echo -n "Check storage key manager...                  "
+      /opt/bacula/scripts/install-key-manager.sh check
+      echo "[done]"
+   fi
+fi
+
 ### Control bacularis-app
 if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
    tar xzf /bacularis-app.tgz --backup=simple --suffix=.before-control
@@ -283,7 +302,7 @@ if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
   touch /var/www/bacularis/protected/Web/Config/bacularis-app.control
 fi
 
-# change 
+# change
 echo -n "Changing sudoers config file...          "
 sed -i -e 's+/usr/sbin+/opt/bacula/bin+' \
        -e 's+/etc/init.d/bacula-director+/opt/bacula/scripts/bacula-ctl-dir+g' \
@@ -351,7 +370,7 @@ fi
 
 echo ""
 echo "+----------------------------------------------------------+"
-echo "|           Starting  Bacula CE - Verison ${BACULA_VERSION}           |"
+echo "|           Starting  Bacula CE - Verison ${B_VERSION}             |"
 echo "+----------------------------------------------------------+"
 echo ""
 
