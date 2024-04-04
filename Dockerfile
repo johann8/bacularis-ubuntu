@@ -45,8 +45,8 @@ RUN apt-get update \
                   bacula-postgresql \
                   bacula-console \
                   bacula-cloud-storage-s3 \
-                  bacula-docker-plugin \
-                  bacula-docker-tools \
+                  #bacula-docker-plugin \
+                  #bacula-docker-tools \
                   bacula-totp-dir-plugin \
                   bacula-storage-key-manager; \
        sed -i -e "/^dbc_install=/c\dbc_install='false'" -e "/^dbc_dbpass=/c\dbc_dbpass=" /etc/dbconfig-common/bacula-postgresql.conf; \
