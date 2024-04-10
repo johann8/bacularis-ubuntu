@@ -46,17 +46,24 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 - Create folders, set permissions
 
 ```bash
+# create folders
 mkdir -p /opt/bacularis/data/{bacularis,bacula,pgsql}
 mkdir -p /opt/bacularis/data/bacularis/www/bacularis-api/API/{Config,Logs}
 mkdir -p /opt/bacularis/data/bacularis/www/bacularis-web/Web/{Config,Logs}
 mkdir -p /opt/bacularis/data/bacula/{config,data}     
 mkdir -p /opt/bacularis/data/bacula/config/etc/bacula
-mkdir -p /opt/bacularis/data/bacula/data/director/{archive,working}
+mkdir -p /opt/bacularis/data/bacula/data/director/working
 mkdir -p /opt/bacularis/data/pgsql/{data,socket}
 mkdir -p /opt/bacularis/data/smtp/secret
-chown 101:101 /opt/bacularis/data/bacula/data/director/working
-chown 101:26 /opt/bacularis/data/bacula/data/director/archive
 tree -d -L 4 /opt/bacularis
+
+# create bacula storage folder
+mkdir -p /mnt/USB_NFS_PVE01/bacula/archive
+
+# set rights: 101 - bacula user uid and gid; 26 - tape group gid
+chown 101:101 /opt/bacularis/data/bacula/data/director/working
+chown 101:101 /opt/bacularis/data/bacula/config/etc/bacula
+chown 101:26 /mnt/USB_NFS_PVE01/bacula/archive
 ```
 - Create [docker-compose.yml](https://github.com/johann8/bacularis-ubuntu/blob/master/docker-compose.yml)\
 or
