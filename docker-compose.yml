@@ -12,8 +12,7 @@ services:
     container_name: bacularis
     volumes:
       # Bacula volumes
-      - ${DOCKERDIR}/data/bacula/config/etc/bacula:/opt/bacula/etc            # Bacula config files & scripts
-      #- ${DOCKERDIR}/data/bacula/data/director/archive:/opt/bacula/archive   # Bacula storage folder
+      - ${DOCKERDIR}/data/bacula/config/etc:/opt/bacula/etc                   # Bacula config files & scripts
       - /mnt/NAS_BareOS/bacula/archive:/opt/bacula/archive                    # Bacula storage folder
       - ${DOCKERDIR}/data/bacula/data/director/working:/opt/bacula/working    # Bacula bsr folder
       # Bacularis volumes
@@ -23,7 +22,7 @@ services:
       - ${DOCKERDIR}/data/bacularis/www/bacularis-web/Web/Logs:/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Logs
       # PostgresDB volumes
       - ${DOCKERDIR}/data/pgsql/data:/var/lib/postgresql/data
-      #- ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql
+      - ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql       # comment after install
     environment:
       - TZ=${TZ:-UTC}
       - DB_INIT=true                                             #should be 'true' if bareos db does not exist
@@ -49,7 +48,7 @@ services:
     depends_on:
       - bacula-db
     ports:
-      #- ${PORT_BACULARIS:-9097}:9097                            # without RP comment
+      - ${PORT_BACULARIS:-9097}:9097                             # without  Traefik RP - comment
       - ${PORT_STORAGE:-9103}:9103                               # defined in .env file
       - ${PORT_DIRECTOR:-9101}:9101                              # defined in .env file
     #hostname: bacula
