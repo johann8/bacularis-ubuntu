@@ -67,7 +67,6 @@ cd /opt/bacularis
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.yml
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.override.yml
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/.env
-chmod u+x *.sh
 
 # show used subnets
 cd /opt/bacularis && grep -r SUBNET /opt/*
