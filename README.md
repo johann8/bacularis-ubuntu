@@ -66,23 +66,23 @@ or
 cd /opt/bacularis
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.yml
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/docker-compose.override.yml
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/1_create_new_bacula_client_linux--server_side_template.sh
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/2_create_new_bacula_client_linux--client_side_template.sh
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/3_create_new_bacula_client_windows--server_side_template.sh
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template.conf
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template_windows.conf
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-fd_template.conf
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bconsole_template.conf
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/.env
 chmod u+x *.sh
+
+# show used subnets
+cd /opt/bacularis && grep -r SUBNET /opt/*
 ```
 - Customize variables in all files
 - Generate `admin` user `password` [here](https://www.web2generators.com/apache-tools/htpasswd-generator). You need both passwords decrypt and encrypted
 
 ```
+# generate admin password
+pwgen -1cnsB 20 5
+
 # Example
 Username: admin
-Password: N04X1UYYbZ2J69sAYLb0N04
+Password decrypt: N04X1UYYbZ2J69sAYLb0N04
+Password encrypted: $apr1$o2vlak5p$saFj/wl/MeGxQysvc462R1 
 ```
 
 - Customize the file `docker-compose.override.yml` if you use [trafik](https://traefik.io/)
@@ -95,8 +95,69 @@ docker-compose ps
 docker-compose logs
 docker-compose logs bacularis
 ```
-# Docker variables
+- check if all services in container are running
+```bash
+dcexec bacularis bash
+ss -tln
+exit
+```
 
+- Adjust postgres database access rights file pg_hba.conf
+
+```bash
+# show IP Address of bacula-db
+CONTAINER_NAME=$(docker ps --format 'table {{.ID}}\t{{.Names}}' |grep bacula-db |awk '{print $1}')
+dcexec bacula-db cat /etc/hosts |grep ${CONTAINER_NAME}
+
+# change pg_hba.conf
+vim /opt/bacularis/data/pgsql/data/pg_hba.conf
+---------------
+from
+...
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+...
+
+to
+...
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+host    all             all             172.26.2.0/24           trust
+...
+-------------
+```
+- Change var DB_INIT=true to DB_INIT=false
+
+```bash
+cd /opt/bacularis && vim docker-compose.yml
+--------------
+    environment:
+from
+...
+      - DB_INIT=true
+...
+
+to
+...
+      - DB_INIT=false
+...
+-------------
+```
+- First access to bacularis
+
+```bash
+URL: https://bacularis.mydomain.de
+User: admin
+```
+- First restart of docker container
+
+```bash
+cd /opt/bacularis
+docker-compose down && docker-compose up -d
+```
+
+
+# Docker variable
 - Bacularis docker container
 
 | Variable | Value | Description |
