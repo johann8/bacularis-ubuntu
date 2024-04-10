@@ -51,7 +51,7 @@ mkdir -p /opt/bacularis/data/{bacularis,bacula,pgsql}
 mkdir -p /opt/bacularis/data/bacularis/www/bacularis-api/API/{Config,Logs}
 mkdir -p /opt/bacularis/data/bacularis/www/bacularis-web/Web/{Config,Logs}
 mkdir -p /opt/bacularis/data/bacula/{config,data}     
-mkdir -p /opt/bacularis/data/bacula/config/etc/bacula
+mkdir -p /opt/bacularis/data/bacula/config/etc
 mkdir -p /opt/bacularis/data/bacula/data/director/working
 mkdir -p /opt/bacularis/data/pgsql/{data,socket}
 mkdir -p /opt/bacularis/data/smtp/secret
@@ -62,7 +62,7 @@ mkdir -p /mnt/USB_NFS_PVE01/bacula/archive
 
 # set rights: 101 - bacula user uid and gid; 26 - tape group gid
 chown 101:101 /opt/bacularis/data/bacula/data/director/working
-chown 101:101 /opt/bacularis/data/bacula/config/etc/bacula
+chown 101:101 /opt/bacularis/data/bacula/config/etc
 chown 101:26 /mnt/USB_NFS_PVE01/bacula/archive
 ```
 - Create [docker-compose.yml](https://github.com/johann8/bacularis-ubuntu/blob/master/docker-compose.yml)\
