@@ -15,6 +15,7 @@
   - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Firewall rules](#firewall-rules)
   - [Add new autochanger](docs/add_new_autochanger.md)
+  - [Add new storage and scheduler](docs/add_new_storage_and_scheduler.md)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
 - [My Docker hub](#my-docker-hub)
 
