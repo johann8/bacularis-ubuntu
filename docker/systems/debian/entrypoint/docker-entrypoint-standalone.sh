@@ -75,11 +75,16 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   sed -i -e "s/^  Address = ${LOCAL_ADDRESS}/  Address = localhost/" ${BACULA_DIR_CONFIG}
   echo "[done]"
 
+BACULA_DIR_CONFIG="/opt/bacula/etc/bacula-dir.conf"
+BACULA_SD_CONFIG="/opt/bacula/etc/bacula-sd.conf"
+BACULA_FD_CONFIG="/opt/bacula/etc/bacula-fd.conf"
+BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
+
+
   # Change bacula-dir daemon name (buildkitsandbox)
   if [ ! -z ${BUILD_DAEMON_NAME} ]; then
      echo -n "Setting daemon names...                  "
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_DIR_CONFIG}
-     sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_SD_CONFIG}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_SD_CONFIG}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BCONSOLE_CONFIG}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_FD_CONFIG}
@@ -172,8 +177,7 @@ EOL
 
   # Add bacula-fd new fileset
   echo -n "Creating bacula-fd new fileset...        "
-  cat >> ${BACULA_DIR_CONFIG} << 'EOL'
-
+  cat >> ${BACULA_DIR_CONFIG} << EOL
 Fileset {
   Name = "${DESIRED_DAEMON_NAME}-fd-fs"
   Include {
