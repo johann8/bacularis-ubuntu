@@ -6,7 +6,7 @@
 # 1. cd /opt/bacularis && dcexec bacularis bash
 # 2. cd /tmp
 # 3. curl  https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/add_new_autochanger_template --output add_new_autochanger_template
-# 4. cat add_new_autochanger_template
+# 4. nano add_new_autochanger_template
 # 5. run: bash add_new_autochanger_template
 
 AUTOCHANGER_NAME=FileChgr3
