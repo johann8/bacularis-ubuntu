@@ -226,7 +226,9 @@ EOL
   fi
 
   # Control file
+  echo -n "Creating DIR control file...            "
   touch /opt/bacula/etc/bacula-config.control
+  echo "[done]"
 fi
 
 ### Control bacula storade
@@ -234,7 +236,9 @@ if [ ! -f /opt/bacula/archive/bacula-sd.control ]; then
   tar xzf /bacula-sd.tgz --backup=simple --suffix=.before-control
 
   # Control file
+  echo -n "Creating SD control file...             "
   touch /opt/bacula/archive/bacula-sd.control
+  echo "[done]"
 fi
 
 ### Control storage key manager
@@ -242,7 +246,7 @@ if [ ! -f /opt/bacula/etc/storage-key-manager.control ] && [ "${RUN_INSTALL_STOR
 
    # remove folder if exists
    if [ -d /opt/bacula/etc/gnupg ]; then
-      echo -n "Removing existing installation...          "
+      echo -n "Key Manager: Removing gnupg folder...    "
       rm -rf /opt/bacula/etc/gnupg
       echo "[done]"
    fi
