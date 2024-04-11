@@ -12,11 +12,12 @@
   - [Docker variables](#docker-variables)
   - [Access WebUI](#access-webui)
   - [Access bconsole](#access-bconsole)
-  - [Customize notification from bacula](#Customize-notification-from-bacula)
+  - [DNS Records](#dns-records)
   - [Firewall rules](#firewall-rules)
   - [Add new autochanger](docs/add_new_autochanger.md)
   - [Add new storage and scheduler](docs/add_new_storage_and_scheduler.md)
   - [Add new windows_pool](docs/add_new_windows_pool.md)
+  - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
 - [My Docker hub](#my-docker-hub)
 
@@ -230,6 +231,15 @@ docker exec -it bacularis bconsole
 cd /opt/bacularis
 docker-compose exec bacularis bconsole
 ```
+
+## DNS Records
+
+| Name | Type | Data |
+|-------------------:|:--------------------:|:---------------------|
+| bacularis  | CNAME | traefik-host.mydomain.de |
+| bacula-dir | CNAME | docker-host.mydomain.de  |
+| bacula-sd  | CNAME | docker-host.mydomain.de  |
+
 
 ## Customize notification from bacula
 - If you have several companies / customers, it quickly becomes confusing when checking the emails. To avoid this, add the company/customer name to the `bacula-dir` configuration. For example:
