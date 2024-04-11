@@ -239,13 +239,25 @@ fi
 
 ### Control storage key manager
 if [ ! -f /opt/bacula/etc/storage-key-manager.control ] && [ "${RUN_INSTALL_STORAGE_KEY_MANAGER}" == 'yes' ]; then
-   # Run storage key manager install script
-   echo -n "Run storage key manager install script...     "
-   /opt/bacula/scripts/install-key-manager.sh install
-   echo "[done]"
 
-  # Create control file
-  touch /opt/bacula/etc/storage-key-manager.control
+   # remove folder if exists
+   if [ -d /opt/bacula/etc/gnupg ]; then
+      echo -n "Removing existing installation...          "
+      rm -rf /opt/bacula/etc/gnupg
+      echo "[done]"
+   fi
+
+   # Run storage key manager install script
+   if [ -f /opt/bacula/etc/key-manager.conf ] && [ ! -d /opt/bacula/etc/gnupg ]; then 
+      echo -n "Run storage key manager install script...     "
+      /opt/bacula/scripts/install-key-manager.sh install
+      echo "[done]"
+      
+      # Create control file
+      touch /opt/bacula/etc/storage-key-manager.control
+   else
+      echo "Storage key manager config file does not exist!"
+   fi
 else
    if [ -f /opt/bacula/etc/storage-key-manager.control ]; then
       # Check storage key manager
