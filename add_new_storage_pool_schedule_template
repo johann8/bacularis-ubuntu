@@ -6,7 +6,7 @@
 # 1. cd /opt/bacularis && dcexec bacularis bash
 # 2. cd /tmp
 # 3. curl  https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/add_new_storage_pool_schedule_template --output add_new_storage_pool_schedule_template
-# 4. cat add_new_storage_pool_schedule_template 
+# 4. nano add_new_storage_pool_schedule_template 
 # 5. bash add_new_storage_pool_schedule_template
 
 
@@ -45,7 +45,7 @@ Pool {
   Description = "Only for Windows Archive"
   LabelFormat = "${POOL_NAME_WIN}-"
   MaximumVolumeBytes = 53687091200
-  VolumeRetention = 15552000
+  VolumeRetention = 31536000
 }
 
 # Add pool for archive linux
