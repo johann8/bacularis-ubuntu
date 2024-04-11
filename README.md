@@ -14,6 +14,7 @@
   - [Access bconsole](#access-bconsole)
   - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Firewall rules](#firewall-rules)
+  - [Add new autochanger](docs/add_new_autochanger.md)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
 - [My Docker hub](#my-docker-hub)
 
@@ -264,6 +265,7 @@ firewall-cmd --permanent --zone=public --add-port=443/tcp
 firewall-cmd --reload
 firewall-cmd --list-all
 ```
+
 ## Docker Exim Relay Image
 [Exim mail relay](https://exim.org) is a lightweight Docker image, based on the official Alpine image. You can see the documentation for this [here](https://github.com/devture/exim-relay)
 
