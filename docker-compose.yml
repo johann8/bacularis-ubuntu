@@ -37,11 +37,11 @@ services:
       - BUILD_DAEMON_NAME=buildkitsandbox                        # build name of bacula director daemon
       - DESIRED_DAEMON_NAME=bacula                               # sets a new name for bacula director daemon
       - RUN_INSTALL_STORAGE_KEY_MANAGER=no                       # yes | no - encrypt the data at the volume level to enhance security of data at rest 
-      - WEB_ADMIN_USER=${admin}                                  # defined in .env file
+      - WEB_ADMIN_USER=${WEB_ADMIN_USER}                         # defined in .env file
+      - WEB_ADMIN_MAIL=${WEB_ADMIN_MAIL}                         # defined in .env file
       - WEB_ADMIN_PASSWORD_DECRYPT=${ADMIN_PASSWORD_DECRYPT}     # defined in .env file
       - WEB_ADMIN_PASSWORD_ENCRYPTED=${ADMIN_PASSWORD_ENCRYPTED} # defined in .env file
       - SMTP_HOST=smtpd:8025                                     # docker smtpd container - name:port
-      - ADMIN_MAIL=${ADMIN_MAIL}                                 # Change me! Mail of admin user
       - ADD_STORAGE_POOL=true                                    # true- add storage pools: Full, Differential, Incremental; false - makes no change
       - DOCKER_HOST_IP=${DOCKER_HOST_IP}                         # needs for bacula-sd configuration
     restart: always
