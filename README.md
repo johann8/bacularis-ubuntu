@@ -287,55 +287,91 @@ You can create client config files automatically. For this you can find some scr
 ### For Linux
 
 ---
+- SSH login to `bacula docker host`
 - Download files below in a directory
 
 ```bash
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/1_create_new_bacula_client_linux--server_side_template.sh
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/2_create_new_bacula_client_linux--client_side_template.sh
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-alpine/master/bacula-dir_template_windows.conf
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-fd_template.conf
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bconsole_template.conf
 chmod u+x *.sh
 ```
 - To create configuration for Bacula `Linux` client on server side, you need to pass two parameters to script 1, namely `client name` and `IP address`
 - To create configuration for Bacula `Linux` client on client side, you need to pass only one parametes to script 2, namely `client name`
-- The MD5 Bacula client password is automatically created by the script
-- The `bacula-mon` password you can read out from server configuration. After that you can insert the password into the script: `2_create_new_bacula_client_linux--client_side_template.sh`. The variable is called `DIRECTOR_CONSOLE_MONITOR_PASSWORD`. You must use single quote marks. Here is an example:\
-`DIRECTOR_CONSOLE_MONITOR_PASSWORD='MySuperPassword'`
-- An example: login to the server where docker container is running with bacula server. Adjust the path of `bacula-dir` configuration file and execute the commands below
-
-```bash
-BACULA_SERVER_CONFIG_DIR_DOCKER=/opt/bacularis/data/bacula/config/etc/bacula/bacula-dir.conf
-cat ${BACULA_SERVER_CONFIG_DIR_DOCKER} |sed -n '/bacula-mon/,+1p' |grep Password |cut -f 2 -d '"'
-vim 2_create_new_bacula_client_linux--client_side_template.sh            # And insert "bacula-mon" password    
-```
+- The MD5 `bacula client` password will be automatically created by the script
+- The `bacula-mon` password will be automatically read from `bacula server` configuration.
 - When everything is ready, run the scripts to create bacula linux client config files. Here is an example:
 
 ```bash
-./1_create_new_bacula_client_linux--server_side_template.sh -n srv01 -ip 192.168.155.5
-./2_create_new_bacula_client_linux--client_side_template.sh -n srv01
+CLIENT_NAME=srv01
+IP_ADDRESS=$(ip addr show $(ip route | awk '/default/ {print $5}') |grep -w inet | awk '/inet/ {print $2}' | cut -d'/' -f1)
+echo ${IP_ADDRESS}
+
+./1_create_new_bacula_client_linux--server_side_template.sh -n ${CLIENT_NAME} -ip ${IP_ADDRESS}
+./2_create_new_bacula_client_linux--client_side_template.sh -n ${CLIENT_NAME}
 ```
 - The created files can be found in the folder `config_files`. The content of the file `bacula-dir_srv01.conf` is added to the configuration file `bacula-dir.conf` of the `bacula server`
 
 ```bash
-cat config_files/bacula-dir_srv01.conf >> /opt/bacularis/data/bacula/config/etc/bacula/bacula-dir.conf
-cd /opt/bacularis && docker-compose exec bacularis bash
+# stop bacula docker stack
+cd /opt/bacularis && docker-compose down
+cd -
+
+# add client config to bacula-dir
+cat config_files/bacula-dir_srv01.conf >> /opt/bacularis/data/bacula/config/etc/bacula-dir.conf
+
+# run bacula docker stack
+cd /opt/bacularis && docker-compose up -d && docker-compose exec bacularis bash
+
+# reread config
 bconsole
 reload
+q
+exit
+cd -
+
 ```
-- The created files `bacula-fd_srv01.conf` and `bconsole_srv01.conf` must be copied to client by folder `/opt/bacula/etc`
+- The created files `bacula-fd_srv01.conf` and `bconsole_srv01.conf` must be copied from `bacula docker host` to client by folder `/opt/bacula/etc`
+- SSH to `bacula client` host
+- Copy files `bacula-fd_srv01.conf` and `bconsole_srv01.conf` from `bacula docker host`
 
 ```bash
+# on docker host - copy config files to bacula client host
+scp config_files/bacula-fd_pve01.conf config_files/bconsole_pve01.conf user@bacula-client-ip:/tmp
+ssh user@bacula-client-ip
 cd /opt/bacula/etc
+
 # create backup of old files
 mv bacula-fd.conf bacula-fd.conf.back
 mv bconsole.conf bconsole.conf.back
 
-# rename files
-mv bacula-fd_srv01.conf bacula-fd.conf
-mv bconsole_srv01.conf bconsole.conf
+# move files
+mv /tmp/bacula-fd_srv01.conf bacula-fd.conf
+mv /tmp/bconsole_srv01.conf bconsole.conf
 systemctl restart bacula-fd.service
+
+# delete files
+cd /tmp
+rm -rf bacula-* bconsole_template.conf config_files *.sh
+
+#
+### if bacula client is running on the docker host, than
+#
+cd /opt/bacula/etc
+mv bacula-fd.conf bacula-fd.conf.back
+mv bconsole.conf bconsole.conf.back
+\cp /tmp/config_files/bacula-fd_oraclel8.conf ./bacula-fd.conf
+\cp /tmp/config_files/bconsole_oraclel8.conf ./bconsole.conf
+systemctl restart bacula-fd.service
+
+# delete files
+cd /tmp
+rm -rf bacula-* bconsole_template.conf config_files *.sh
 ```
+
 ### For Windows
 
 ---
