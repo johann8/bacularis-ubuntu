@@ -10,7 +10,7 @@ PASSWORD="$(pwgen 32 1)"
 MD5_PASSWORD=$(echo -n "$PASSWORD"|md5sum| sed -r 's/\s+.*$//;s/^/[md5]/')
 CLIENT_NAME=
 IP_ADDRESS=
-BACULA_SERVER_CONFIG_DIR_DOCKER="/opt/bacularis/data/bacula/config/etc/bacula/bacula-dir.conf"
+BACULA_SERVER_CONFIG_DIR_DOCKER="/opt/bacularis/data/bacula/config/etc/bacula-dir.conf"
 SCRIPT_NAME_CLIENT="2_create_new_bacula_client_linux--client_side_template.sh"
 BACULA_DIR_CONFIG_FILE_TEMPLATE="bacula-dir_template.conf"
 CONFIG_FOLDER="config_files"
@@ -149,81 +149,5 @@ if [[ -f ${WORKING_DIR}/${SCRIPT_NAME_CLIENT} ]]; then
 else
    echo "Script \"${WORKING_DIR}/${SCRIPT_NAME_CLIENT}\" could not be find."
 fi
+
 exit 0
-
-# Template
-cat > bacula-dir_template.conf << 'EOL'
-Client {
-  Name = "###CLIENT_NAME###-fd"
-  Address = "###IP_ADDRESS###"
-  FdPort = 9102
-  Password = "###MD5_PASSWORD###"
-  Description = "Backup Host - ###CLIENT_NAME###"
-  Catalog = "MyCatalog"
-  FileRetention = 5184000
-  JobRetention = 15552000
-  AutoPrune = yes
-}
-Job {
-  Name = "backup-###CLIENT_NAME###"
-  JobDefs = "###CLIENT_NAME###-job"
-  Description = "Backup Host - ###CLIENT_NAME###"
-}
-JobDefs {
-  Name = "###CLIENT_NAME###-job"
-  Type = "Backup"
-  Level = "Incremental"
-  Messages = "Standard"
-  Storage = "File1"
-  Pool = "Incremental"
-  FullBackupPool = "Full"
-  IncrementalBackupPool = "Incremental"
-  DifferentialBackupPool = "Differential"
-  Client = "###CLIENT_NAME###-fd"
-  Fileset = "###CLIENT_NAME###-fset"
-  Schedule = "WeeklyCycle"
-  WriteBootstrap = "/var/lib/bacula/%c.bsr"
-  SpoolAttributes = yes
-  Priority = 10
-}
-Fileset {
-  Name = "###CLIENT_NAME###-fset"
-  Include {
-    File = "/etc"
-    File = "/opt/bacula/etc"
-    Options {
-      Signature = MD5
-      Wild = *.jpg
-      Wild = *.png
-      Wild = *.gif
-      Wild = *.zip
-      Wild = *.rar
-      Wild = *.7z
-      Wild = *.r??
-      Wild = *.mpg
-      Wild = *.wmv
-      Wild = *.avi
-      Wild = *.mov
-      Wild = *.mkv
-      Wild = *.mp3
-      Wild = *.mp4
-      Wild = *.gz
-      Wild = *.bz2
-    }
-    Options {
-      Signature = "Md5"
-      Compression = "LZO"
-    }
-  }
-  Exclude {
-    File = "/proc"
-    File = "/tmp"
-    File = "/sys"
-    File = "/.journal"
-    File = "/.fsck"
-    File = "/etc/selinux"
-    File = "/etc/udev"
-  }
-}
-EOL
-
