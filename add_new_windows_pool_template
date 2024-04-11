@@ -1,0 +1,66 @@
+#
+### === Add Storage and Pool for Archive and new Scheduler ===
+#
+
+# 1. cd /opt/bacularis && dcexec bacularis bash
+# 2. cd /tmp
+# 3. curl  https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/add_new_windows_pool_template --output add_new_windows_pool_template
+# 4. nano add_new_windows_pool_template
+# 5. bash add_new_windows_pool_template
+
+
+# Set variables
+PATH_TO_BACULA_DIR="/opt/bacula/etc/bacula-dir.conf"
+MEDIA_TYPE=File2
+
+cat >> ${PATH_TO_BACULA_DIR} << EOL
+
+# Add Differential Windows Pool
+Pool {
+  Name = "Differential_Win"
+  Description = "Differential Windows Pool"
+  Storage = "${MEDIA_TYPE}"
+  PoolType = "Backup"
+  LabelFormat = "Differential_Win-"
+  MaximumVolumes = 10
+  MaximumVolumeBytes = 25000000000
+  VolumeRetention = 7776000
+  AutoPrune = yes
+  Recycle = yes
+}
+
+
+# Add Full Windows Pool
+Pool {
+  Name = "Full_Win"
+  Description = "Full Windows Pool"
+  Storage = "${MEDIA_TYPE}"
+  PoolType = "Backup"
+  LabelFormat = "Full_Win-"
+  MaximumVolumes = 10
+  MaximumVolumeBytes = 53687091200
+  VolumeRetention = 15552000
+  AutoPrune = yes
+  Recycle = yes
+}
+
+# Add Incremental Windows Pool
+Pool {
+  Name = "Incrementali_Win"
+  Description = "Incremental Windows Pool"
+  Storage = "${MEDIA_TYPE}"
+  PoolType = "Backup"
+  LabelFormat = "Incremental_Win-"
+  MaximumVolumes = 10
+  MaximumVolumeBytes = 10000000000
+  VolumeRetention = 2592000
+  AutoPrune = yes
+  Recycle = yes
+}
+
+EOL
+
+### reload bacula-dir
+# bconsole
+# reload
+# quit
