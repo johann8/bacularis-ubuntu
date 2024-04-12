@@ -3,14 +3,12 @@
 - [RPM based Linux distributions](#rpm-based-linux-distributions)
 - [DEB based Linux distributions](#deb-based-linux-distributions)
 
-Register [here](https://www.bacula.org/bacula-binary-package-download/) to receive `access-key`
-[Community installation guide](https://www.bacula.org/whitepapers/CommunityInstallationGuide.pdf)
+Register [here](https://www.bacula.org/bacula-binary-package-download/) to receive `access-key`\
+You can find [Community installation guide](https://www.bacula.org/whitepapers/CommunityInstallationGuide.pdf) useful
 
 ## RPM based Linux distributions
 
 ### RedHat | Oracle | Rocky | CentOS
-
-- Register [here](https://www.bacula.org/bacula-binary-package-download/) to receive `access-key`
 
 - Import the GPG key
 
