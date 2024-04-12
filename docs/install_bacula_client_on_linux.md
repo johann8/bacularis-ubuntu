@@ -4,7 +4,7 @@
 - [DEB based Linux distributions](#deb-based-linux-distributions)
 
 Register [here](https://www.bacula.org/bacula-binary-package-download/) to receive `access-key`\
-You can find [Community installation guide](https://www.bacula.org/whitepapers/CommunityInstallationGuide.pdf) useful
+You might find the [Community installation guide](https://www.bacula.org/whitepapers/CommunityInstallationGuide.pdf) very useful
 
 ## RPM based Linux distributions
 
