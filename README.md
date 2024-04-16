@@ -20,6 +20,7 @@
   - [Add new windows_pool](docs/add_new_windows_pool.md)
   - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
+  - [Script check storage is mounted](docs/using_script_check_storage_is__mounted.md)
 - [Backup](#backup)
   - [Backup mysql database](#backup-mysql-database)
   - [Backup postgres database](#backup-postgres-database)
