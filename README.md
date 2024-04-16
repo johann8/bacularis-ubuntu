@@ -20,6 +20,10 @@
   - [Add new windows_pool](docs/add_new_windows_pool.md)
   - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
+- [Backup](#backup)
+  - [Backup mysql database](#backup-mysql-database)
+  - [Backup postgres database](#backup-postgres-database)
+  - [Backup docker container](docs/backup_docker_container.md)
 - [My Docker hub](#my-docker-hub)
 
 ## Docker images 🐋
@@ -456,6 +460,59 @@ Director {
 
 - Restart Windows bacula daemon
 - Windows firewall configuration - unblock ports 9102/TCP and 9103/TCP for incoming rules
+
+# Backup
+## Backup mysql database
+
+- Download script below to the client
+
+```bash
+cd /opt/bacula/scripts/
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/scripts/backup_mysql.sh
+chmod a+x backup_mysql.sh
+cd -
+```
+- Start Bacularis-App and browse to: Director => Configure director => Job => Name => Edit => +Add => +Add Runscript block
+- Fill out as in the picture (Path to the location of the script)
+![Job_Add_run_script](https://github.com/johann8/bacularis-ubuntu/raw/master/docs/assets/screenshots/add_run_script_job.png)
+
+- Browse to: Director => Configure director => Fileset => Name => Edit => Include #1 +Add => +Add single file/directory
+- Fill out as in the picture (Var "DST" from script /var/backup/container/mysql)
+![Fileset_Add_singe_file_directory](https://github.com/johann8/bacularis-ubuntu/raw/master/docs/assets/screenshots/fileset_add_single_file-directory.png)
+
+## Backup postgres database
+
+For Postgres DB backup the Script [autopostgresqlbackup](https://github.com/k0lter/autopostgresqlbackup) is used. There is a [docker container](https://hub.docker.com/r/rogersik/autopostgresqlbackup) with this script. You can find a description and configaration example [here](https://gitea.sikorski.cloud/RogerSik/docker-autopostgresqlbackup).
+
+- Here is an example of how to backup Postgres database in a docker container
+
+```bash
+# create backup destination
+mkdir -p /var/backup/container/postgres
+
+# Add to the docker container where the dostgres database runs
+
+...
+  autopgbackup:
+    image: rogersik/autopostgresqlbackup:latest
+    container_name: autopgbackup
+    environment:
+      - DBHOST=${POSTGRES_HOST}
+      - USERNAME=${POSTGRES_USER}
+      - PASSWORD=${POSTGRES_PASSWORD}
+      - CRON_LOG_LEVEL=0                            # Most verbose is 0, less verbose is 8
+      - CRON_SCHEDULE=50 22 * * *                   # valid cron specification
+      - LATEST=yes                                  # Additionally keep a copy of the most recent backup in a seperate directory
+    volumes:
+     - /var/backup/container/postgres:/backups
+     - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - postgresdb
+...
+```
+- Start Bacularis-App and browse to: Director => Configure director => Fileset => Name => Edit => Include #1 +Add => +Add single file/directory
+- Fill out as in the picture (Volume path fron docker-compose.yml: /var/backup/container/postgres)
+![Fileset_Add_singe_file_directory](https://github.com/johann8/bacularis-ubuntu/raw/master/docs/assets/screenshots/fileset_add_single_file-directory.png)
 
 ## My Docker hub
 
