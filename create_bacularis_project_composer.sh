@@ -6,8 +6,8 @@
 
 # Variables
 PROJECT_DIR=/projects/bacularis/ubuntu
-BACULARIS_NEW_VERSION=2.8.1
-BACULARIS_OLD_VERSION=2.8.0
+BACULARIS_NEW_VERSION=3.0.1
+BACULARIS_OLD_VERSION=2.8.1
 BACULARIS_VERSION=${BACULARIS_NEW_VERSION}
 #PROJECT_URL=https://github.com/bacularis
 #EXTERNAL_URL=https://bacularis.app/downloads/bacularis-external-${BACULARIS_VERSION}.tar.gz
