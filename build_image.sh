@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-_VERSION=2.8.1
+_VERSION=3.0.1
 
 # create build
 docker build -t johann8/bacularis:${_VERSION}-ubuntu .
