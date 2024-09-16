@@ -46,7 +46,7 @@ Pool {
 
 # Add Incremental Windows Pool
 Pool {
-  Name = "Incrementali_Win"
+  Name = "Incremental_Win"
   Description = "Incremental Windows Pool"
   Storage = "${MEDIA_TYPE}"
   PoolType = "Backup"
