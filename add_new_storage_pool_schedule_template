@@ -66,18 +66,18 @@ Pool {
 Schedule {
   Name = "MonthlyCycle-Archive-Win"
   Description = "Archive Scheduler for Windows"
-  Run = Pool="${POOL_NAME_WIN}" Level="Incremental" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 1st,2nd,3rd,5th sun at 1:05
-  Run = Pool="${POOL_NAME_WIN}" Level="Differential" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 4th sun at 1:05
-  Run = Pool="${POOL_NAME_WIN}" Level="Full" Storage="${MEDIA_TYPE}_Archive" jan,jul 1st sun at 0:00
+  Run = Pool="${POOL_NAME_WIN}" Level="Incremental" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 1st,2nd,3rd,5th sun at 00:30
+  Run = Pool="${POOL_NAME_WIN}" Level="Differential" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 4th sun at 00:30
+  Run = Pool="${POOL_NAME_WIN}" Level="Full" Storage="${MEDIA_TYPE}_Archive" jan,jul 1st sun at 00:30
 }
 
 # Add Archive Scheduler for Linux
 Schedule {
   Name = "MonthlyCycle-Archive-Lin"
   Description = "Archive Scheduler for Linux"
-  Run = Pool="${POOL_NAME_LIN}" Level="Incremental" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 1st,2nd,3rd,5th sun at 1:05
-  Run = Pool="${POOL_NAME_LIN}" Level="Differential" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 4th sun at 1:05
-  Run = Pool="${POOL_NAME_LIN}" Level="Full" Storage="${MEDIA_TYPE}_Archive" jan,jul 1st sun at 1:05
+  Run = Pool="${POOL_NAME_LIN}" Level="Incremental" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 1st,2nd,3rd,5th sun at 00:30
+  Run = Pool="${POOL_NAME_LIN}" Level="Differential" Storage="${MEDIA_TYPE}_Archive" feb,mar,apr,may,jun,aug,sep,oct,nov,dec 4th sun at 00:30
+  Run = Pool="${POOL_NAME_LIN}" Level="Full" Storage="${MEDIA_TYPE}_Archive" jan,jul 1st sun at 00:30
 }
 EOL
 
