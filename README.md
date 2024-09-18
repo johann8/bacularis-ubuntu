@@ -202,6 +202,7 @@ docker-compose down && docker-compose up -d
 | PORT_BACULARIS | 9097 | Bacula port for Web interface |
 | PORT_STORAGE | 9103  | Bacula port for storage daemon: bacula-sd |
 | PORT_DIRECTOR | 9101  | Bacula port for director daemon: bacula-dir  |
+| MEMORY_LIMIT | 1024 MB | PHP memory_limit in MB |
 
 - bacula-db docker container
 
