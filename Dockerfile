@@ -26,6 +26,7 @@ ENV BACULA_REPO https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERS
 
 ENV PHP_VERSION=8.1
 ENV WEB_USER=www-data
+ENV MEMORY_LIMIT=128M
 
 RUN apt-get update \
  && apt-get -y install curl gnupg apt-transport-https ca-certificates \
@@ -88,6 +89,8 @@ COPY "docker/systems/debian/sudoers.d/bacularis-${PACKAGE_NAME}" /etc/sudoers.d/
 COPY "docker/systems/debian/entrypoint/docker-entrypoint.inc"  /
 
 COPY "docker/systems/debian/entrypoint/docker-entrypoint-${PACKAGE_NAME}.sh" /docker-entrypoint.sh
+
+COPY rootfs/ /
 
 RUN chmod 755 /docker-entrypoint.sh
 
