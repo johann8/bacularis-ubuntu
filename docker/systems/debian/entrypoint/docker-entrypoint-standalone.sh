@@ -46,8 +46,14 @@ echo "+----------------------------------------------------------+"
 echo ""
 
 # Change Time Zone
-echo -n "Changing PHP time zone...                "
-sed -i -e "/date.timezone =/c\date.timezone = \"${TZ}\"" /etc/php/8.1/fpm/php.ini
+echo -n "Changing PHP time zone...                 "
+#sed -i -e "/date.timezone =/c\date.timezone = \"${TZ}\"" /etc/php/8.1/fpm/php.ini
+sed -i -e "/date.timezone =/c\date.timezone = \"${TZ}\"" /etc/php/${PHP_VERSION}/cli/conf.d/30-custom.ini
+echo "[done]"
+
+# Set var memory_limit
+echo -n "Setting \"memory_limit\" into custom.ini... "
+sed -i -e '/memory_limit =/c\memory_limit = "'${MEMORY_LIMIT}'"' /etc/php/${PHP_VERSION}/cli/conf.d/30-custom.ini
 echo "[done]"
 
 ### control bacula config
