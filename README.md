@@ -174,7 +174,7 @@ docker-compose down && docker-compose up -d
 ```
 
 
-# Docker variable
+# Docker variables
 - Bacularis docker container
 
 | Variable | Value | Description |
