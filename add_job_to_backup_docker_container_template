@@ -1,0 +1,65 @@
+Fileset {
+  Name = "{{ B_CLIENT }}-docker-stopScript-fs"
+  Description = "Backup all docker container with container start/stop script"
+  EnableVss = no
+  Include {
+    File = "/mnt/lvm_snap/opt"
+    # if LV var exists 
+    File = "/mnt/lvm_snap/var/lib/docker"
+    Options {
+      Compression = "Lzo"
+      Signature = "Sha1"
+    }
+  }
+  Exclude {
+    File = "/mnt/lvm_snap/opt/containerd"
+    File = "/mnt/lvm_snap/opt/lost+found"
+    # if LV var exists
+    File = "/mnt/lvm_snap/var/lib/docker/buildkit"
+    File = "/mnt/lvm_snap/var/lib/docker/containers"
+    File = "/mnt/lvm_snap/var/lib/docker/image"
+    File = "/mnt/lvm_snap/var/lib/docker/overlay2"
+    File = "/mnt/lvm_snap/var/lib/docker/plugins"
+    File = "/mnt/lvm_snap/var/lib/docker/runtimes"
+    File = "/mnt/lvm_snap/var/lib/docker/swarm"
+    File = "/mnt/lvm_snap/var/lib/docker/tmp"
+    File = "/mnt/lvm_snap/var/lib/docker/trust"
+  }
+}
+JobDefs {
+  Name = "{{ B_CLIENT }}-docker-stopScript-job"
+  Description = "Backup all docker container with container start/stop script"
+  Type = "Backup"
+  Level = "Incremental"
+  Messages = "Standard"
+  Storage = "File1"
+  Pool = "Incremental"
+  FullBackupPool = "Full"
+  IncrementalBackupPool = "Incremental"
+  DifferentialBackupPool = "Differential"
+  Client = "{{ B_CLIENT }}-fd"
+  Fileset = "{{ B_CLIENT }}-docker-stopScript-fs"
+  Schedule = "WeeklyCycle"
+  WriteBootstrap = "/opt/bacula/working/%c.bsr"
+  SpoolAttributes = yes
+  Priority = 10
+}
+
+Job {
+  Name = "backup-{{ B_CLIENT }}-docker-stopScript"
+  Description = "Backup all docker container with container start/stop script"
+  JobDefs = "{{ B_CLIENT }}-docker-stopScript-job"
+  Runscript {
+    RunsWhen = "Before"
+    Command = "/opt/bacula/scripts/check_mount_storage.sh"
+  }
+  Runscript {
+    RunsWhen = "Before"
+    Command = "/opt/bacula/scripts/script_before_after.sh before"
+  }
+  Runscript {
+    RunsWhen = "After"
+    Command = "/opt/bacula/scripts/script_before_after.sh after"
+  }
+}
+
