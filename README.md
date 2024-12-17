@@ -38,7 +38,7 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 
 | ALpine version | Ubuntu version | Bacularis version |
 |:---------------------------------:|:--------------------------------:|:--------------------------------:|
-| [![Alpine Version](https://img.shields.io/badge/Alpine%20version-v3.21.0-blue.svg?style=flat-square)](https://alpinelinux.org/) | [![Ubuntu Version](https://img.shields.io/badge/Ubuntu%20version-22.04-blue.svg?style=flat-square)](https://ubuntu.com/) | [![Bacularis Version](https://img.shields.io/badge/Bacularis%20version-4.5.0-orange.svg?style=flat-square)](https://bacularis.app/) |
+| [![Alpine Version](https://img.shields.io/badge/Alpine%20version-v3.21.0-blue.svg?style=flat-square)](https://alpinelinux.org/) | [![Ubuntu Version](https://img.shields.io/badge/Ubuntu%20version-22.04-blue.svg?style=flat-square)](https://ubuntu.com/) | [![Bacularis Version](https://img.shields.io/badge/Bacularis%20version-4.5.1-orange.svg?style=flat-square)](https://bacularis.app/) |
 
 ## Bacula
 [Bacula](https://www.bacula.org/) is a set of Open Source, computer programs that permit you to manage backup, recovery, and verification of computer data across a network of computers.
