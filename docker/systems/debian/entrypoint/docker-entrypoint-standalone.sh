@@ -63,21 +63,21 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   ### === Mail delivery ===
   if [ ! -z ${SMTP_HOST} ]; then
      # hostname & port
-     echo -n "Setting mail hostname & port...          "
+     echo -n "Setting mail hostname & port...           "
      sed -i -e "s/-h localhost/-h ${SMTP_HOST}/g" ${BACULA_DIR_CONFIG}
      echo "[done]"
   fi
 
   # admin mail addresss
   if [ ! -z ${ADMIN_MAIL} ]; then
-     echo -n "Setting admin user mail address...       "
+     echo -n "Setting admin user mail address...        "
      sed -i -e "s/mail = root/mail = ${ADMIN_MAIL}/g" \
             -e "s/operator = root/operator = ${ADMIN_MAIL}/g" ${BACULA_DIR_CONFIG}
      echo "[done]"
   fi
 
   # Change Address of Autochanger, bacula-fd, bconsole
-  echo -n "Changing IP address to localhost...      "
+  echo -n "Changing IP address to localhost...       "
   sed -i -e "s/^  Address = ${LOCAL_ADDRESS}/  Address = localhost/" ${BACULA_DIR_CONFIG}
   echo "[done]"
 
@@ -89,7 +89,7 @@ BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
 
   # Change bacula-dir daemon name (buildkitsandbox)
   if [ ! -z ${BUILD_DAEMON_NAME} ]; then
-     echo -n "Setting daemon names...                  "
+     echo -n "Setting daemon names...                   "
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_DIR_CONFIG}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_SD_CONFIG}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BCONSOLE_CONFIG}
@@ -101,13 +101,13 @@ BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
   # Delete old pools; add storage pools: Full, Differential, Incremental
   if [[ "${ADD_STORAGE_POOL}" = true ]]; then
      # Delete old storage pools
-     echo -n "Deleting old storage pools...            "
+     echo -n "Deleting old storage pools...             "
      sed -i -e '/# Default pool definition/,+10d' \
        -e '/# File Pool definition/,+11d' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
      # Add storage pools: Full, Differential, Incremental
-     echo -n "Creating storage pools...                "
+     echo -n "Creating storage pools...                 "
      cat >> ${BACULA_DIR_CONFIG} << 'EOL'
 
 Pool {
@@ -155,34 +155,34 @@ EOL
      echo "[done]"
 
      # Change docker bacula client
-     echo -n "Changing backup job name...              "
+     echo -n "Changing backup job name...               "
      sed -i -e 's/Name = "BackupClient1"/Name = "backup-bacula-fd"/g' \
             -e 's/Pool = File/Pool = "Incremental"/g' \
             -e 's/Full Set/bacula-fd-fs/g' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
-     echo -n "Changing backup job description...       "
+     echo -n "Changing backup job description...        "
      sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
-     echo -n "Adding storage pools to jobdefs...       "
+     echo -n "Adding storage pools to jobdefs...        "
      sed -i -e '/  Name = "DefaultJob"/a\  DifferentialBackupPool = "Differential"' \
             -e '/  Name = "DefaultJob"/a\  IncrementalBackupPool = "Incremental"' \
             -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
      echo "[done]"
 
-     echo -n "Changing DefaultJob name...              "
+     echo -n "Changing DefaultJob name...               "
      sed -i -e 's/^  Name = "DefaultJob"/  Name = "bacula-fd-job"/' -e 's/^  JobDefs = "DefaultJob"/  JobDefs = "bacula-fd-job"/' ${BACULA_DIR_CONFIG}
      echo "[done]"
   fi
 
   # Delete bacula-fd old fileset
-  echo -n "Deleting bacula-fd old fileset...        "
+  echo -n "Deleting bacula-fd old fileset...         "
   sed -i -e '/# List of files to be backed up/,+38d' ${BACULA_DIR_CONFIG}
   echo "[done]" 
 
   # Add bacula-fd new fileset
-  echo -n "Creating bacula-fd new fileset...        "
+  echo -n "Creating bacula-fd new fileset...         "
   cat >> ${BACULA_DIR_CONFIG} << EOL
 Fileset {
   Name = "${DESIRED_DAEMON_NAME}-fd-fs"
@@ -210,7 +210,7 @@ EOL
   echo "[done]"
 
   # Setting bacula config permissions
-  echo -n "Setting bacula config permissions...     "
+  echo -n "Setting bacula config permissions...      "
   chown -R bacula:bacula /opt/bacula/etc/*
   chown bacula:tape /opt/bacula/archive
   chmod -R 775 /opt/bacula/etc/*
@@ -220,14 +220,14 @@ EOL
   if [ ! -z ${DOCKER_HOST_IP} ]; then
      # Storage File1
      n1=
-     echo -n "Setting Storage \"File1\" IP address...    "
+     echo -n "Setting Storage \"File1\" IP address...     "
      n1=$(cat /opt/bacula/etc/bacula-dir.conf |grep -niw 'Name = File1' | awk -F: '{ print $1 }')
      n1=$(($n1+2))
      sed -i -e "${n1}s+localhost+${DOCKER_HOST_IP}+" ${BACULA_DIR_CONFIG}
      echo "[done]"
 
      # Storage File2
-     echo -n "Setting Storage \"File2\" IP address...    "
+     echo -n "Setting Storage \"File2\" IP address...     "
      n2=
      n2=$(cat /opt/bacula/etc/bacula-dir.conf |grep -niw 'Name = File2' | awk -F: '{ print $1 }')
      n2=$(($n2+2))
@@ -236,7 +236,7 @@ EOL
   fi
 
   # Control file
-  echo -n "Creating DIR control file...            "
+  echo -n "Creating DIR control file...              "
   touch /opt/bacula/etc/bacula-config.control
   echo "[done]"
 fi
@@ -246,7 +246,7 @@ if [ ! -f /opt/bacula/archive/bacula-sd.control ]; then
   tar xzf /bacula-sd.tgz --backup=simple --suffix=.before-control
 
   # Control file
-  echo -n "Creating SD control file...             "
+  echo -n "Creating SD control file...               "
   touch /opt/bacula/archive/bacula-sd.control
   echo "[done]"
 fi
@@ -256,7 +256,7 @@ if [ ! -f /opt/bacula/etc/storage-key-manager.control ] && [ "${RUN_INSTALL_STOR
 
    # remove folder if exists
    if [ -d /opt/bacula/etc/gnupg ]; then
-      echo -n "Key Manager: Removing gnupg folder...    "
+      echo -n "Key Manager: Removing gnupg folder...     "
       rm -rf /opt/bacula/etc/gnupg
       echo "[done]"
    fi
