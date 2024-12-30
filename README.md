@@ -319,7 +319,7 @@ cd /tmp
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/1_create_new_bacula_client_linux--server_side_template.sh
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/2_create_new_bacula_client_linux--client_side_template.sh
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template.conf
-wget https://raw.githubusercontent.com/johann8/bacularis-alpine/master/bacula-dir_template_windows.conf
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-dir_template_windows.conf
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bacula-fd_template.conf
 wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/bconsole_template.conf
 chmod u+x *.sh
