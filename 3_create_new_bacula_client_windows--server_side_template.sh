@@ -5,7 +5,7 @@
 #
 
 # Set variables
-SCRIPT_VERSION=0.3
+SCRIPT_VERSION=0.4
 PASSWORD="$(pwgen 32 1)"
 MD5_PASSWORD=$(echo -n "$PASSWORD"|md5sum| sed -r 's/\s+.*$//;s/^/[md5]/')
 CLIENT_NAME=
@@ -124,9 +124,9 @@ if [[ -f ${BACULA_DIR_CONFIG_FILE_TEMPLATE} ]]; then
       echo "IP Address: ${IP_ADDRESS}"
 
       echo -n "Inserting variables into config file...  "
-      sed -i -e "s/###CLIENT_NAME###/${CLIENT_NAME}/" \
-             -e "s/###IP_ADDRESS###/${IP_ADDRESS}/" \
-             -e "s/###MD5_PASSWORD###/${MD5_PASSWORD}/" ${CONFIG_FOLDER}/${BACULA_DIR_CONFIG_FILE}
+      sed -i -e "s%###CLIENT_NAME###%${CLIENT_NAME}%" \
+             -e "s%###IP_ADDRESS###%${IP_ADDRESS}%" \
+             -e "s%###MD5_PASSWORD###%${MD5_PASSWORD}%" ${CONFIG_FOLDER}/${BACULA_DIR_CONFIG_FILE}
       echo [DONE]
    fi
 fi

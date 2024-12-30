@@ -5,8 +5,10 @@
 #
 
 # Set variables
-SCRIPT_VERSION=0.4
-DIRECTOR_ADDRESS=192.168.15.16                                         # IP Address of docker host wher bacula server is running
+SCRIPT_VERSION=0.5
+
+# IP Address of docker host wher bacula server is running
+DIRECTOR_ADDRESS=$(ip addr show $(ip route | awk '/default/ {print $5}') |grep -w inet | awk '/inet/ {print $2}' | cut -d'/' -f1)
 CLIENT_INSTALL_DIR="/opt/bacula/etc"                                   # Bacula client install dir
 DIRECTOR_NAME=bacula-dir                                               # The name of bacula server director (bacula-dir)
 DIRECTOR_CONSOLE_MONITOR_NAME=bacula-mon                               # The name of bacula server console (bacula-mon)
@@ -115,17 +117,17 @@ if [[ -f ${BACULA_FD_CONFIG_FILE_TEMPLATE} ]] && [[ -f ${BCONSOLE_CONFIG_FILE_TE
       echo "Director console monitor name: ${DIRECTOR_CONSOLE_MONITOR_NAME}"
 
       echo -n "Inserting variables into \"bacula-fd.conf\" file...       "
-      sed -i -e "s/###CLIENT_NAME###/${CLIENT_NAME}/" \
-             -e "s/###MD5_PASSWORD###/${MD5_PASSWORD}/" \
-             -e "s/###DIRECTOR_NAME###/${DIRECTOR_NAME}/" \
-             -e "s/###DIRECTOR_CONSOLE_MONITOR_NAME###/${DIRECTOR_CONSOLE_MONITOR_NAME}/" \
-             -e "s!###DIRECTOR_CONSOLE_MONITOR_PASSWORD###!${DIRECTOR_CONSOLE_MONITOR_PASSWORD}!" ${CONFIG_FOLDER}/${BACULA_FD_CONFIG_FILE}
+      sed -i -e "s%###CLIENT_NAME###%${CLIENT_NAME}%" \
+             -e "s%###MD5_PASSWORD###%${MD5_PASSWORD}%" \
+             -e "s%###DIRECTOR_NAME###%${DIRECTOR_NAME}%" \
+             -e "s%###DIRECTOR_CONSOLE_MONITOR_NAME###%${DIRECTOR_CONSOLE_MONITOR_NAME}%" \
+             -e "s%###DIRECTOR_CONSOLE_MONITOR_PASSWORD###%${DIRECTOR_CONSOLE_MONITOR_PASSWORD}%" ${CONFIG_FOLDER}/${BACULA_FD_CONFIG_FILE}
       echo [DONE]
    
       echo -n "Inserting variables into \"bconsole.conf\" file...        "
-      sed -i -e "s/###DIRECTOR_NAME###/${DIRECTOR_NAME}/" \
-             -e "s/###DIRECTOR_ADDRESS###/${DIRECTOR_ADDRESS}/" \
-             -e "s/###MD5_PASSWORD###/${MD5_PASSWORD}/" ${CONFIG_FOLDER}/${BCONSOLE_CONFIG_FILE}
+      sed -i -e "s%###DIRECTOR_NAME###%${DIRECTOR_NAME}%" \
+             -e "s%###DIRECTOR_ADDRESS###%${DIRECTOR_ADDRESS}%" \
+             -e "s%###MD5_PASSWORD###%${MD5_PASSWORD}%" ${CONFIG_FOLDER}/${BCONSOLE_CONFIG_FILE}
       echo [DONE]  
    fi
 fi
