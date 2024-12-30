@@ -61,20 +61,18 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 mkdir -p /opt/bacularis/data/{bacularis,bacula,pgsql}
 mkdir -p /opt/bacularis/data/bacularis/www/bacularis-api/API/{Config,Logs}
 mkdir -p /opt/bacularis/data/bacularis/www/bacularis-web/Web/{Config,Logs}
-mkdir -p /opt/bacularis/data/bacula/{config,data}     
-mkdir -p /opt/bacularis/data/bacula/config/etc
-mkdir -p /opt/bacularis/data/bacula/data/director/working
+mkdir -p /opt/bacularis/data/bacula/{etc,working}
 mkdir -p /opt/bacularis/data/pgsql/{data,socket}
 mkdir -p /opt/bacularis/data/smtp/secret
-tree -d -L 4 /opt/bacularis
+tree -d -L 6 /opt/bacularis
 
 # create bacula storage folder
-mkdir -p /mnt/USB_NFS_PVE01/bacula/archive
+mkdir -p /mnt/USB_NFS_PVE01/bstorage/archive
 
 # set rights: 101 - bacula user uid and gid; 26 - tape group gid
-chown 101:101 /opt/bacularis/data/bacula/data/director/working
-chown 101:101 /opt/bacularis/data/bacula/config/etc
-chown 101:26 /mnt/USB_NFS_PVE01/bacula/archive
+chown 101:101 /opt/bacularis/data/bacula/etc
+chown 101:101 /opt/bacularis/data/bacula/working
+chown 101:26  /mnt/USB_NFS_PVE01/bacula/archive
 ```
 - Create [docker-compose.yml](https://github.com/johann8/bacularis-ubuntu/blob/master/docker-compose.yml)\
 or
@@ -160,6 +158,24 @@ to
 ...
 -------------
 ```
+- Disable accwss to `pgsql socket`
+
+```bash
+cd /opt/bacularis && vim docker-compose.yml
+--------------
+...
+    volumes:
+...
+
+from
+
+      - ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql          # comment after install
+to
+      #- ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql          # comment after install
+...
+-------------
+```
+
 - First access to bacularis
 
 ```bash
