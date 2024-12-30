@@ -329,7 +329,7 @@ if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
 fi
 
 # change
-echo -n "Changing sudoers config file...          "
+echo -n "Changing sudoers config file...           "
 sed -i -e 's+/usr/sbin+/opt/bacula/bin+' \
        -e 's+/etc/init.d/bacula-director+/opt/bacula/scripts/bacula-ctl-dir+g' \
        -e 's+/etc/init.d/bacula-sd+/opt/bacula/scripts/bacula-ctl-sd+g' \
