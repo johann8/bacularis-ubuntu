@@ -78,7 +78,7 @@ EOL
 
 ```bash
 # add script and adjust vars
-wget https://raw.githubusercontent.com/johann8/bacularis-alpine/master/scripts/container_backup_before_after.sh -O /opt/bacula/scripts/script_before_after.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/refs/heads/master/scripts/container_backup_before_after.sh -O /opt/bacula/scripts/script_before_after.sh
 chmod a+x /opt/bacula/scripts/script_before_after.sh
 vim /opt/bacula/scripts/script_before_after.sh
 
@@ -162,7 +162,7 @@ EOL
 
 ```bash
 # add script and adjust vars
-wget https://raw.githubusercontent.com/johann8/bacularis-alpine/master/scripts/container_backup_before_after.sh -O /opt/bacula/scripts/script_before_after.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/refs/heads/master/scripts/container_backup_before_after.sh -O /opt/bacula/scripts/script_before_after.sh
 chmod a+x /opt/bacula/scripts/script_before_after.sh
 vim /opt/bacula/scripts/script_before_after.sh
 
