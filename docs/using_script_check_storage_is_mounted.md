@@ -5,7 +5,7 @@ If the storage is e.g. a USB hard disk or NAS server share, then `bacula` should
 - Download the script and customize it
 
 ```bash
-wget https://raw.githubusercontent.com/johann8/bacularis-ubuntu/master/scripts/check_mount_storage.sh -O /opt/bacula/scripts/check_mount_storage.sh
+wget https://raw.githubusercontent.com/johann8/bacularis-alpine/refs/heads/master/scripts/check_mount_storage.sh -O /opt/bacula/scripts/check_mount_storage.sh
 chmod a+x /opt/bacula/scripts/check_mount_storage.sh
 
 # set variables
