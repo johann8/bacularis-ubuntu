@@ -308,7 +308,7 @@ firewall-cmd --list-all
 [Exim mail relay](https://exim.org) is a lightweight Docker image, based on the official Alpine image. You can see the documentation for this [here](https://github.com/devture/exim-relay)
 
 ## Enable cloud S3 storage plugin
-You need `Bacula cloud S3 plugin` drivers to create the cloud storage on the Storage Daemon. You also need to install [`AWS CLI`][AWS CLI]{target=\_blank}. AWS CLI is a requirement for the Cloud S3/Amazon Plugin. Refer to the [`AWS Documentation`][AWS Documentation]{target=\_blank}. When installing `AWS CLI`, a large number of additional packages are installed. This leads to the `docker image` becoming large. That's why I introduced a variable `ENABLE_CLOUD_S3_PLUGIN`. If it is `true`, then `AWS CLI` is installed. The default setting is `false` - so when the `docker container` is started, `AWS CLI` is not installed.
+You need `Bacula cloud S3 plugin` drivers to create the cloud storage on the Storage Daemon. You also need to install [`AWS CLI`][AWS CLI]. AWS CLI is a requirement for the Cloud S3/Amazon Plugin. Refer to the [`AWS Documentation`][AWS Documentation]. When installing `AWS CLI`, a large number of additional packages are installed. This leads to the `docker image` becoming large. That's why I introduced a variable `ENABLE_CLOUD_S3_PLUGIN`. If it is `true`, then `AWS CLI` is installed. The default setting is `false` - so when the `docker container` is started, `AWS CLI` is not installed.
 
 [AWS CLI]: https://aws.amazon.com/cli/?nc1=h_ls
 [AWS Documentation]: https://aws.amazon.com/
