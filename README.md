@@ -21,7 +21,7 @@
   - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
   - [Script check storage is mounted](docs/using_script_check_storage_is_mounted.md)
-  - [Enable cloud S3 storage plugin](Enable-cloud-S3-storage-plugin)
+  - [Enable cloud S3 storage plugin](#Enable-cloud-S3-storage-plugin)
 - [Backup](#backup)
   - [Backup mysql database](#backup-mysql-database)
   - [Backup postgres database](#backup-postgres-database)
