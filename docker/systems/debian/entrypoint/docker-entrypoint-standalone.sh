@@ -350,8 +350,6 @@ if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
 
       # clean
       apt-get clean > /dev/null 2>&1
-   else
-      echo "AWS CLI has already been installed... "
    fi
 fi
 
