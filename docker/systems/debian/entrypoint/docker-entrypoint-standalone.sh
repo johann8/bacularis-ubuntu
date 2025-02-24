@@ -337,6 +337,20 @@ sed -i -e 's+/usr/sbin+/opt/bacula/bin+' \
 echo "[done]"
 
 #
+### === Cloud S3/Amazon plugin ===
+#
+if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
+  # https://docs.baculasystems.com/BEDedicatedBackupSolutions/StorageBackend/cloud/CloudInstallation/cloud-installation-s3amazon.html
+  # Install cloud S3 dependencies
+  echo "Cloud S3 dependencies will be installed... "
+  apt-get -qq -y install --no-install-recommends awscli python3.10 python3.10-dev 2>/dev/null
+  echo "[ DONE ]"
+
+  # clean
+  apt-get clean 2>/dev/null  
+fi
+
+#
 ### === PostgresDB ===
 #
 export PGUSER=${DB_ADMIN_USER}
