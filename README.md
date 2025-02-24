@@ -21,6 +21,7 @@
   - [Customize notification from bacula](#Customize-notification-from-bacula)
   - [Docker Exim Relay Image](#docker-exim-relay-image)
   - [Script check storage is mounted](docs/using_script_check_storage_is_mounted.md)
+  - [Enable cloud S3 storage plugin](Enable-cloud-S3-storage-plugin)
 - [Backup](#backup)
   - [Backup mysql database](#backup-mysql-database)
   - [Backup postgres database](#backup-postgres-database)
@@ -38,7 +39,7 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 
 | ALpine version | Ubuntu version | Bacularis version |
 |:---------------------------------:|:--------------------------------:|:--------------------------------:|
-| [![Alpine Version](https://img.shields.io/badge/Alpine%20version-v3.21.0-blue.svg?style=flat-square)](https://alpinelinux.org/) | [![Ubuntu Version](https://img.shields.io/badge/Ubuntu%20version-22.04-blue.svg?style=flat-square)](https://ubuntu.com/) | [![Bacularis Version](https://img.shields.io/badge/Bacularis%20version-4.5.1-orange.svg?style=flat-square)](https://bacularis.app/) |
+| [![Alpine Version](https://img.shields.io/badge/Alpine%20version-v3.21.0-blue.svg?style=flat-square)](https://alpinelinux.org/) | [![Ubuntu Version](https://img.shields.io/badge/Ubuntu%20version-22.04-blue.svg?style=flat-square)](https://ubuntu.com/) | [![Bacularis Version](https://img.shields.io/badge/Bacularis%20version-4.7.1-orange.svg?style=flat-square)](https://bacularis.app/) |
 
 ## Bacula
 [Bacula](https://www.bacula.org/) is a set of Open Source, computer programs that permit you to manage backup, recovery, and verification of computer data across a network of computers.
@@ -213,6 +214,7 @@ docker-compose down && docker-compose up -d
 | SMTP_HOST | smtpd:8025 | docker container smtp service - name & port |
 | ADMIN_MAIL | admin@mydomain.de | your email address |
 | ADD_STORAGE_POOL | true or false | true - standard pool are replaced by Incremental, Differential and Full |
+| ENABLE_CLOUD_S3_PLUGIN | true or false | true - following dependencies will be installed: awscli, python3.10, python3.10-dev |
 | DOCKER_HOST_IP | 192.168.2.10 | IP address of docker host |
 | DOCKERDIR | /opt/bacularis | Docker container config and data folder |
 | PORT_BACULARIS | 9097 | Bacula port for Web interface |
@@ -304,6 +306,12 @@ firewall-cmd --list-all
 
 ## Docker Exim Relay Image
 [Exim mail relay](https://exim.org) is a lightweight Docker image, based on the official Alpine image. You can see the documentation for this [here](https://github.com/devture/exim-relay)
+
+## Enable cloud S3 storage plugin
+You need `Bacula cloud S3 plugin` drivers to create the cloud storage on the Storage Daemon. You also need to install [`AWS CLI`][AWS CLI]{target=\_blank}. AWS CLI is a requirement for the Cloud S3/Amazon Plugin. Refer to the [`AWS Documentation`][AWS Documentation]{target=\_blank}. When installing `AWS CLI`, a large number of additional packages are installed. This leads to the `docker image` becoming large. That's why I introduced a variable `ENABLE_CLOUD_S3_PLUGIN`. If it is `true`, then `AWS CLI` is installed. The default setting is `false` - so when the `docker container` is started, `AWS CLI` is not installed.
+
+[AWS CLI]: https://aws.amazon.com/cli/?nc1=h_ls
+[AWS Documentation]: https://aws.amazon.com/
 
 ## Create bacula client config files
 You can create client config files automatically. For this you can find some scripts and templates on the repo. You load the files into a directory and start the bash scripts. Run `scriptname -h / --help` to see help.
