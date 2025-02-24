@@ -339,18 +339,20 @@ echo "[done]"
 #
 ### === Cloud S3/Amazon plugin ===
 #
-if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ] && ! [[ -x /usr/bin/aws ]]; then
-   # https://docs.baculasystems.com/BEDedicatedBackupSolutions/StorageBackend/cloud/CloudInstallation/cloud-installation-s3amazon.html
-   # Install cloud S3 dependencies
-   echo "Cloud S3 dependencies will be installed... "
-   apt-get -qq -y install --no-install-recommends awscli python3.10 python3.10-dev > /dev/null 2>&1
-   echo "[ DONE ]"
+if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
 
-   # clean
-   apt-get clean > /dev/null 2>&1
-else
-   # AWS CLI installed
-   echo "AWS CLI has already been installed."
+   if ! [[ -x /usr/bin/aws ]]; then
+      # https://docs.baculasystems.com/BEDedicatedBackupSolutions/StorageBackend/cloud/CloudInstallation/cloud-installation-s3amazon.html
+      # Install cloud S3 dependencies
+      echo "Cloud S3 dependencies will be installed... "
+      apt-get -qq -y install --no-install-recommends awscli python3.10 python3.10-dev > /dev/null 2>&1
+      echo "[ DONE ]"
+
+      # clean
+      apt-get clean > /dev/null 2>&1
+   else
+      echo "AWS CLI has already been installed... "
+   fi
 fi
 
 #
