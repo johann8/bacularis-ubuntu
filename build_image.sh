@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-_VERSION=4.7.2
+_VERSION=4.7.1_1
 
 # create build
 docker build -t johann8/bacularis:${_VERSION}-ubuntu .
@@ -23,7 +23,6 @@ if [ ${_BUILD} = 0 ]; then
    _PUSH=$?
    docker images -a |grep bacularis
 fi
-
 
 #delete build
 if [ ${_PUSH=} = 0 ]; then
