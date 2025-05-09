@@ -6,8 +6,8 @@
 
 # Variables
 PROJECT_DIR=/projects/bacularis/ubuntu
-BACULARIS_NEW_VERSION=5.1.0
-BACULARIS_OLD_VERSION=5.0.0
+BACULARIS_NEW_VERSION=5.2.0
+BACULARIS_OLD_VERSION=5.1.0
 BACULARIS_VERSION=${BACULARIS_NEW_VERSION}
 #PROJECT_URL=https://github.com/bacularis
 #EXTERNAL_URL=https://bacularis.app/downloads/bacularis-external-${BACULARIS_VERSION}.tar.gz
@@ -61,9 +61,12 @@ else
    echo "Composer file exists... "
 fi
 
+#composer create-project bacularis/bacularis-app
+composer --no-cache create-project bacularis/bacularis-app
 
-composer create-project bacularis/bacularis-app
-mv /tmp/45/bacularis-app ${PROJECT_DIR}/${NAME}
+# mv /tmp/45/bacularis-app ${PROJECT_DIR}/${NAME}
+cp -arf /tmp/45/bacularis-app/. ${PROJECT_DIR}/${NAME}
+
 cd /tmp && rm -rf 45
 cd ${PROJECT_DIR}/${NAME}
 echo -ne "\nDeleting files... "
