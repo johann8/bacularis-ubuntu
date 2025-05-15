@@ -17,7 +17,8 @@ LABEL org.label-schema.schema-version="1.0" \
 ENV BACULARIS_VERSION=5.2.0
 ENV PACKAGE_NAME=standalone
 
-ENV BACULA_VERSION=15.0.2
+#ENV BACULA_VERSION=15.0.2
+ENV BACULA_VERSION=15.0.3
 ENV DEBIAN_FRONTEND noninteractive
 ENV BACULA_KEY https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc
 ENV BACULA_DESCRIPTION # Bacula Community
@@ -114,11 +115,11 @@ RUN if [ "${PACKAGE_NAME}" = 'web' ]; then \
  && /var/www/bacularis/protected/tools/install.sh -w nginx -c /etc/nginx/sites-available -u ${WEB_USER} -d /var/www/bacularis/htdocs -p /var/run/php/php${PHP_VERSION}-fpm.sock \
  && ln -s /etc/nginx/sites-available/bacularis-nginx.conf /etc/nginx/sites-enabled/
 
-RUN tar czf /bacula-dir.tgz /opt/bacula/etc
+RUN tar czf /bacula-dir.tgz /opt/bacula/etc /opt/bacula/scripts
 
 RUN tar czf /bacularis-app.tgz /var/www/bacularis
 
-RUN tar czf /bacula-sd.tgz /opt/bacula/archive /opt/bacula/working
+RUN tar czf /bacula-sd.tgz /opt/bacula/archive /opt/bacula/working /opt/bacula/bsr
 
 EXPOSE 9101/tcp 9102/tcp 9103/tcp 9097/tcp
 
