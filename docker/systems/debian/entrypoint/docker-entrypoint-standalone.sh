@@ -345,7 +345,7 @@ if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
       # https://docs.baculasystems.com/BEDedicatedBackupSolutions/StorageBackend/cloud/CloudInstallation/cloud-installation-s3amazon.html
       # Install cloud S3 dependencies
       echo "Cloud S3 dependencies will be installed... "
-      apt-get -qq -y install --no-install-recommends awscli python3.10 python3.10-dev > /dev/null 2>&1
+      apt-get update && apt-get -qq -y install --no-install-recommends awscli python3.10 python3.10-dev > /dev/null 2>&1
       echo "[ DONE ]"
 
       # clean
