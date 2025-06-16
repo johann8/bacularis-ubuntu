@@ -6,8 +6,8 @@
 
 # Variables
 PROJECT_DIR=/projects/bacularis/ubuntu
-BACULARIS_NEW_VERSION=5.2.0
-BACULARIS_OLD_VERSION=5.1.0
+BACULARIS_NEW_VERSION=5.3.0
+BACULARIS_OLD_VERSION=5.2.0
 BACULARIS_VERSION=${BACULARIS_NEW_VERSION}
 #PROJECT_URL=https://github.com/bacularis
 #EXTERNAL_URL=https://bacularis.app/downloads/bacularis-external-${BACULARIS_VERSION}.tar.gz
@@ -23,13 +23,13 @@ fi
 
 cd ${PROJECT_DIR}
 
-if [[ -d bacularis_${BACULARIS_OLD_VERSION} ]]; then
-   echo "Create Backup of old version"
-   mv bacularis_${BACULARIS_OLD_VERSION} bacularis_${BACULARIS_OLD_VERSION}_back
-else
-   echo "Can not create backup of old version"
-   echo -e "Folder \"bacularis_${BACULARIS_OLD_VERSION}\" does not exists.\n"
-fi
+#if [[ -d bacularis_${BACULARIS_OLD_VERSION} ]]; then
+#   echo "Create Backup of old version"
+#   mv bacularis_${BACULARIS_OLD_VERSION} bacularis_${BACULARIS_OLD_VERSION}_back
+#else
+#   echo "Can not create backup of old version"
+#   echo -e "Folder \"bacularis_${BACULARIS_OLD_VERSION}\" does not exists.\n"
+#fi
 
 if [[ -d bacularis ]]; then
    echo "Create Backup of current version"

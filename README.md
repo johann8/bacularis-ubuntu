@@ -39,7 +39,7 @@ Images are based on [Ubuntu 22](https://hub.docker.com/repository/docker/johann8
 
 | ALpine version | Ubuntu version | Bacularis version | Alpine Bacula | Ubuntu Bacula |
 |:------------------:|:-----------------:|:-----------------:|:-----------------:|:------------------:|
-| [![Alpine Version](https://img.shields.io/badge/Alpine%20version-v3.21.0-blue.svg?style=flat-square)](https://alpinelinux.org/) | [![Ubuntu Version](https://img.shields.io/badge/Ubuntu%20version-22.04-blue.svg?style=flat-square)](https://ubuntu.com/) | [![Bacularis Version](https://img.shields.io/badge/Bacularis%20version-5.2.0-orange.svg?style=flat-square)](https://bacularis.app/) | [![Bacula Version](https://img.shields.io/badge/Bacula%20version-15.02-seagreen.svg?style=flat-square)](https://www.bacula.org/) | [![Bacula Version](https://img.shields.io/badge/Bacula%20version-15.03-seagreen.svg?style=flat-square)](https://www.bacula.org/) |
+| [![Alpine Version](https://img.shields.io/badge/Alpine%20version-v3.21.0-blue.svg?style=flat-square)](https://alpinelinux.org/) | [![Ubuntu Version](https://img.shields.io/badge/Ubuntu%20version-22.04-blue.svg?style=flat-square)](https://ubuntu.com/) | [![Bacularis Version](https://img.shields.io/badge/Bacularis%20version-5.3.0-orange.svg?style=flat-square)](https://bacularis.app/) | [![Bacula Version](https://img.shields.io/badge/Bacula%20version-15.02-seagreen.svg?style=flat-square)](https://www.bacula.org/) | [![Bacula Version](https://img.shields.io/badge/Bacula%20version-15.03-seagreen.svg?style=flat-square)](https://www.bacula.org/) |
 
 ## Bacula
 [Bacula](https://www.bacula.org/) is a set of Open Source, computer programs that permit you to manage backup, recovery, and verification of computer data across a network of computers.
