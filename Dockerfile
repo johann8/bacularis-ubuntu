@@ -14,7 +14,7 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.vcs-url="https://github.com/johann8/" \
       org.label-schema.version=$VERSION
 
-ENV BACULARIS_VERSION=5.3.0
+ENV BACULARIS_VERSION=5.3.1
 ENV PACKAGE_NAME=standalone
 
 #ENV BACULA_VERSION=15.0.2
@@ -64,7 +64,7 @@ RUN apt-get update \
  && \
     if [ "${PACKAGE_NAME}" = 'standalone' ] || [ "${PACKAGE_NAME}" = 'web' ]; then \
        apt-get -qq -y install --no-install-recommends expect openssh-client; \
-    fi \
+    fi \ 
  && apt-get -qq -y install --no-install-recommends nginx curl tzdata tar nano \
  && usermod -a -G bacula ${WEB_USER} \
  && chown bacula:bacula /opt/bacula/etc /opt/bacula/working \
