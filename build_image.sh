@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-_VERSION=5.9.0
+_VERSION=5.10.0
 
 # create build
 docker build -t johann8/bacularis:${_VERSION}-ubuntu . 2>&1 | tee ./build.log
