@@ -49,12 +49,12 @@ echo ""
 echo -n "Changing PHP time zone...                 "
 #sed -i -e "/date.timezone =/c\date.timezone = \"${TZ}\"" /etc/php/8.1/fpm/php.ini
 sed -i -e "/date.timezone =/c\date.timezone = \"${TZ}\"" /etc/php/${PHP_VERSION}/cli/conf.d/30-custom.ini
-echo "[done]"
+echo "[ DONE ]"
 
 # Set var memory_limit
 echo -n "Setting \"memory_limit\" into custom.ini... "
 sed -i -e '/memory_limit =/c\memory_limit = "'${MEMORY_LIMIT}'"' /etc/php/${PHP_VERSION}/cli/conf.d/30-custom.ini
-echo "[done]"
+echo "[ DONE ]"
 
 ### control bacula config
 if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
@@ -65,7 +65,7 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
      # hostname & port
      echo -n "Setting mail hostname & port...           "
      sed -i -e "s/-h localhost/-h ${SMTP_HOST}/g" ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
   fi
 
   # admin mail addresss
@@ -73,13 +73,13 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
      echo -n "Setting admin user mail address...        "
      sed -i -e "s/mail = root/mail = ${ADMIN_MAIL}/g" \
             -e "s/operator = root/operator = ${ADMIN_MAIL}/g" ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
   fi
 
   # Change Address of Autochanger, bacula-fd, bconsole
   echo -n "Changing IP address to localhost...       "
   sed -i -e "s/^  Address = ${LOCAL_ADDRESS}/  Address = localhost/" ${BACULA_DIR_CONFIG}
-  echo "[done]"
+  echo "[ DONE ]"
 
 BACULA_DIR_CONFIG="/opt/bacula/etc/bacula-dir.conf"
 BACULA_SD_CONFIG="/opt/bacula/etc/bacula-sd.conf"
@@ -95,7 +95,7 @@ BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BCONSOLE_CONFIG}
      sed -i "s/${BUILD_DAEMON_NAME}/${DESIRED_DAEMON_NAME}/g" ${BACULA_FD_CONFIG}
      sed -i "s/address = ${DESIRED_DAEMON_NAME}/address = localhost/" ${BCONSOLE_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
   fi
 
   # Delete old pools; add storage pools: Full, Differential, Incremental
@@ -104,7 +104,7 @@ BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
      echo -n "Deleting old storage pools...             "
      sed -i -e '/# Default pool definition/,+10d' \
        -e '/# File Pool definition/,+11d' ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
 
      # Add storage pools: Full, Differential, Incremental
      echo -n "Creating storage pools...                 "
@@ -152,34 +152,34 @@ Pool {
   Recycle = yes
 }
 EOL
-     echo "[done]"
+     echo "[ DONE ]"
 
      # Change docker bacula client
      echo -n "Changing backup job name...               "
      sed -i -e 's/Name = "BackupClient1"/Name = "backup-bacula-fd"/g' \
             -e 's/Pool = File/Pool = "Incremental"/g' \
             -e 's/Full Set/bacula-fd-fs/g' ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
 
      echo -n "Changing backup job description...        "
      sed -i -e '/  Name = "backup-bacula-fd"/a\  Description = "Backup bacula docker container"' ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
 
      echo -n "Adding storage pools to jobdefs...        "
      sed -i -e '/  Name = "DefaultJob"/a\  DifferentialBackupPool = "Differential"' \
             -e '/  Name = "DefaultJob"/a\  IncrementalBackupPool = "Incremental"' \
             -e '/  Name = "DefaultJob"/a\  FullBackupPool = "Full"' ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
 
      echo -n "Changing DefaultJob name...               "
      sed -i -e 's/^  Name = "DefaultJob"/  Name = "bacula-fd-job"/' -e 's/^  JobDefs = "DefaultJob"/  JobDefs = "bacula-fd-job"/' ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
   fi
 
   # Delete bacula-fd old fileset
   echo -n "Deleting bacula-fd old fileset...         "
   sed -i -e '/# List of files to be backed up/,+38d' ${BACULA_DIR_CONFIG}
-  echo "[done]" 
+  echo "[ DONE ]" 
 
   # Add bacula-fd new fileset
   echo -n "Creating bacula-fd new fileset...         "
@@ -207,14 +207,14 @@ Fileset {
   }
 }
 EOL
-  echo "[done]"
+  echo "[ DONE ]"
 
   # Setting bacula config permissions
   echo -n "Setting bacula config permissions...      "
   chown -R bacula:bacula /opt/bacula/etc/*
   chown bacula:tape /opt/bacula/archive
   chmod -R 775 /opt/bacula/etc/*
-  echo "[done]"
+  echo "[ DONE ]"
 
   # Set bacula-sd ip address
   if [ ! -z ${DOCKER_HOST_IP} ]; then
@@ -224,7 +224,7 @@ EOL
      n1=$(cat /opt/bacula/etc/bacula-dir.conf |grep -niw 'Name = File1' | awk -F: '{ print $1 }')
      n1=$(($n1+2))
      sed -i -e "${n1}s+localhost+${DOCKER_HOST_IP}+" ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
 
      # Storage File2
      echo -n "Setting Storage \"File2\" IP address...     "
@@ -232,13 +232,13 @@ EOL
      n2=$(cat /opt/bacula/etc/bacula-dir.conf |grep -niw 'Name = File2' | awk -F: '{ print $1 }')
      n2=$(($n2+2))
      sed -i -e "${n2}s+localhost+${DOCKER_HOST_IP}+" ${BACULA_DIR_CONFIG}
-     echo "[done]"
+     echo "[ DONE ]"
   fi
 
   # Control file
   echo -n "Creating DIR control file...              "
   touch /opt/bacula/etc/bacula-config.control
-  echo "[done]"
+  echo "[ DONE ]"
 fi
 
 ### Control bacula storade
@@ -248,7 +248,7 @@ if [ ! -f /opt/bacula/archive/bacula-sd.control ]; then
   # Control file
   echo -n "Creating SD control file...               "
   touch /opt/bacula/archive/bacula-sd.control
-  echo "[done]"
+  echo "[ DONE ]"
 fi
 
 ### Control storage key manager
@@ -258,14 +258,14 @@ if [ ! -f /opt/bacula/etc/storage-key-manager.control ] && [ "${RUN_INSTALL_STOR
    if [ -d /opt/bacula/etc/gnupg ]; then
       echo -n "Key Manager: Removing gnupg folder...     "
       rm -rf /opt/bacula/etc/gnupg
-      echo "[done]"
+      echo "[ DONE ]"
    fi
 
    # Run storage key manager install script
    if [ -f /opt/bacula/etc/key-manager.conf ] && [ ! -d /opt/bacula/etc/gnupg ]; then 
       echo -n "Run storage key manager install script...     "
       /opt/bacula/scripts/install-key-manager.sh install
-      echo "[done]"
+      echo "[ DONE ]"
       
       # Create control file
       touch /opt/bacula/etc/storage-key-manager.control
@@ -277,7 +277,7 @@ else
       # Check storage key manager
       echo -n "Check storage key manager...                  "
       /opt/bacula/scripts/install-key-manager.sh check
-      echo "[done]"
+      echo "[ DONE ]"
    fi
 fi
 
@@ -288,7 +288,7 @@ if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
    # Add PostgresDB access data into bacula-dir.conf
    echo -n "Setting PostgresDB data to bacula-dir... "
    sed -i "/dbname = \"/c\  dbname = \"${DB_NAME}\"; dbuser = \"${DB_USER}\"; dbpassword = \"${DB_PASSWORD}\"; dbaddress = \"${DB_HOST}\"; dbport = \"${DB_PORT}\"" ${BACULA_DIR_CONFIG}
-   echo "[done]"
+   echo "[ DONE ]"
 
    # Add PostgresDB access data into api.conf
    API_CONF_PFAD="/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config/api.conf"
@@ -297,22 +297,22 @@ if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
    sed -i "/login = \"/c\login = \"${DB_USER}\"" ${API_CONF_PFAD}
    sed -i "/password = \"/c\password = \"${DB_PASSWORD}\"" ${API_CONF_PFAD}
    sed -i "/ip_addr = \"/c\ip_addr = \"${DB_HOST}\"" ${API_CONF_PFAD}
-   echo "[done]"
+   echo "[ DONE ]"
 
   # Set admin user & password
   if [ ! -z ${WEB_ADMIN_USER} ] && [ ! -z ${WEB_ADMIN_PASSWORD_ENCRYPTED} ] && [ ! -z ${WEB_ADMIN_PASSWORD_DECRYPT} ]; then
      echo -n "Setting admin user name...               "
      sed -i "/login =/c\login = \"${WEB_ADMIN_USER}\"" /var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config/hosts.conf
-     echo "[done]"
+     echo "[ DONE ]"
 
      echo -n "Setting admin user password encrypted... "
      sed -i '/admin:/c\'${WEB_ADMIN_USER}':'${WEB_ADMIN_PASSWORD_ENCRYPTED}'' /var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config/bacularis.users
      sed -i '/admin:/c\'${WEB_ADMIN_USER}':'${WEB_ADMIN_PASSWORD_ENCRYPTED}'' /var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config/bacularis.users
-     echo "[done]"
+     echo "[ DONE ]"
 
      echo -n "Setting admin user password decrypt...   "
      sed -i "/password =/c\password = \"${WEB_ADMIN_PASSWORD_DECRYPT}\"" /var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config/hosts.conf
-     echo "[done]"
+     echo "[ DONE ]"
   fi
 
   # Change api.conf for bacula
@@ -322,7 +322,7 @@ if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
          -e 's+/etc/init.d/bacula-director+/opt/bacula/scripts/bacula-ctl-dir+g' \
          -e 's+/etc/init.d/bacula-sd+/opt/bacula/scripts/bacula-ctl-sd+g' \
          -e 's+/etc/init.d/bacula-fd+/opt/bacula/scripts/bacula-ctl-fd+g' /var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config/api.conf
-  echo "[done]"
+  echo "[ DONE ]"
 
   # Control file
   touch /var/www/bacularis/protected/Web/Config/bacularis-app.control
@@ -334,7 +334,7 @@ sed -i -e 's+/usr/sbin+/opt/bacula/bin+' \
        -e 's+/etc/init.d/bacula-director+/opt/bacula/scripts/bacula-ctl-dir+g' \
        -e 's+/etc/init.d/bacula-sd+/opt/bacula/scripts/bacula-ctl-sd+g' \
        -e 's+/etc/init.d/bacula-fd+/opt/bacula/scripts/bacula-ctl-fd+g' /etc/sudoers.d/bacularis-standalone
-echo "[done]"
+echo "[ DONE ]"
 
 #
 ### === Cloud S3/Amazon plugin ===
@@ -344,7 +344,7 @@ if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
    if ! [[ -x /usr/bin/aws ]]; then
       # https://docs.baculasystems.com/BEDedicatedBackupSolutions/StorageBackend/cloud/CloudInstallation/cloud-installation-s3amazon.html
       # Install cloud S3 dependencies
-      echo -n "Cloud S3 dependencies will be installed... "
+      echo -n "Cloud S3 dependencies will be installed...        "
       apt-get update > /dev/null 2>&1 && apt-get -qq -y install --no-install-recommends awscli python3.10 python3.10-dev > /dev/null 2>&1
       echo "[ DONE ]"
 
