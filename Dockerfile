@@ -11,13 +11,11 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name=$NAME \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/johann8/" \
-      org.label-schema.version=$VERSION
+      org.label-schema.vcs-url="https://github.com/johann8/"
 
-ENV BACULARIS_VERSION=5.11.0
+ENV BACULARIS_VERSION=6.0.0
 ENV PACKAGE_NAME=standalone
 
-#ENV BACULA_VERSION=15.0.2
 ENV BACULA_VERSION=15.0.3
 ENV DEBIAN_FRONTEND noninteractive
 ENV BACULA_KEY https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc
