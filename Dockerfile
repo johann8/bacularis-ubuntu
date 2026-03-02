@@ -5,7 +5,9 @@ LABEL maintainer="JH <jh@localhost>"
 ARG BUILD_DATE
 ARG NAME
 ARG VCS_REF
-ARG VERSION
+ARG BACULARIS_VERSION=6.0.0
+ARG BACULA_VERSION=15.0.3
+ARG PHP_VERSION=8.1
 
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE \
@@ -13,16 +15,17 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url="https://github.com/johann8/"
 
-ENV BACULARIS_VERSION=6.0.0
-ENV PACKAGE_NAME=standalone
 
-ENV BACULA_VERSION=15.0.3
+ENV BACULA_VERSION=${BACULA_VERSION}
+ENV BACULARIS_VERSION=${BACULARIS_VERSION}
+ENV PACKAGE_NAME=standalone
+ENV PHP_VERSION=${PHP_VERSION}
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV BACULA_KEY https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc
 ENV BACULA_DESCRIPTION # Bacula Community
 ENV BACULA_REPO https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION}
 
-ENV PHP_VERSION=8.1
 ENV WEB_USER=www-data
 ENV MEMORY_LIMIT=128M
 
