@@ -4,26 +4,26 @@ export PGDATA='/var/lib/postgresql/data'
 POSTGRESQL_USER='postgres'
 BACULA_USER='bacula'
 
-function initdb()
-{
-    chown ${POSTGRESQL_USER} ${PGDATA}
-    chmod 700 ${PGDATA}
-    su ${POSTGRESQL_USER} -c 'initdb'
-}
+#function initdb()
+#{
+#    chown ${POSTGRESQL_USER} ${PGDATA}
+#    chmod 700 ${PGDATA}
+#    su ${POSTGRESQL_USER} -c 'initdb'
+#}
 
-function start_postgresql()
-{
-    if [ -z "$(ls -A "$PGDATA")" ];
-    then
-        initdb
-    fi
-    su ${POSTGRESQL_USER} -c 'pg_ctl start'
-}
+#function start_postgresql()
+#{
+#    if [ -z "$(ls -A "$PGDATA")" ];
+#    then
+#        initdb
+#    fi
+#    su ${POSTGRESQL_USER} -c 'pg_ctl start'
+#}
 
-function stop_postgresql()
-{
-        su ${POSTGRESQL_USER} -c "pg_ctl stop"
-}
+#function stop_postgresql()
+#{
+#        su ${POSTGRESQL_USER} -c "pg_ctl stop"
+#}
 
 function init_bacula()
 {
@@ -34,10 +34,10 @@ function init_bacula()
 
 function start_bacula_dir()
 {
-    if ! su ${POSTGRESQL_USER} -c 'psql -l' | grep '^ bacula' 1>/dev/null
-    then
-        init_bacula
-    fi
+#    if ! su ${POSTGRESQL_USER} -c 'psql -l' | grep '^ bacula' 1>/dev/null
+#    then
+#        init_bacula
+#    fi
 
     /opt/bacula/scripts/bacula-ctl-dir start
 }
@@ -69,10 +69,10 @@ function stop_bacula_fd()
 
 function start_php_fpm()
 {
-    /etc/init.d/php8.1-fpm start
+    /etc/init.d/php${PHP_VERSION}-fpm start
 }
 
 function stop_php_fpm()
 {
-    /etc/init.d/php8.1-fpm stop
+    /etc/init.d/php${PHP_VERSION}-fpm stop
 }
