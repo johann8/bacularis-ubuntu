@@ -235,7 +235,7 @@ EOL
      echo "[ DONE ]"
   fi
 
-  # Control file
+  # Create control file
   echo -n "Creating DIR control file...              "
   touch /opt/bacula/etc/bacula-config.control
   echo "[ DONE ]"
@@ -245,7 +245,7 @@ fi
 if [ ! -f /opt/bacula/archive/bacula-sd.control ]; then
   tar xzf /bacula-sd.tgz --backup=simple --suffix=.before-control
 
-  # Control file
+  # Create control file
   echo -n "Creating SD control file...               "
   touch /opt/bacula/archive/bacula-sd.control
   echo "[ DONE ]"
@@ -324,7 +324,7 @@ if [ ! -f /var/www/bacularis/protected/Web/Config/bacularis-app.control ]; then
          -e 's+/etc/init.d/bacula-fd+/opt/bacula/scripts/bacula-ctl-fd+g' /var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config/api.conf
   echo "[ DONE ]"
 
-  # Control file
+  # Create control file
   touch /var/www/bacularis/protected/Web/Config/bacularis-app.control
 fi
 
@@ -349,7 +349,7 @@ if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
       echo "[ DONE ]"
 
       # clean
-      echo -n "apt-get cache will be installed... "
+      echo -n "apt-get cache will be installed...        "
       apt-get clean > /dev/null 2>&1
       echo "[ DONE ]"
    fi
@@ -391,15 +391,20 @@ if [ ! -f /opt/bacula/etc/bacula-db.control ] && [ "${DB_INIT}" == 'true' ]; the
   chown "${DB_USER}" "${homedir}/.pgpass"
 
   # Init Postgres DB
-  echo "*** Bacula DB init ***"
-  echo "Bacula DB init: Create user ${DB_USER}"
+  echo "====> Bacula DB init <===="
+  echo -n "Bacula DB init: Create user ${DB_USER}"
   psql -c "create user ${DB_USER} with createdb createrole login;"
-  echo "Bacula DB init: Set user password"
+  echo "[ DONE ]"
+
+  echo -n "Bacula DB init: Set user password"
   psql -c "alter user ${DB_USER} password '${DB_PASSWORD}';"
+  echo "[ DONE ]"
+
   /opt/bacula/scripts/create_bacula_database 2>/dev/null
   /opt/bacula/scripts/make_bacula_tables  2>/dev/null
   /opt/bacula/scripts/grant_bacula_privileges  2>/dev/null
-  # Control file
+
+  # Create control file
   touch /opt/bacula/etc/bacula-db.control
 fi
 
