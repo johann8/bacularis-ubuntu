@@ -81,10 +81,10 @@ if [ ! -f /opt/bacula/etc/bacula-config.control ]; then
   sed -i -e "s/^  Address = ${LOCAL_ADDRESS}/  Address = localhost/" ${BACULA_DIR_CONFIG}
   echo "[ DONE ]"
 
-BACULA_DIR_CONFIG="/opt/bacula/etc/bacula-dir.conf"
-BACULA_SD_CONFIG="/opt/bacula/etc/bacula-sd.conf"
-BACULA_FD_CONFIG="/opt/bacula/etc/bacula-fd.conf"
-BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
+  BACULA_DIR_CONFIG="/opt/bacula/etc/bacula-dir.conf"
+  BACULA_SD_CONFIG="/opt/bacula/etc/bacula-sd.conf"
+  BACULA_FD_CONFIG="/opt/bacula/etc/bacula-fd.conf"
+  BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
 
 
   # Change bacula-dir daemon name (buildkitsandbox)
@@ -255,7 +255,7 @@ fi
 if [ ! -f /opt/bacula/etc/storage-key-manager.control ] && [ "${RUN_INSTALL_STORAGE_KEY_MANAGER}" == 'yes' ]; then
 
    # remove folder if exists
-   if [ -d /opt/bacula/etc/gnupg ]; then
+    if [ -d /opt/bacula/etc/gnupg ]; then
       echo -n "Key Manager: Removing gnupg folder...     "
       rm -rf /opt/bacula/etc/gnupg
       echo "[ DONE ]"
@@ -344,7 +344,7 @@ if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
    if ! [[ -x /usr/bin/aws ]]; then
       # https://docs.baculasystems.com/BEDedicatedBackupSolutions/StorageBackend/cloud/CloudInstallation/cloud-installation-s3amazon.html
       # Install cloud S3 dependencies
-      echo -n "Cloud S3 dependencies will be installed...        "
+      echo -n "Cloud S3 dependencies will be installed..."
       apt-get update > /dev/null 2>&1 && apt-get -qq -y install --no-install-recommends awscli python3.10 python3.10-dev > /dev/null 2>&1
       echo "[ DONE ]"
 
