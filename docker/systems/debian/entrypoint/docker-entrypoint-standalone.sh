@@ -41,7 +41,7 @@ echo "+----------------------------------------------------------+"
 
 echo ""
 echo "+----------------------------------------------------------+"
-echo "|         Starting  Bacularis-APP - Verison ${BACULARIS_VERSION}          |"
+echo "|         Starting  Bacularis-APP - Verison ${BACULARIS_VERSION}         |"
 echo "+----------------------------------------------------------+"
 echo ""
 
