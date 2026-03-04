@@ -12,17 +12,14 @@ services:
     container_name: bacularis
     volumes:
       # Bacula volumes
-      - ${DOCKERDIR}/data/bacula/config/etc:/opt/bacula/etc                   # Bacula config files & scripts
+      - ${DOCKERDIR}/data/bacula/config/etc:/opt/bacula/etc                   # Bacula config files
       - /mnt/NAS_BareOS/bacula/archive:/opt/bacula/archive                    # Bacula storage folder
-      - ${DOCKERDIR}/data/bacula/data/director/working:/opt/bacula/working    # Bacula bsr folder
+      - ${DOCKERDIR}/data/bacula/data/director/working:/opt/bacula/working    # Bacula pid, state and bsr folder
       # Bacularis volumes
       - ${DOCKERDIR}/data/bacularis/www/bacularis-api/API/Config:/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config
       - ${DOCKERDIR}/data/bacularis/www/bacularis-api/API/Logs:/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Logs
       - ${DOCKERDIR}/data/bacularis/www/bacularis-web/Web/Config:/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config
       - ${DOCKERDIR}/data/bacularis/www/bacularis-web/Web/Logs:/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Logs
-      # PostgresDB volumes
-      - ${DOCKERDIR}/data/pgsql/data:/var/lib/postgresql/data
-      - ${DOCKERDIR}/data/pgsql/socket:/var/run/postgresql       # comment after install
     environment:
       - TZ=${TZ:-UTC}
       - DB_INIT=true                                             #should be 'true' if bareos db does not exist
@@ -56,7 +53,6 @@ services:
     #hostname: bacula
     networks:
       baculaNet:
-        # Feste IP setzen
         ipv4_address: ${SUBNET}.${IPV4_ADDRESS}
 
   bacula-db:
