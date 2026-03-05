@@ -354,7 +354,7 @@ if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
       echo "[ DONE ]"
 
       # clean
-      echo -n "apt-get cache will be deleted... "
+      echo -n "apt-get cache will be deleted...          "
       apt-get clean > /dev/null 2>&1
       echo "[ DONE ]"
    else
