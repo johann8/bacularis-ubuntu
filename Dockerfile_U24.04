@@ -20,23 +20,24 @@ ENV BACULA_VERSION=${BACULA_VERSION}
 ENV BACULARIS_VERSION=${BACULARIS_VERSION}
 ENV PACKAGE_NAME=standalone
 ENV UBUNTU_CODENAME=noble
+ENV UBUNTU_VERSION_ID=24.04
 
 ENV PHP_VERSION=${PHP_VERSION}
 ENV WEB_USER=www-data
 ENV MEMORY_LIMIT=128M
 
 ENV DEBIAN_FRONTEND=noninteractive
-#ENV BACULA_KEY="https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc"
-#ENV BACULA_DESCRIPTION="# Bacula Community"
-#ENV BACULA_REPO="https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION}"
+ENV BACULA_KE="https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc"
+ENV BACULA_DESCRIPTION="# Bacula Community"
+ENV BACULA_REPO="https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION}"
 
 RUN apt-get update \
  && apt-get -y install curl gnupg apt-transport-https ca-certificates \
- && curl -Ls https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc -o /tmp/bacula-key.asc \
+ && curl -Ls ${BACULA_KE} -o /tmp/bacula-key.asc \
  && apt-key add /tmp/bacula-key.asc \
  && rm /tmp/bacula-key.asc \
- && echo "# Bacula Community" > /etc/apt/sources.list.d/Bacula-Community.list \
- && echo "deb https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION} noble main"  >> /etc/apt/sources.list.d/Bacula-Community.list \
+ && echo ${BACULA_DESCRIPTION} > /etc/apt/sources.list.d/Bacula-Community.list \
+ && echo "deb ${BACULA_REPO} noble main"  >> /etc/apt/sources.list.d/Bacula-Community.list \
  && apt-get update \
  && apt-get -y install --no-install-recommends bacula-common \
  && \
