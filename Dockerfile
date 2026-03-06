@@ -19,22 +19,24 @@ LABEL org.label-schema.schema-version="1.0" \
 ENV BACULA_VERSION=${BACULA_VERSION}
 ENV BACULARIS_VERSION=${BACULARIS_VERSION}
 ENV PACKAGE_NAME=standalone
-ENV PHP_VERSION=${PHP_VERSION}
+ENV UBUNTU_CODENAME=jammy
+ENV UBUNTU_VERSION_ID=22.04
 
+ENV PHP_VERSION=${PHP_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
-ENV BACULA_KEY https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc
-ENV BACULA_DESCRIPTION # Bacula Community
-ENV BACULA_REPO https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION}
+ENV BACULA_KE=" https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc"
+ENV BACULA_DESCRIPTION=="# Bacula Community"
+ENV BACULA_REPO="https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION}"
 
 ENV WEB_USER=www-data
 ENV MEMORY_LIMIT=128M
 
 RUN apt-get update \
  && apt-get -y install curl gnupg apt-transport-https ca-certificates \
- && curl -Ls $BACULA_KEY -o /tmp/bacula-key.asc \
+ && curl -Ls ${BACULA_KE} -o /tmp/bacula-key.asc \
  && apt-key add /tmp/bacula-key.asc \
  && rm /tmp/bacula-key.asc \
- && echo "${BACULA_DESCRIPTION}" > /etc/apt/sources.list.d/Bacula-Community.list \
+ && echo ${BACULA_DESCRIPTION} > /etc/apt/sources.list.d/Bacula-Community.list \
  && echo "deb ${BACULA_REPO} jammy main"  >> /etc/apt/sources.list.d/Bacula-Community.list \
  && apt-get update \
  && apt-get -y install --no-install-recommends bacula-common \
@@ -91,7 +93,8 @@ COPY "docker/systems/debian/entrypoint/docker-entrypoint.inc"  /
 
 COPY "docker/systems/debian/entrypoint/docker-entrypoint-${PACKAGE_NAME}.sh" /docker-entrypoint.sh
 
-COPY rootfs/ /
+#COPY rootfs/ /
+COPY rootfs/etc/php/${PHP_VERSION}/cli/conf.d/ /etc/php/${PHP_VERSION}/cli/conf.d/
 
 RUN chmod 755 /docker-entrypoint.sh
 
@@ -124,7 +127,7 @@ RUN tar czf /bacula-sd.tgz /opt/bacula/archive /opt/bacula/working /opt/bacula/b
 
 EXPOSE 9101/tcp 9102/tcp 9103/tcp 9097/tcp
 
-VOLUME ["/var/lib/postgresql/data", "/opt/bacula/etc/", "/opt/bacula/archive", "/opt/bacula/working", "/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config", "/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Logs", "/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config", "/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Logs"]
+VOLUME ["/opt/bacula/etc/", "/opt/bacula/archive", "/opt/bacula/working", "/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Config", "/var/www/bacularis/protected/vendor/bacularis/bacularis-api/API/Logs", "/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Config", "/var/www/bacularis/protected/vendor/bacularis/bacularis-web/Web/Logs"]
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
