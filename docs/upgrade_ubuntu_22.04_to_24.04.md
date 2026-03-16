@@ -81,7 +81,7 @@ systemctl status monit
 cd /opt/bacularis
 docker compose down
 ```
-- Baculas `working` Verteichnis bereinigen
+- Baculas `working` Verzeichnis bereinigen
 
 ```bash
 cd /opt/bacularis
@@ -95,7 +95,7 @@ ls -la data/bacula/data/director/working
 - Altes PostgreSQL DB Verzeichnis umbenennen
 
 ```bash
-mv data/pgsql/data data/pgsql/data_14
+mv data/pgsql/data data/pgsql/db-data_14
 ```
 
 - Neues PostgreSQL DB Verzeichnis erstellen
@@ -163,7 +163,7 @@ services:
 
 ```bash
 cd /opt/bacularis
-vim .en
+vim .env
 ----
 ...
 #B_VERSION=latest-ubuntu
@@ -238,7 +238,7 @@ bacula-db  | 2026-03-03 12:41:16.041 CET [1] LOG:  database system is ready to a
 ----
 ```
 
-- Stop Docker Stack
+- Stoppe Docker Stack
 
 ```bash
 docker compose down
@@ -253,7 +253,7 @@ docker compose ps
 docker compose logs -f
 ```
 
-- Prüfe, dass die Datenbavk und der User erstellt wurden
+- Prüfe, dass die Datenbank und der User erstellt wurden
 
 ```bash
 docker compose exec bacula-db bash
@@ -272,7 +272,7 @@ postgres=# \q
 psql -V
 exit
 ```
-- Prüfe, obd die Verbindung zur Datenbank aus dem `Bacularis` Container heraus funktioniert.
+- Prüfe, ob die Verbindung zur Datenbank aus dem `Bacularis` Container heraus funktioniert.
 
 ```bash
 docker compose exec bacularis bash
@@ -304,7 +304,7 @@ tape:x:26:bacula
 ----
 exit
 ```
-- Prüfen, ob die Startseite von Bacularis erreichbar ist und die Funktion testen
+- Prüfen, ob die Startseite von Bacularis erreichbar ist und teste die Funktion
 
 ```bash
 cat .env |grep ^ADMIN
@@ -334,7 +334,7 @@ cat upgrade_backup_pg14.sql | docker compose exec -T bacula-db psql -U postgres
 ncdu data/postgres/db-data/
 ```
 
-- Stop Docker Stack
+- Stoppe Docker Stack
 
 ```bash
 docker compose down
@@ -439,7 +439,7 @@ ls -la /opt/bacula/etc/
 exit
 ```
 
-- Prüfen, ob die Startseite von Bacularis erreichbar ist und die Funktion testen
+- Prüfen, ob die Startseite von Bacularis erreichbar ist und teste die Funktion
 
 ```bash
 cat .env |grep ^ADMIN
@@ -455,7 +455,7 @@ https://bacularis.mydomain.de/web/login/
 ### Nach dem Upgrade
 
 
-- File docker-compose.yml bereinigen
+- Datei docker-compose.yml bereinigen
 
 ```bash
 cd /opt/bacularis
@@ -482,7 +482,7 @@ services:
 
 ```bash
 cd /opt/bacularis
-rm -rf config/ working-data/ storage/ data/pgsql/data_14/ upgrade_backup_pg14.sql
+rm -rf config/ working-data/ storage/ data/pgsql/db-data_14/ upgrade_backup_pg14.sql
 ls -la
 ```
 
@@ -495,10 +495,10 @@ docker compose ps
 docker compose logs -f
 ```
 
-- Prüfen, ob die Startseite von bacularis erreichbar ist und die Funktion testen
+- Prüfen, ob die Startseite von Bacularis erreichbar ist und teste die Funktion
 
 ```bash
-https://mydomain.de/web/login/
+https://bacularis.mydomain.de/web/login/
 ```
 
 - Monitoring Tool `monit` starten
