@@ -6,6 +6,7 @@
   - [Bacula windows binaries](#bacula-windows-binaries)
   - [Create bacula client config files](#create-bacula-client-config-files)
   - [Install bacula client on linux](docs/install_bacula_client_on_linux.md)
+  - [Upgrade_Docker_Image Ubuntu_22.04_to_24.04](docs/upgrade_ubuntu_22.04_to_24.04.md)
 - [Bacularis](#bacularis---the-bacula-web-interface)
   - [For Linux](#for-linux)
   - [For Windows](#for-windows)
