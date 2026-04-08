@@ -9,11 +9,11 @@
 #               On error Bacula does not start to back up data               #
 #                                                                            #
 # Created     : 02.08.2022                                                   #
-# Last update : 09.09.2024                                                   #
-# Version     : 0.2.5                                                        #
+# Last update : 08.04.2026                                                   #
+# Version     : 0.2.6                                                        #
 #                                                                            #
-# Author      : Johann Hahn, <j.hahn@wassermann*****technik.de>              #
-# DokuWiki    : https://docu.***.wassermanngruppe.de                         #
+# Author      : Johann Hahn, <j.hahn@was*****nik.de>                         #
+# DokuWiki    : https://docu.***.was****pe.de                                #
 # Homepage    : https://wassermanngruppe.de                                  #
 # GitHub      : https://github.com/johann8/bacularis-alpine                  #
 # Download    : https://raw.githubusercontent.com/johann8/bacularis-alpine/\ #
@@ -26,7 +26,7 @@
 #  | (at your option) any later version.                                  |  #
 #  +----------------------------------------------------------------------+  #
 #                                                                            #
-# Copyright (c) 2022 - 2024 by Johann Hahn                                   #
+# Copyright (c) 2022 - 2026 by Johann Hahn                                   #
 #                                                                            #
 ##############################################################################
 
@@ -204,15 +204,15 @@ remove_lvm_snapshot() {
 ### === Main Script ===
 #
 
-# delete log file
-#if [[ -f ${LOGFILE} ]]; then
-#    echo "Deleting log file.."
-#    rm -rf ${LOGFILE}
-#fi
-
+# Script output with var $1 (Run script before|after)
 SCRIPT_PARAM="Run script ${1}"
+
+# Number of characters in the output (17)
 SEPARATOR_LENGTH=$(( ${#SCRIPT_PARAM} + 1 ))
+
+# Print a dividing line
 SEPARATOR=$(printf '=%.0s' $(seq 1 ${SEPARATOR_LENGTH}))
+
 echo -e "Started on \"$(hostname -f)\" at \"${_DATUM}\"" | tee /proc/1/fd/1 -a ${FILE_LAST_LOG}
 echo -e "Script version is: \"${SCRIPT_VERSION}\"" | tee /proc/1/fd/1 -a ${FILE_LAST_LOG}
 echo -e " " | tee /proc/1/fd/1 -a ${FILE_LAST_LOG}
