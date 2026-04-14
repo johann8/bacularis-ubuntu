@@ -1,3 +1,4 @@
+# Ubuntu 22.04 LTS
 FROM ubuntu:jammy
 
 LABEL maintainer="JH <jh@localhost>"
