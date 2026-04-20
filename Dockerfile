@@ -6,7 +6,7 @@ LABEL maintainer="JH <jh@localhost>"
 ARG BUILD_DATE
 ARG NAME
 ARG VCS_REF
-ARG BACULARIS_VERSION=6.0.0
+ARG BACULARIS_VERSION=6.1.0
 ARG BACULA_VERSION=15.0.3
 ARG PHP_VERSION=8.1
 
@@ -24,9 +24,9 @@ ENV UBUNTU_CODENAME=jammy
 ENV UBUNTU_VERSION_ID=22.04
 
 ENV PHP_VERSION=${PHP_VERSION}
-ENV DEBIAN_FRONTEND noninteractive
-ENV BACULA_KE=" https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc"
-ENV BACULA_DESCRIPTION=="# Bacula Community"
+ENV DEBIAN_FRONTEND=noninteractive
+ENV BACULA_KE="https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc"
+ENV BACULA_DESCRIPTION="# Bacula Community"
 ENV BACULA_REPO="https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION}"
 
 ENV WEB_USER=www-data
@@ -86,7 +86,7 @@ RUN apt-get update \
                    php-pgsql \
                    php-intl \
                    php-fpm \
- && apt-get clean
+ && apt-get clean 
 
 COPY "docker/systems/debian/sudoers.d/bacularis-${PACKAGE_NAME}" /etc/sudoers.d/
 
