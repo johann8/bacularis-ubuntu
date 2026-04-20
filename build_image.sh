@@ -1,15 +1,13 @@
 #!/bin/bash
 
 # set variables
-D_IMAGE_VERSION=6.0.4
+D_IMAGE_VERSION=6.1.0
 PHP_VERSION=8.1
 BACULA_VERSION=15.0.3
-BACULARIS_VERSION=6.0.0
-#UBUNTU_VERSION=24.04
-
+BACULARIS_VERSION=6.1.0
+UBUNTU_VERSION=22.04
 
 # build docker image
-# docker build -t johann8/bacularis:${_VERSION}-ubuntu . 2>&1 | tee ./build.log
 docker build \
   --build-arg=BACULARIS_VERSION=${BACULARIS_VERSION} \
   --build-arg=BACULA_VERSION=${BACULA_VERSION} \
