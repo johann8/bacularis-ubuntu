@@ -325,6 +325,13 @@ docker compose ps
 
 ### PostgreSQL DB `dump` wiederherstellen
 
+- Docker Container `bacula-db` starten
+
+```bash
+cd /opt/bacularis
+docker compose up -d bacula-db
+```
+
 - Die Größe des Datenbankordners anzeigen und `Restore` starten
 
 ```bash
@@ -389,7 +396,7 @@ ls -la /mnt/NAS_BareOS/bacula/
 chown -R 100:26 /mnt/NAS_BareOS/bacula/archive
 ls -la /mnt/NAS_BareOS/bacula/
 
-# Den Alten key manager löschen und neu initialisieren, wenn Docker Stack dtsrtet
+# Den Alten key manager löschen und neu initialisieren, wenn Docker Stack läuft
 mv data/bacula/config/etc/bacula/key-manager.conf data/bacula/config/etc/bacula/key-manager.conf_old
 mv data/bacula/config/etc/bacula/gnupg data/bacula/config/etc/bacula/gnupg_old
 cp config/key-manager.conf data/bacula/config/etc/bacula/
@@ -429,6 +436,7 @@ exit
 - Key-Manager im Container installieren und aufräumen
 
 ```bash
+docker compose exec bacularis bash
 /opt/bacula/scripts/install-key-manager.sh install
 ls -la /opt/bacula/etc
 ls -la /opt/bacula/etc/gnupg
