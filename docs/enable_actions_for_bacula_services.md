@@ -6,7 +6,7 @@
 
 ![Enable actions](https://github.com/johann8/bacularis-ubuntu/raw/master/docs/assets/screenshots/enable_services_actions.png)
 
--  Copy and Paste all commands above => Save
+-  Fill out all the commands below => Save
 
 ![Add actions commands](https://github.com/johann8/bacularis-ubuntu/raw/master/docs/assets/screenshots/add_actions_command.png)
 
