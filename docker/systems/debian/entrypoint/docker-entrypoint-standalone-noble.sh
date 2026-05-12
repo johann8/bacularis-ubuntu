@@ -13,6 +13,9 @@ BACULA_SD_CONFIG="/opt/bacula/etc/bacula-sd.conf"
 BACULA_FD_CONFIG="/opt/bacula/etc/bacula-fd.conf"
 BCONSOLE_CONFIG="/opt/bacula/etc/bconsole.conf"
 B_VERSION=$(echo ${BACULA_VERSION} | awk -F- '{print $1}')
+# /opt/bacula/plugins/aws_cloud_driver: error while loading shared libraries: libpython3.12.so.1.0
+# last version with Python/3.12.9
+AWS_VERSION=2.25.14
 
 function start()
 {
@@ -339,19 +342,44 @@ echo "[ DONE ]"
 #
 ### === Cloud S3/Amazon plugin ===
 #
+
 if [ "${ENABLE_CLOUD_S3_PLUGIN}" == 'true' ]; then
 
-   if ! [[ -x /usr/local/bin/aws ]]; then
+   if ! [[ -x /usr/local/aws-cli/v2/current/dist/aws ]]; then
       # https://docs.baculasystems.com/BEDedicatedBackupSolutions/StorageBackend/cloud/CloudInstallation/cloud-installation-s3amazon.html
       # Install cloud S3 dependencies
       echo -n "Cloud S3 dependencies will be installed..."
-      apt-get update > /dev/null 2>&1 && apt-get -qq -y install --no-install-recommends unzip > /dev/null 2>&1
-      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" > /dev/null 2>&1
-      cd /tmp/ && unzip awscliv2.zip  > /dev/null 2>&1
-      ./aws/install  > /dev/null 2>&1
-      # aws --version
-      rm -rf aws* > /dev/null 2>&1
+      apt-get update > /dev/null 2>&1 && apt-get -qq -y install --no-install-recommends unzip python3.12 python3.12-dev python3-pip > /dev/null 2>&1
       echo "[ DONE ]"
+
+      # Below does not work
+      #curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_VERSION}.zip" -o "/tmp/awscliv2.zip"  > /dev/null 2>&1
+      #cd /tmp/ && unzip awscliv2.zip  > /dev/null 2>&1
+      #./aws/install  > /dev/null 2>&1
+      # aws --version
+      #rm -rf aws* > /dev/null 2>&1
+  
+      # Install aws-cli
+      # pip3 uninstall awscli --break-system-packages
+      echo -n "aws-cli will be installed...              "
+      pip3 install awscli --break-system-packages > /dev/null 2>&1
+      echo "[ DONE ]"
+
+      # aws-cli version
+      AWS_CLI_VERSION=$(pip show awscli | grep Version |awk '{print $2}')
+      echo "aws-cli version is: ${AWS_CLI_VERSION}"
+
+      # expand /etc/ld.so.cache
+      #if [[ -f /etc/ld.so.conf.d/libc.conf ]] && [[ -x /usr/local/aws-cli/v2/current/dist/aws ]]; then
+      #   echo -n "Adding aws-cli library path...            "
+      #   echo "/usr/local/aws-cli/v2/current/dist" >> /etc/ld.so.conf.d/libc.conf
+      #   echo "[ DONE ]"
+
+      #   echo -n "Adding bacula library path...             "
+      #   echo "/opt/bacula/lib" >> /etc/ld.so.conf.d/libc.conf
+      #   echo "[ DONE ]"
+      #   ldconfig
+      #fi
 
       # clean
       echo -n "apt-get cache will be deleted...          "
