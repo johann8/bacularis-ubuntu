@@ -1,29 +1,34 @@
 # Ubuntu 22.04 LTS
-FROM ubuntu:jammy
+ARG BASE_IMAGE=ubuntu:jammy
 
-LABEL maintainer="JH <jh@localhost>"
+FROM ${BASE_IMAGE}
+
+LABEL maintainer="JH <jh@localhost>" \
+      Description="Docker container with Bacularis-APP based on Ubuntu 22.04 LTS."
 
 ARG BUILD_DATE
 ARG NAME
 ARG VCS_REF
-ARG BACULARIS_VERSION=6.2.1
+ARG BACULARIS_VERSION=6.3.0
 ARG BACULA_VERSION=15.0.3
 ARG PHP_VERSION=8.1
 
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name=$NAME \
+      org.label-schema.license=GPL-3.0 \
+      org.label-schema.name=ubuntu \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/johann8/"
+      org.label-schema.vcs-url="https://github.com/johann8/bacularis-ubuntu"
 
 
 ENV BACULA_VERSION=${BACULA_VERSION}
 ENV BACULARIS_VERSION=${BACULARIS_VERSION}
+ENV PHP_VERSION=${PHP_VERSION}
+
 ENV PACKAGE_NAME=standalone
 ENV UBUNTU_CODENAME=jammy
 ENV UBUNTU_VERSION_ID=22.04
 
-ENV PHP_VERSION=${PHP_VERSION}
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BACULA_KE="https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc"
 ENV BACULA_DESCRIPTION="# Bacula Community"
