@@ -1,36 +1,40 @@
 # Ubuntu 24.04 LTS
-FROM ubuntu:noble
+ARG BASE_IMAGE=ubuntu:noble
 
-LABEL maintainer="JH <jh@localhost>"
+FROM ${BASE_IMAGE}
+
+LABEL maintainer="JH <jh@localhost>" \
+      Description="Docker container with Bacularis-APP based on Ubuntu 24.04 LTS."
 
 ARG BUILD_DATE
 ARG NAME
 ARG VCS_REF
-ARG BACULARIS_VERSION=6.2.1
+ARG BACULARIS_VERSION=6.3.0
 ARG BACULA_VERSION=15.0.3
 ARG PHP_VERSION=8.3
 
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name=$NAME \
+      org.label-schema.license=GPL-3.0 \
+      org.label-schema.name=ubuntu \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/johann8/"
-
+      org.label-schema.vcs-url="https://github.com/johann8/bacularis-ubuntu"
 
 ENV BACULA_VERSION=${BACULA_VERSION}
 ENV BACULARIS_VERSION=${BACULARIS_VERSION}
+ENV PHP_VERSION=${PHP_VERSION}
+
 ENV PACKAGE_NAME=standalone
 ENV UBUNTU_CODENAME=noble
 ENV UBUNTU_VERSION_ID=24.04
-
-ENV PHP_VERSION=${PHP_VERSION}
-ENV WEB_USER=www-data
-ENV MEMORY_LIMIT=128M
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BACULA_KE="https://www.bacula.org/downloads/Bacula-4096-Distribution-Verification-key.asc"
 ENV BACULA_DESCRIPTION="# Bacula Community"
 ENV BACULA_REPO="https://www.bacula.org/packages/6367abb52d166/debs/${BACULA_VERSION}"
+
+ENV WEB_USER=www-data
+ENV MEMORY_LIMIT=128M
 
 RUN apt-get update \
  && apt-get -y install curl gnupg apt-transport-https ca-certificates \
