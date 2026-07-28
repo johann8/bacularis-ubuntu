@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # set variables
-D_IMAGE_VERSION=6.3.0
+D_IMAGE_VERSION=6.4.0
 D_IMAGE_TAG=ubuntu
 BASE_IMAGE="ubuntu:noble"
 UBUNTU_VERSION=24.04
 
 PHP_VERSION=8.3
-BACULARIS_VERSION=6.3.0
+BACULARIS_VERSION=6.4.0
 BACULA_VERSION=15.0.3
 
 # create build docker image
