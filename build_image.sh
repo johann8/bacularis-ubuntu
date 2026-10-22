@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-D_IMAGE_VERSION=7.0.0
+D_IMAGE_VERSION=7.0.1
 D_IMAGE_TAG=ubuntu
 BASE_IMAGE="ubuntu:jammy"
 UBUNTU_VERSION=22.04
